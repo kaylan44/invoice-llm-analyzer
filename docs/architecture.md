@@ -175,17 +175,21 @@ Les évals rejouent l'extraction sur un jeu de test à vérité terrain connue e
 - **Référence.** Un fichier de scores versionné dans le dépôt. Le seuil de régression se fixe après la première mesure, pas avant.
 - **CI.** GitHub Actions lance un sous-ensemble sur chaque PR, compare à la référence et échoue si un score baisse au-delà du seuil. Chaque exécution appelle l'API : la clé de la CI est dédiée, dans son propre projet Google.
 
-**Tableau d'évals.** Première mesure le 26 novembre 2026 : `gemini-3.5-flash-lite`, prompt v1, jeu `evals/data/week1` (10 factures synthétiques : 5 FR, 5 EN, dont 4 scans dégradés). Détail et analyse des erreurs : `evals/baselines/week1.md`.
+**Tableau d'évals.** Mesure du 26 novembre 2026 : `gemini-3.5-flash-lite`, prompt v1, jeu `evals/data/week1` (11 factures synthétiques : 6 FR, 5 EN ; 6 propres, 5 scans dégradés dont 1 illisible). Détail et analyse des erreurs : `evals/baselines/week1.md`.
 
-| Champ | Français (n=5) | Anglais (n=5) | Scans dégradés (n=4) |
+| Champ | Français (n=6) | Anglais (n=5) | Scans dégradés (n=5) |
 | --- | --- | --- | --- |
-| Fournisseur | 100 % (15/15) | 100 % (15/15) | 100 % (12/12) |
-| Date et n° de facture | 100 % (15/15) | 100 % (15/15) | 100 % (12/12) |
-| Totaux et devise | 100 % (20/20) | 100 % (20/20) | 100 % (16/16) |
-| Lignes (quantité, prix) | 100 % (110/110) | 100 % (120/120) | 100 % (109/109) |
+| Fournisseur | 83 % (15/18) | 100 % (15/15) | 80 % (12/15) |
+| Date et n° de facture | 83 % (15/18) | 100 % (15/15) | 80 % (12/15) |
+| Totaux et devise | 83 % (20/24) | 100 % (20/20) | 80 % (16/20) |
+| Lignes (quantité, prix) | 84 % (110/131) | 100 % (120/120) | 84 % (109/130) |
 | Catégorie comptable | à mesurer (semaine 2) | à mesurer (semaine 2) | à mesurer (semaine 2) |
 
-Lecture : ce jeu est trop facile pour départager quoi que ce soit (effet plafond). Un score de 100 % ne peut ni montrer un progrès ni, avec 10 documents, garantir l'absence d'erreur en conditions réelles. Avant toute optimisation, le jeu de test doit être durci : dégradations plus fortes, mises en page plus variées, factures sur plusieurs pages, factures piégées (semaine 2) et vraies factures anonymisées (semaine 3).
+Lecture :
+
+- Les 10 premières factures (propres, légères, lourdes) sont lues à 100 % : ce niveau de difficulté ne départage rien (effet plafond).
+- Toutes les erreurs viennent de inv-011, le scan illisible. Le modèle y renvoie `null` pour chaque champ (sauf la langue, juste) : 0 valeur inventée, précision de 100 % sur tous les champs. C'est le comportement voulu, que les contrôles et la revue humaine devront traiter (« à vérifier » quand des champs obligatoires sont vides).
+- Avec 11 documents, ces chiffres décrivent ce jeu, pas la qualité en conditions réelles. Le jeu doit encore être durci : niveaux intermédiaires entre « lourd » et « illisible », mises en page plus variées, factures sur plusieurs pages, factures piégées (semaine 2) et vraies factures anonymisées (semaine 3).
 
 ## Clé d'API Gemini, offre gratuite et coûts
 
