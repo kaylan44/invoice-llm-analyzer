@@ -25,8 +25,8 @@ invoice-evals = { workspace = true }
 [tool.pytest.ini_options]
 testpaths = ["api/tests", "evals/tests"]
 # importlib mode lets two packages both have tests/test_smoke.py without name clashes.
-addopts = "--import-mode=importlib"
-markers = ["live: calls the real Gemini API (uses quota)"]
+addopts = "--import-mode=importlib -m 'not live'"
+markers = ["live: calls the real Gemini API (uses quota); run with -m live"]
 
 [tool.ruff]
 line-length = 100
