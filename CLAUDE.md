@@ -36,5 +36,6 @@ Je suis développeur fullstack avec un fond DevOps. TypeScript, Next.js, Docker 
 - Aucun secret dans le dépôt : .env ignoré par git, .env.example à jour. La clé service_role de Supabase reste dans l'API.
 - Ni migration, ni déploiement, ni écriture sur la base Supabase de production sans mon accord explicite.
 - Ni suppression de fichiers ni action git destructrice sans me demander.
+- main ne change que par une PR fusionnée : jamais de push direct sur main, jamais de force push sur main. Le travail se fait sur une branche (week-N, puis une branche par étape quand la CI existe). Garde-fous : hook git .githooks/pre-push (activé par `git config core.hooksPath .githooks`) et hook Claude Code dans .claude/settings.json.
 - Une clé d'API Gemini par usage (dev, CI, prod), chacune dans son propre projet Google, avec budget et alerte sur les projets facturés.
 - Réponds en français. Code, commits (Conventional Commits) et identifiants en anglais.
