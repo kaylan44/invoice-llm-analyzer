@@ -1,17 +1,19 @@
 # Projet : extraction de factures fournisseurs (portfolio AI engineer)
 
 ## Objectif
-Extraire les champs de factures fournisseurs (français et anglais) avec Claude, contrôler leur cohérence, laisser un humain valider. Projet d'apprentissage : agents et MCP, évals, RAG sur pgvector. Architecture détaillée : docs/architecture.md.
+Extraire les champs de factures fournisseurs (français et anglais) avec un modèle Gemini (API Google), contrôler leur cohérence, laisser un humain valider. Projet d'apprentissage : agents et MCP, évals, RAG sur pgvector. Architecture détaillée : docs/architecture.md.
 
 ## Décisions déjà prises
-- Extraction v1 : pipeline sans agent (un appel Claude à sortie structurée, contrôles en Python). Elle sert de baseline aux évals. Un agent avec outils ne viendra qu'ensuite, et seulement s'il bat la baseline.
+- Extraction v1 : pipeline sans agent (un appel Gemini à sortie structurée, contrôles en Python). Elle sert de baseline aux évals. Un agent avec outils ne viendra qu'ensuite, et seulement s'il bat la baseline.
 - RAG : rapprochement uniquement. Le fournisseur est normalisé (correspondance exacte sur n° de TVA ou SIRET, sinon recherche hybride pgvector + plein texte fusionnée par RRF) et chaque ligne est classée dans une catégorie comptable. Mesuré par recall@k et MRR, avec et sans reranking.
-- Frontend : Next.js + TypeScript sur Vercel. Il n'appelle que l'API FastAPI, jamais Supabase ni Claude.
+- Frontend : Next.js + TypeScript sur Vercel. Il n'appelle que l'API FastAPI, jamais Supabase ni Gemini.
 - Backend : FastAPI (Python) sur Railway, via Dockerfile.
 - Base : Supabase (Postgres + pgvector, Storage privé) pour la production uniquement. Évals et tests : Postgres + pgvector local en Docker, mêmes migrations (supabase/migrations).
-- MCP : serveur Python, transport stdio, appelle l'API FastAPI. Non déployé.
+- Modèles : API Gemini uniquement, pas d'API Claude (décidé le 26 novembre 2026). Modèle en paramètre de configuration ; point de départ : le moins cher qui lit les PDF (famille Flash-Lite).
+- Offre gratuite Gemini : factures synthétiques uniquement. Vraies factures et démo déployée : projet Google avec facturation activée.
+- MCP : serveur Python, transport stdio, appelle l'API FastAPI. Non déployé. Client de démo : Claude Desktop (abonnement, sans API Claude).
 - Langues : français et anglais uniquement.
-- Embeddings : fournisseur à choisir (Anthropic n'a pas de modèle d'embeddings), validé par recall@k.
+- Embeddings : gemini-embedding-2 comme candidat (768 ou 1 536 dimensions, limite HNSW de pgvector), validé par recall@k.
 - Hors périmètre : comptes utilisateurs, multi-tenant, paiement, intégration comptable, mobile.
 
 ## Environnement
@@ -25,14 +27,14 @@ Je suis développeur fullstack avec un fond DevOps. TypeScript, Next.js, Docker 
 1. J'écris moi-même le code central : boucle d'agent, outils, requêtes pgvector, métriques d'évals. Toi : le boilerplate, la config, l'écran de revue, la CI.
 2. Pour une partie que j'écris : explique le concept en 5 lignes maximum (pourquoi ce choix, une alternative écartée), donne l'interface attendue et écris d'abord les tests qui échouent. Attends mon code, puis relis-le. Ne donne pas ta version avant que j'aie essayé, sauf si je la demande.
 3. Une étape = un objectif d'apprentissage, un critère de réussite vérifiable, un commit. En fin d'étape, pose-moi 2 questions courtes pour vérifier ma compréhension et n'enchaîne pas avant ma réponse.
-4. Pas de framework d'orchestration (LangChain, LlamaIndex, etc.) : SDK Anthropic directement.
+4. Pas de framework d'orchestration (LangChain, LlamaIndex, etc.) : SDK google-genai directement.
 5. Explique les idiomes Python quand ils apparaissent (async, typage, pydantic, gestion d'erreurs).
-6. Pour tout outil récent (SDK Anthropic, Supabase, Railway, MCP), lis la doc actuelle au lieu de te fier à ta mémoire et cite la source. Donne ton niveau de confiance quand tu n'es pas sûr.
+6. Pour tout outil récent (API et SDK Gemini, Supabase, Railway, MCP), lis la doc actuelle au lieu de te fier à ta mémoire et cite la source. Donne ton niveau de confiance quand tu n'es pas sûr.
 7. Si mon raisonnement ou mon plan est faux, dis-le directement.
 
 ## Sécurité et exploitation
 - Aucun secret dans le dépôt : .env ignoré par git, .env.example à jour. La clé service_role de Supabase reste dans l'API.
 - Ni migration, ni déploiement, ni écriture sur la base Supabase de production sans mon accord explicite.
 - Ni suppression de fichiers ni action git destructrice sans me demander.
-- Une clé d'API Claude par usage (dev, CI, prod), avec plafond de dépense.
+- Une clé d'API Gemini par usage (dev, CI, prod), chacune dans son propre projet Google, avec budget et alerte sur les projets facturés.
 - Réponds en français. Code, commits (Conventional Commits) et identifiants en anglais.
