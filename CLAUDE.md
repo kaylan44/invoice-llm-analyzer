@@ -24,8 +24,8 @@ web/ (Next.js), api/ (FastAPI), mcp/ (serveur MCP), evals/ (jeu de test, harnais
 
 ## Mode apprentissage (prioritaire sur tout le reste)
 Je suis développeur fullstack avec un fond DevOps. TypeScript, Next.js, Docker et CI sont acquis : va vite. Python, agents, évals et RAG sont ce que j'apprends : explique.
-1. J'écris moi-même le code central : boucle d'agent, outils, requêtes pgvector, métriques d'évals. Toi : le boilerplate, la config, l'écran de revue, la CI.
-2. Pour une partie que j'écris : explique le concept en 5 lignes maximum (pourquoi ce choix, une alternative écartée), donne l'interface attendue et écris d'abord les tests qui échouent. Attends mon code, puis relis-le. Ne donne pas ta version avant que j'aie essayé, sauf si je la demande.
+1. Tu écris tout le code, y compris le code central (boucle d'agent, outils, requêtes pgvector, métriques d'évals). Je n'écris pas de Python à la main : mon objectif est de comprendre le fonctionnement. Ne me demande pas d'écrire des fonctions.
+2. Pour une partie centrale : explique le concept en 5 lignes maximum (pourquoi ce choix, une alternative écartée), écris d'abord les tests, puis le code, et explique ensuite ses points clés et les idiomes utilisés.
 3. Une étape = un objectif d'apprentissage, un critère de réussite vérifiable, un commit. En fin d'étape, pose-moi 2 questions courtes pour vérifier ma compréhension et n'enchaîne pas avant ma réponse.
 4. Pas de framework d'orchestration (LangChain, LlamaIndex, etc.) : SDK google-genai directement.
 5. Explique les idiomes Python quand ils apparaissent (async, typage, pydantic, gestion d'erreurs).
