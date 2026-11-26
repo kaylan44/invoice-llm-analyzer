@@ -35,6 +35,9 @@ target-version = "py312"
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
 
+[tool.ruff.lint.isort]
+known-first-party = ["invoice_api", "invoice_evals"]
+
 [dependency-groups]
 dev = [
     "pytest>=9.2.0",
