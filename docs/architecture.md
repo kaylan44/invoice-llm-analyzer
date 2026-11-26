@@ -175,15 +175,17 @@ Les évals rejouent l'extraction sur un jeu de test à vérité terrain connue e
 - **Référence.** Un fichier de scores versionné dans le dépôt. Le seuil de régression se fixe après la première mesure, pas avant.
 - **CI.** GitHub Actions lance un sous-ensemble sur chaque PR, compare à la référence et échoue si un score baisse au-delà du seuil. Chaque exécution appelle l'API : la clé de la CI est dédiée, dans son propre projet Google.
 
-**Tableau d'évals, à remplir après la première mesure.** Aucun chiffre avant d'avoir mesuré.
+**Tableau d'évals.** Première mesure le 26 novembre 2026 : `gemini-3.5-flash-lite`, prompt v1, jeu `evals/data/week1` (10 factures synthétiques : 5 FR, 5 EN, dont 4 scans dégradés). Détail et analyse des erreurs : `evals/baselines/week1.md`.
 
-| Champ | Français | Anglais | Scans dégradés |
+| Champ | Français (n=5) | Anglais (n=5) | Scans dégradés (n=4) |
 | --- | --- | --- | --- |
-| Fournisseur | à mesurer | à mesurer | à mesurer |
-| Date et n° de facture | à mesurer | à mesurer | à mesurer |
-| Totaux et devise | à mesurer | à mesurer | à mesurer |
-| Lignes (quantité, prix) | à mesurer | à mesurer | à mesurer |
-| Catégorie comptable | à mesurer | à mesurer | à mesurer |
+| Fournisseur | 100 % (15/15) | 100 % (15/15) | 100 % (12/12) |
+| Date et n° de facture | 100 % (15/15) | 100 % (15/15) | 100 % (12/12) |
+| Totaux et devise | 100 % (20/20) | 100 % (20/20) | 100 % (16/16) |
+| Lignes (quantité, prix) | 100 % (110/110) | 100 % (120/120) | 100 % (109/109) |
+| Catégorie comptable | à mesurer (semaine 2) | à mesurer (semaine 2) | à mesurer (semaine 2) |
+
+Lecture : ce jeu est trop facile pour départager quoi que ce soit (effet plafond). Un score de 100 % ne peut ni montrer un progrès ni, avec 10 documents, garantir l'absence d'erreur en conditions réelles. Avant toute optimisation, le jeu de test doit être durci : dégradations plus fortes, mises en page plus variées, factures sur plusieurs pages, factures piégées (semaine 2) et vraies factures anonymisées (semaine 3).
 
 ## Clé d'API Gemini, offre gratuite et coûts
 
