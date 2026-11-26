@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Refuse any push that updates or deletes main on a remote.
+# main only changes through a merged pull request (see CLAUDE.md).
+#
+# git calls this hook with the remote name and URL as arguments, and one line per ref on
+# stdin: "<local ref> <local sha> <remote ref> <remote sha>". Checking the remote ref covers
+# every spelling: "git push origin main", "HEAD:main", "--force", "--all", "--mirror", and a
+# plain "git push" from a local main that tracks origin/main.
+#
+# Enable once per clone: git config core.hooksPath .githooks
+
+protected="refs/heads/main"
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  if [ "$remote_ref" = "$protected" ]; then
+    echo "pre-push: refusing to push to main ($local_ref -> $remote_ref)." >&2
+    echo "pre-push: push a branch and open a pull request instead." >&2
+    exit 1
+  fi
+done
+
+exit 0

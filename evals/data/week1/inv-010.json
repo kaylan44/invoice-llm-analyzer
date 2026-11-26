@@ -1,0 +1,65 @@
+{
+  "id": "inv-010",
+  "truth": {
+    "supplier_name": "Palmer, Cook and Roberts",
+    "supplier_vat_number": "GB731781080",
+    "supplier_siret": null,
+    "invoice_number": "INV-01529",
+    "issue_date": "2026-02-01",
+    "due_date": null,
+    "currency": "GBP",
+    "total_excl_vat": "1479.98",
+    "total_vat": "150.90",
+    "total_incl_vat": "1630.88",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Child car seat",
+        "quantity": "10",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "890.00"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "5",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "75.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams",
+        "quantity": "2",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "49.98"
+      },
+      {
+        "description": "Black toner cartridge",
+        "quantity": "5",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "290.00"
+      },
+      {
+        "description": "Technical books",
+        "quantity": "2",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "58.00"
+      },
+      {
+        "description": "Monthly software subscription",
+        "quantity": "3",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "117.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "Studio 66r\nClifford Drives, CB9B 9AG Bernardborough",
+    "client_name": "Houghton, Thornton and Roberts",
+    "client_address": "Flat 35\nFrancis Causeway, G3S 2XS West Samantha"
+  }
+}

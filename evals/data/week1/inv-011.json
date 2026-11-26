@@ -1,0 +1,51 @@
+{
+  "id": "inv-011",
+  "truth": {
+    "supplier_name": "Bonnin",
+    "supplier_vat_number": "FR71787234301",
+    "supplier_siret": "78723430198055",
+    "invoice_number": "FAC-2026-0937",
+    "issue_date": "2026-09-04",
+    "due_date": "2026-10-19",
+    "currency": "EUR",
+    "total_excl_vat": "509.00",
+    "total_vat": "101.80",
+    "total_incl_vat": "610.80",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Ramettes papier A4 80 g",
+        "quantity": "5",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "24.50"
+      },
+      {
+        "description": "Cartouches toner noir",
+        "quantity": "3",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "187.50"
+      },
+      {
+        "description": "Maintenance informatique",
+        "quantity": "2",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "150.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel",
+        "quantity": "3",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "147.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "53, rue de Mercier, 56569 Sainte StéphanieVille",
+    "client_name": "Leconte",
+    "client_address": "rue de Dupont, 18703 Dupuy"
+  }
+}
