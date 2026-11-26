@@ -1,0 +1,65 @@
+{
+  "id": "inv-008",
+  "truth": {
+    "supplier_name": "Wong PLC",
+    "supplier_vat_number": "GB098393010",
+    "supplier_siret": null,
+    "invoice_number": "INV-03751",
+    "issue_date": "2026-04-19",
+    "due_date": "2026-06-03",
+    "currency": "GBP",
+    "total_excl_vat": "493.00",
+    "total_vat": "42.90",
+    "total_incl_vat": "535.90",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Technical books",
+        "quantity": "5",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "145.00"
+      },
+      {
+        "description": "IT support",
+        "quantity": "0.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "32.50"
+      },
+      {
+        "description": "Child car seat",
+        "quantity": "2",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "178.00"
+      },
+      {
+        "description": "Lever arch files",
+        "quantity": "2",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "5.50"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "1",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "15.00"
+      },
+      {
+        "description": "Monthly software subscription",
+        "quantity": "3",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "117.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "2 Burton Mission, SS4A 3QB West Davidmouth",
+    "client_name": "Webster and Sons",
+    "client_address": "Flat 47\nJones Cliffs, W1C 9SS Christianview"
+  }
+}

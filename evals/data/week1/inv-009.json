@@ -1,0 +1,44 @@
+{
+  "id": "inv-009",
+  "truth": {
+    "supplier_name": "Gimenez",
+    "supplier_vat_number": "FR67837631167",
+    "supplier_siret": "83763116756670",
+    "invoice_number": "2026-888",
+    "issue_date": "2026-02-06",
+    "due_date": "2026-03-23",
+    "currency": "EUR",
+    "total_excl_vat": "1375.50",
+    "total_vat": "225.80",
+    "total_incl_vat": "1601.30",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Abonnement logiciel mensuel",
+        "quantity": "2",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "98.00"
+      },
+      {
+        "description": "Cartouches toner noir",
+        "quantity": "15",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "937.50"
+      },
+      {
+        "description": "Ouvrages techniques",
+        "quantity": "10",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "340.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "63, avenue de Blanchet, 27658 Delahaye",
+    "client_name": "Ribeiro",
+    "client_address": "25, chemin de Masse, 56186 Saint MartineBourg"
+  }
+}

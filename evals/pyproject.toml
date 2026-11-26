@@ -5,6 +5,7 @@ description = "Synthetic invoice generator, metrics and evaluation harness"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "faker>=40.63.0",
     "invoice-api",
 ]
 
