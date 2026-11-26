@@ -34,20 +34,32 @@ class Totals(NamedTuple):
     total_incl_vat: Decimal
 
 
-def compute_totals(lines: Iterable[InvoiceLine]) -> Totals:
-    """Invoice totals, with VAT rounded once per rate (not once per line).
+class VatLine(NamedTuple):
+    rate: Decimal
+    base: Decimal  # total excluding VAT of the lines at this rate
+    vat: Decimal
+
+
+def vat_breakdown(lines: Iterable[InvoiceLine]) -> list[VatLine]:
+    """VAT per rate, rounded once per rate (not once per line), sorted by rate descending.
 
     Rounding per line would add up small errors: two lines of 0.30 at 5.5 % give 0.04 of
-    VAT per line but 0.03 on the 0.60 base.
+    VAT per line but 0.03 on the 0.60 base. Printed invoices show this table.
     """
     base_by_rate: defaultdict[Decimal, Decimal] = defaultdict(Decimal)  # missing key -> 0
     for line in lines:
         base_by_rate[line.vat_rate] += line.amount
+    return [
+        VatLine(rate, round_money(base), round_money(base * rate / 100))
+        for rate, base in sorted(base_by_rate.items(), reverse=True)
+    ]
 
-    total_excl_vat = round_money(sum(base_by_rate.values(), Decimal(0)))
-    total_vat = round_money(
-        sum((round_money(base * rate / 100) for rate, base in base_by_rate.items()), Decimal(0))
-    )
+
+def compute_totals(lines: Iterable[InvoiceLine]) -> Totals:
+    """Invoice totals: sum of the VAT breakdown."""
+    breakdown = vat_breakdown(lines)
+    total_excl_vat = sum((v.base for v in breakdown), Decimal("0.00"))
+    total_vat = sum((v.vat for v in breakdown), Decimal("0.00"))
     return Totals(total_excl_vat, total_vat, round_money(total_excl_vat + total_vat))
 
 

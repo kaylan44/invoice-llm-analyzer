@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="{{ t.language }}">
+<head>
+<meta charset="utf-8">
+<title>{{ L.invoice }} {{ t.invoice_number }}</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 18mm; }
+  body { font-family: "{{ font }}", sans-serif; font-size: 9.5pt; color: #222; line-height: 1.4; }
+  h1 { margin: 0; font-size: 20pt; letter-spacing: 0.04em; }
+  .top { display: flex; justify-content: space-between; gap: 12mm; }
+  .supplier .name { font-size: 13pt; font-weight: bold; }
+  .meta { text-align: right; }
+  .meta table { margin-left: auto; border-collapse: collapse; }
+  .meta td { padding: 1px 0 1px 8px; }
+  .client { margin: 10mm 0 8mm; padding: 3mm 4mm; border: 0.6pt solid #999; width: 75mm; }
+  .client .label { font-size: 8pt; text-transform: uppercase; color: #555; }
+  table.lines { width: 100%; border-collapse: collapse; }
+  table.lines th { text-align: left; border-bottom: 1pt solid #222; padding: 4px 4px; font-size: 8.5pt; }
+  table.lines td { padding: 4px 4px; border-bottom: 0.4pt solid #ccc; }
+  .num, table.lines th.num { text-align: right; white-space: nowrap; }
+  .totals { margin-top: 6mm; margin-left: auto; width: 80mm; border-collapse: collapse; }
+  .totals td { padding: 2px 4px; }
+  .totals .grand td { border-top: 1pt solid #222; font-weight: bold; font-size: 11pt; padding-top: 4px; }
+  .footer { margin-top: 14mm; font-size: 7.5pt; color: #555; }
+
+  /* Layout "band": coloured header band, invoice block first, supplier block second. */
+  .band .top { flex-direction: row-reverse; background: {{ accent }}; color: #fff; padding: 6mm; }
+  .band .meta { text-align: left; }
+  .band .meta table { margin-left: 0; }
+  .band .meta td { padding: 1px 8px 1px 0; }
+  .band table.lines th { background: {{ accent }}; color: #fff; border-bottom: none; }
+</style>
+</head>
+<body class="{{ layout }}">
+  <div class="top">
+    <div class="supplier">
+      <div class="name">{{ t.supplier_name }}</div>
+      <div>{{ r.supplier_address }}</div>
+      {% if t.supplier_siret %}<div>SIRET {{ t.supplier_siret | spaced_siret }}</div>{% endif %}
+      {% if t.supplier_vat_number %}<div>{{ L.vat_number }} {{ t.supplier_vat_number }}</div>{% endif %}
+    </div>
+    <div class="meta">
+      <h1>{{ L.invoice | upper }}</h1>
+      <table>
+        <tr><td>{{ L.number }}</td><td>{{ t.invoice_number }}</td></tr>
+        <tr><td>{{ L.date }}</td><td>{{ t.issue_date | fdate }}</td></tr>
+        {% if t.due_date %}<tr><td>{{ L.due }}</td><td>{{ t.due_date | fdate }}</td></tr>{% endif %}
+      </table>
+    </div>
+  </div>
+
+  <div class="client">
+    <div class="label">{{ L.bill_to }}</div>
+    <div><strong>{{ r.client_name }}</strong></div>
+    <div>{{ r.client_address }}</div>
+  </div>
+
+  <table class="lines">
+    <thead>
+      <tr>
+        <th>{{ L.description }}</th>
+        <th class="num">{{ L.qty }}</th>
+        <th class="num">{{ L.unit_price }}</th>
+        <th class="num">{{ L.vat }}</th>
+        <th class="num">{{ L.amount }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for line in t.lines %}
+      <tr>
+        <td>{{ line.description }}</td>
+        <td class="num">{{ line.quantity | fnum }}</td>
+        <td class="num">{{ line.unit_price | fmoney }}</td>
+        <td class="num">{{ line.vat_rate | fnum }} %</td>
+        <td class="num">{{ line.amount | fmoney }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <table class="totals">
+    <tr><td>{{ L.total_excl }}</td><td class="num">{{ t.total_excl_vat | fmoney }}</td></tr>
+    {% for v in breakdown %}
+    <tr><td>{{ L.vat }} {{ v.rate | fnum }} %{% if breakdown | length > 1 %} ({{ L.on }} {{ v.base | fmoney }}){% endif %}</td><td class="num">{{ v.vat | fmoney }}</td></tr>
+    {% endfor %}
+    <tr class="grand"><td>{{ L.total_incl }}</td><td class="num">{{ t.total_incl_vat | fmoney }}</td></tr>
+  </table>
+
+  <div class="footer">{{ L.footer }}</div>
+</body>
+</html>
