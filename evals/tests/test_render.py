@@ -102,6 +102,16 @@ def test_degradation_levels_differ() -> None:
     assert light.jpeg_quality > heavy.jpeg_quality
 
 
+def test_illegible_is_harsher_than_heavy() -> None:
+    heavy = pick_degradation("heavy", "inv-011", seed=42)
+    illegible = pick_degradation("illegible", "inv-011", seed=42)
+    assert abs(illegible.rotation) > abs(heavy.rotation)
+    assert illegible.blur > heavy.blur
+    assert illegible.noise > heavy.noise
+    assert illegible.jpeg_quality < heavy.jpeg_quality
+    assert illegible.dpi < heavy.dpi
+
+
 # --- CLI -------------------------------------------------------------------------------
 
 
@@ -114,3 +124,25 @@ def test_cli_renders_every_invoice_and_updates_manifest(tmp_path: Path) -> None:
     assert entries[0]["degradation"] is None
     assert entries[1]["degradation"]["level"] == "light"
     assert all((tmp_path / e["document"]).read_bytes().startswith(b"%PDF") for e in entries)
+
+
+def test_cli_only_extends_a_dataset_without_touching_it(tmp_path: Path) -> None:
+    generate_main(["--n", "2", "--seed", "1", "--out", str(tmp_path)])
+    render_main(["--data", str(tmp_path), "--seed", "1"])
+    before = {p.name: p.read_bytes() for p in tmp_path.iterdir()}
+
+    generate_main(["--n", "3", "--seed", "1", "--out", str(tmp_path), "--only", "inv-003"])
+    render_main(
+        ["--data", str(tmp_path), "--seed", "1", "--only", "inv-003", "--degrade", "inv-003=heavy"]
+    )
+
+    for name in ("inv-001.json", "inv-001.pdf", "inv-002.json", "inv-002.pdf"):
+        assert (tmp_path / name).read_bytes() == before[name], name
+    entries = [json.loads(line) for line in (tmp_path / "manifest.jsonl").read_text().splitlines()]
+    assert [e["id"] for e in entries] == ["inv-001", "inv-002", "inv-003"]
+    assert entries[0]["layout"]  # rendering info of existing entries is kept
+    assert entries[2]["degradation"]["level"] == "heavy"
+    # Invoice 3 is the same whether the dataset is generated with n=3 or extended with --only.
+    assert (tmp_path / "inv-003.json").read_text() == generate_dataset(3, 1)[2].model_dump_json(
+        indent=2
+    ) + "\n"

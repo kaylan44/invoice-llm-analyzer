@@ -3,6 +3,10 @@
     uv run python -m invoice_evals.render_cli --data evals/data/week1 --seed 42 \
         --degrade inv-003=light inv-004=heavy
 
+    # Render one new invoice without touching the others:
+    uv run python -m invoice_evals.render_cli --data evals/data/week1 --seed 42 \
+        --only inv-011 --degrade inv-011=illegible
+
 Each invoice gets ``<id>.pdf`` next to its JSON. Degraded invoices get only the scan:
 the clean PDF is never written for them, because the model must only ever see the scan.
 """
@@ -30,6 +34,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--data", type=Path, required=True, help="dataset directory")
     parser.add_argument("--seed", type=int, default=42, help="seed for styles and degradations")
     parser.add_argument("--degrade", nargs="*", default=[], metavar="ID=LEVEL")
+    parser.add_argument("--only", nargs="*", default=None, metavar="ID", help="render only these")
     args = parser.parse_args(argv)
 
     degradations = parse_degradations(args.degrade)
@@ -37,6 +42,8 @@ def main(argv: list[str] | None = None) -> None:
     entries = [json.loads(line) for line in manifest_path.read_text().splitlines()]
 
     for entry in entries:
+        if args.only is not None and entry["id"] not in args.only:
+            continue  # leave its PDF and manifest entry untouched
         invoice = GeneratedInvoice.model_validate_json((args.data / entry["file"]).read_text())
         level = degradations.get(invoice.id)
         document, style, degradation = render_document(invoice, args.seed, level)

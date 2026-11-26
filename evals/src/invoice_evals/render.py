@@ -162,7 +162,13 @@ class Degradation:
 PRESETS = {
     "light": dict(rotation=(0.4, 1.2), blur=(0.4, 0.8), noise=(4, 8), jpeg_quality=(55, 70)),
     "heavy": dict(rotation=(1.5, 3.0), blur=(0.9, 1.4), noise=(10, 16), jpeg_quality=(30, 45)),
+    # Unreadable on purpose: low resolution, strong blur and noise, tiny JPEG. Tests whether
+    # the model says null instead of inventing values it cannot read.
+    "illegible": dict(
+        rotation=(5.0, 8.0), blur=(2.2, 3.0), noise=(45, 60), jpeg_quality=(8, 12), dpi=72
+    ),
 }
+DEFAULT_DPI = 150
 
 
 def pick_degradation(level: str, invoice_id: str, seed: int) -> Degradation:
@@ -173,7 +179,7 @@ def pick_degradation(level: str, invoice_id: str, seed: int) -> Degradation:
         blur=round(rng.uniform(*p["blur"]), 2),
         noise=rng.randint(*p["noise"]),
         jpeg_quality=rng.randint(*p["jpeg_quality"]),
-        dpi=150,
+        dpi=p.get("dpi", DEFAULT_DPI),
     )
 
 
