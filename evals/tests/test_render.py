@@ -12,8 +12,10 @@ from invoice_evals.generate import main as generate_main
 from invoice_evals.generator import GeneratedInvoice, generate_dataset
 from invoice_evals.render import (
     NBSP,
+    describe,
     format_date,
     format_money,
+    parse_level,
     pick_degradation,
     pick_style,
     render_document,
@@ -102,6 +104,26 @@ def test_degradation_levels_differ() -> None:
     heavy = pick_degradation("heavy", "inv-001", seed=42)
     assert abs(light.rotation) < abs(heavy.rotation)
     assert light.jpeg_quality > heavy.jpeg_quality
+
+
+def test_stain_hides_one_block_and_leaves_no_text_layer(invoices: list[GeneratedInvoice]) -> None:
+    pdf, style, d = render_document(invoices[0], seed=42, degradation_level="stain:totals")
+    assert pdf_text(pdf).strip() == ""  # the hidden totals cannot be copied from the PDF
+    info = describe(style, d, "stain:totals")["degradation"]
+    assert info["stain"] == "totals"
+    assert info["hidden_fields"] == ["total_excl_vat", "total_vat", "total_incl_vat"]
+
+
+def test_stain_is_in_the_html_only_where_asked(invoices: list[GeneratedInvoice]) -> None:
+    style = pick_style(invoices[0].id, seed=42)
+    assert "totals-box stained" in render_html(invoices[0], style, stain="totals")
+    assert "stained" not in render_html(invoices[0], style).replace(".stained", "")
+
+
+@pytest.mark.parametrize("bad", ["stain", "stain:footer", "heavy:totals", "blurry"])
+def test_parse_level_rejects_bad_values(bad: str) -> None:
+    with pytest.raises(ValueError):
+        parse_level(bad)
 
 
 def test_illegible_is_harsher_than_heavy() -> None:

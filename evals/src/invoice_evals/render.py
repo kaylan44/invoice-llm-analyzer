@@ -122,7 +122,7 @@ def pick_style(invoice_id: str, seed: int) -> Style:
     return Style(rng.choice(LAYOUTS), rng.choice(ACCENTS), rng.choice(FONTS))
 
 
-def render_html(invoice: GeneratedInvoice, style: Style) -> str:
+def render_html(invoice: GeneratedInvoice, style: Style, stain: str | None = None) -> str:
     truth = invoice.truth
     lang = truth.language
     env = Environment(
@@ -142,6 +142,7 @@ def render_html(invoice: GeneratedInvoice, style: Style) -> str:
         layout=style.layout,
         accent=style.accent,
         font=style.font,
+        stain=stain,
     )
 
 
@@ -169,8 +170,31 @@ PRESETS = {
     "illegible": dict(
         rotation=(5.0, 8.0), blur=(2.2, 3.0), noise=(45, 60), jpeg_quality=(8, 12), dpi=72
     ),
+    # A light scan with one block hidden under a stain: "stain:totals", "stain:meta" or
+    # "stain:supplier". The rest of the page stays readable.
+    "stain": dict(rotation=(0.4, 1.2), blur=(0.4, 0.8), noise=(4, 8), jpeg_quality=(55, 70)),
 }
 DEFAULT_DPI = 150
+
+# Fields printed in each block a stain can cover. The currency stays readable elsewhere
+# (on every line amount), so it is not hidden by a stain on the totals.
+STAIN_FIELDS: dict[str, list[str]] = {
+    "totals": ["total_excl_vat", "total_vat", "total_incl_vat"],
+    "meta": ["invoice_number", "issue_date", "due_date"],
+    "supplier": ["supplier_name", "supplier_vat_number", "supplier_siret"],
+}
+
+
+def parse_level(value: str) -> tuple[str, str | None]:
+    """ "heavy" -> ("heavy", None); "stain:totals" -> ("stain", "totals")."""
+    level, _, target = value.partition(":")
+    if level not in PRESETS:
+        raise ValueError(f"unknown degradation level {level!r}")
+    if level == "stain" and target not in STAIN_FIELDS:
+        raise ValueError(f"a stain needs a target among {sorted(STAIN_FIELDS)}: {value!r}")
+    if level != "stain" and target:
+        raise ValueError(f"only a stain takes a target: {value!r}")
+    return level, target or None
 
 
 def pick_degradation(level: str, invoice_id: str, seed: int) -> Degradation:
@@ -212,19 +236,27 @@ def image_to_pdf(image: Image.Image, dpi: int) -> bytes:
 def render_document(
     invoice: GeneratedInvoice, seed: int, degradation_level: str | None
 ) -> tuple[bytes, Style, Degradation | None]:
-    """The document sent to the model, plus how it was made (for the manifest)."""
+    """The document sent to the model, plus how it was made (for the manifest).
+
+    A stained document is always scanned: a clean PDF would keep the hidden values in its
+    text layer, under the stain.
+    """
     style = pick_style(invoice.id, seed)
-    pdf = render_pdf(render_html(invoice, style))
-    if degradation_level is None:
+    level, stain = parse_level(degradation_level) if degradation_level else (None, None)
+    pdf = render_pdf(render_html(invoice, style, stain=stain))
+    if level is None:
         return pdf, style, None
-    d = pick_degradation(degradation_level, invoice.id, seed)
+    d = pick_degradation(level, invoice.id, seed)
     scan = degrade(rasterize(pdf, d.dpi), d, seed=f"{seed}:{invoice.id}:noise")
     return image_to_pdf(scan, d.dpi), style, d
 
 
 def describe(style: Style, d: Degradation | None, level: str | None) -> dict[str, object]:
-    return {
-        "layout": style.layout,
-        "font": style.font,
-        "degradation": None if d is None else {"level": level, **asdict(d)},
-    }
+    if d is None or level is None:
+        return {"layout": style.layout, "font": style.font, "degradation": None}
+    name, stain = parse_level(level)
+    degradation: dict[str, object] = {"level": name, **asdict(d)}
+    if stain:
+        degradation["stain"] = stain
+        degradation["hidden_fields"] = STAIN_FIELDS[stain]
+    return {"layout": style.layout, "font": style.font, "degradation": degradation}

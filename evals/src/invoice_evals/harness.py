@@ -18,7 +18,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from invoice_api.checks import Status, review_status, run_checks
+from invoice_api.checks import REQUIRED_FIELDS, Status, review_status, run_checks
 from invoice_api.extraction import PROMPT_VERSION, extract, mime_type_for
 from invoice_api.schema import InvoiceExtraction
 from invoice_evals.generator import GeneratedInvoice
@@ -58,6 +58,8 @@ class Record:
     expected_status: Status = "pending"
     predicted_status: Status = "pending"
     failed_checks: tuple[str, ...] = ()
+    # Fields covered by a stain: the right answer for them is null, not the printed value.
+    hidden_fields: tuple[str, ...] = ()
 
 
 SEGMENTS: dict[str, Callable[[Record], bool]] = {
@@ -115,8 +117,14 @@ def load_records(data_dir: Path, run_dir: Path) -> list[Record]:
         degradation = entry.get("degradation")
         condition = degradation["level"] if degradation else "clean"
         trap = entry.get("trap")
-        # A trapped invoice must be flagged; so must an unreadable one (nothing to validate).
-        expected: Status = "to_review" if trap or condition == "illegible" else "pending"
+        hidden = tuple(degradation.get("hidden_fields", [])) if degradation else ()
+        # Must be flagged: a trapped invoice, an unreadable one, or one whose stain hides a
+        # required field (nothing a human can validate without looking).
+        expected: Status = (
+            "to_review"
+            if trap or condition == "illegible" or set(hidden) & set(REQUIRED_FIELDS)
+            else "pending"
+        )
         if extraction is None:  # failed extraction: nothing to check, a human must look
             predicted: Status = "to_review"
             failed: tuple[str, ...] = ("extraction_failed",)
@@ -135,6 +143,7 @@ def load_records(data_dir: Path, run_dir: Path) -> list[Record]:
                 expected_status=expected,
                 predicted_status=predicted,
                 failed_checks=failed,
+                hidden_fields=hidden,
             )
         )
     return records
@@ -250,10 +259,25 @@ def summarize(records: list[Record], *, model: str, dataset: str, run_id: str) -
                 "outcome": res.outcome,
                 "expected": res.expected,
                 "got": res.got,
+                "hidden": res.field in r.hidden_fields,
             }
             for r in records
             for res in r.results
             if res.outcome not in ("correct", "both_absent")
+        ],
+        # Behaviour on stained fields: null is the right answer (the value cannot be read);
+        # a value means the model read through the stain or, more likely, computed it.
+        "hidden_fields": [
+            {
+                "id": r.id,
+                "field": res.field,
+                "printed": res.expected,
+                "got": res.got,
+                "behaviour": "null" if res.got is None else "value_given",
+            }
+            for r in records
+            for res in r.results
+            if res.field in r.hidden_fields
         ],
     }
 
@@ -353,19 +377,41 @@ def render_report(summary: dict[str, Any]) -> str:
     errors = summary["errors"]
     lines += [f"- `{i}` : {e}" for i, e in errors.items()] or ["Aucun."]
 
+    hidden = summary.get("hidden_fields", [])
+    if hidden:
+        lines += [
+            "",
+            "## Champs masqués par une tache",
+            "",
+            "La bonne réponse est `null` : la valeur n'est pas lisible. Une valeur donnée veut"
+            " dire que le modèle l'a devinée ou recalculée, ce que le prompt interdit.",
+            "",
+            "| Facture | Champ | Imprimé (sous la tache) | Obtenu | Comportement |",
+            "| --- | --- | --- | --- | --- |",
+        ]
+        for h in hidden:
+            behaviour = "null (attendu)" if h["behaviour"] == "null" else "valeur donnée ✗"
+            lines.append(
+                f"| {h['id']} | `{h['field']}` | {h['printed']!r} | {h['got']!r} | {behaviour} |"
+            )
+
     lines += ["", "## Analyse des erreurs (chaque champ faux, manqué ou inventé)", ""]
     mistakes = [m for m in summary["mistakes"] if m["id"] not in errors]
     if not mistakes:
         lines.append("Aucune.")
     else:
         lines += [
+            "Les champs marqués « masqué » étaient sous une tache : `null` y est la bonne"
+            " réponse, même si la comparaison avec la valeur imprimée le compte « manqué ».",
+            "",
             "| Facture | Segment | Champ | Résultat | Attendu | Obtenu |",
             "| --- | --- | --- | --- | --- | --- |",
         ]
         for m in mistakes:
             field = m["field"] + (f" (ligne {m['line']})" if m["line"] else "")
+            outcome = m["outcome"] + (" (masqué)" if m.get("hidden") else "")
             lines.append(
-                f"| {m['id']} | {m['language']}, {m['condition']} | `{field}` | {m['outcome']}"
+                f"| {m['id']} | {m['language']}, {m['condition']} | `{field}` | {outcome}"
                 f" | {m['expected']!r} | {m['got']!r} |"
             )
     return "\n".join(lines) + "\n"

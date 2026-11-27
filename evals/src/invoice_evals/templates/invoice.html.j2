@@ -18,7 +18,18 @@
   table.lines th { text-align: left; border-bottom: 1pt solid #222; padding: 4px 4px; font-size: 8.5pt; }
   table.lines td { padding: 4px 4px; border-bottom: 0.4pt solid #ccc; }
   .num, table.lines th.num { text-align: right; white-space: nowrap; }
-  .totals { margin-top: 6mm; margin-left: auto; width: 80mm; border-collapse: collapse; }
+  .totals-box { margin-top: 6mm; margin-left: auto; width: 80mm; }
+  .totals { width: 100%; border-collapse: collapse; }
+
+  /* A stain (coffee, ink) covering one block: opaque in the middle, fading at the edge.
+     The covered fields are listed in the manifest (hidden_fields). */
+  .stained { position: relative; }
+  .stained::after {
+    content: ""; position: absolute; left: -10mm; right: -12mm; top: -7mm; bottom: -7mm;
+    background: radial-gradient(ellipse at 48% 52%, #3f2a17 0%, #4e3420 64%,
+                rgba(110, 76, 44, 0.8) 74%, rgba(150, 110, 70, 0) 86%);
+    border-radius: 44% 56% 48% 52% / 55% 45% 58% 42%;
+  }
   .totals td { padding: 2px 4px; }
   .totals .grand td { border-top: 1pt solid #222; font-weight: bold; font-size: 11pt; padding-top: 4px; }
   .footer { margin-top: 14mm; font-size: 7.5pt; color: #555; }
@@ -31,15 +42,16 @@
   .band table.lines th { background: {{ accent }}; color: #fff; border-bottom: none; }
 </style>
 </head>
+{%- macro st(block) %}{% if stain == block %} stained{% endif %}{% endmacro -%}
 <body class="{{ layout }}">
   <div class="top">
-    <div class="supplier">
+    <div class="supplier{{ st('supplier') }}">
       <div class="name">{{ t.supplier_name }}</div>
       <div>{{ r.supplier_address }}</div>
       {% if t.supplier_siret %}<div>SIRET {{ t.supplier_siret | spaced_siret }}</div>{% endif %}
       {% if t.supplier_vat_number %}<div>{{ L.vat_number }} {{ t.supplier_vat_number }}</div>{% endif %}
     </div>
-    <div class="meta">
+    <div class="meta{{ st('meta') }}">
       <h1>{{ L.invoice | upper }}</h1>
       <table>
         <tr><td>{{ L.number }}</td><td>{{ t.invoice_number }}</td></tr>
@@ -78,6 +90,7 @@
     </tbody>
   </table>
 
+  <div class="totals-box{{ st('totals') }}">
   <table class="totals">
     <tr><td>{{ L.total_excl }}</td><td class="num">{{ t.total_excl_vat | fmoney }}</td></tr>
     {#- The printed VAT total is always the ground truth's total_vat, so a trap on it is
@@ -92,6 +105,7 @@
     {% endif %}
     <tr class="grand"><td>{{ L.total_incl }}</td><td class="num">{{ t.total_incl_vat | fmoney }}</td></tr>
   </table>
+  </div>
 
   <div class="footer">{{ L.footer }}</div>
 </body>

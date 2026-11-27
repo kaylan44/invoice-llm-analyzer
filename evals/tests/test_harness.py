@@ -125,6 +125,29 @@ def test_failed_extraction_is_sent_to_review(dataset: Path, tmp_path: Path) -> N
     assert failed["failed_checks"] == ["extraction_failed"]
 
 
+def test_stained_totals_expect_review_and_null(tmp_path_factory: pytest.TempPathFactory) -> None:
+    data = tmp_path_factory.mktemp("stained")
+    generate_main(["--n", "1", "--seed", "3", "--out", str(data)])
+    render_main(["--data", str(data), "--seed", "3", "--degrade", "inv-001=stain:totals"])
+    run_dir = tmp_path_factory.mktemp("run")
+    # The fake model reads everything except the stained totals: the ideal behaviour.
+    truth = GeneratedInvoice.model_validate_json((data / "inv-001.json").read_text()).truth
+    answer = perfect_extraction(truth).model_copy(
+        update={"total_excl_vat": None, "total_vat": None, "total_incl_vat": None}
+    )
+    models = FakeModels(data, failing=set())
+    models.answers = {k: answer.model_dump_json() for k in models.answers}
+    extract_dataset(data, run_dir, client=SimpleNamespace(models=models), model="fake")
+    summary = summarize(load_records(data, run_dir), model="fake", dataset="d", run_id="t")
+
+    rd = summary["review_detection"]
+    assert rd["invoices"][0]["expected"] == "to_review"  # a required total is hidden
+    assert rd["invoices"][0]["predicted"] == "to_review"  # ... and the checks see it missing
+    assert {h["behaviour"] for h in summary["hidden_fields"]} == {"null"}
+    assert all(m["hidden"] for m in summary["mistakes"])
+    assert "Champs masqués par une tache" in render_report(summary)
+
+
 def test_report_has_one_row_per_group(dataset: Path, tmp_path: Path) -> None:
     report = render_report(run(dataset, tmp_path, failing={"inv-003"}))
     for group in GROUPS:
