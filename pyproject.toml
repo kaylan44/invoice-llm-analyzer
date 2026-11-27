@@ -40,6 +40,7 @@ known-first-party = ["invoice_api", "invoice_evals"]
 
 [dependency-groups]
 dev = [
+    "httpx>=0.29.0",
     "pytest>=9.2.0",
     "ruff>=0.17.6",
 ]
