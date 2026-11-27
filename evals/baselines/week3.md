@@ -77,7 +77,7 @@ Aucun.
 
 ## Analyse des erreurs (chaque champ faux, manqué ou inventé)
 
-Les champs marqués « masqué » étaient sous une tache : `null` y est la bonne réponse, même si la comparaison avec la valeur imprimée le compte « manqué ».
+Les champs marqués « masqué » étaient sous une tache : `null` y est la bonne réponse, une valeur y est comptée « inventée ».
 
 | Facture | Segment | Champ | Résultat | Attendu | Obtenu |
 | --- | --- | --- | --- | --- | --- |

@@ -17,6 +17,7 @@ from invoice_evals.generator import GeneratedInvoice
 from invoice_evals.harness import (
     GROUPS,
     extract_dataset,
+    failed_ids,
     load_records,
     render_report,
     summarize,
@@ -180,8 +181,28 @@ def test_stained_totals_expect_review_and_null(tmp_path_factory: pytest.TempPath
     assert rd["invoices"][0]["expected"] == "to_review"  # a required total is hidden
     assert rd["invoices"][0]["predicted"] == "to_review"  # ... and the checks see it missing
     assert {h["behaviour"] for h in summary["hidden_fields"]} == {"null"}
-    assert all(m["hidden"] for m in summary["mistakes"])
+    # Week 3: null is the right answer under a stain, so it is scored as correct.
+    assert summary["mistakes"] == []
+    assert summary["segments"]["all"]["groups"]["Totaux et devise"]["accuracy"] == 1.0
     assert "Champs masqués par une tache" in render_report(summary)
+
+
+def test_a_value_under_a_stain_is_scored_as_invented(
+    tmp_path_factory: pytest.TempPathFactory,
+) -> None:
+    """Giving the printed total although it is hidden means it was computed: not rewarded."""
+    data = tmp_path_factory.mktemp("stained2")
+    generate_main(["--n", "1", "--seed", "3", "--out", str(data)])
+    render_main(["--data", str(data), "--seed", "3", "--degrade", "inv-001=stain:totals"])
+    run_dir = tmp_path_factory.mktemp("run2")
+    extract_dataset(
+        data, run_dir, client=SimpleNamespace(models=FakeModels(data, set())), model="fake"
+    )
+    summary = summarize(load_records(data, run_dir), model="fake", dataset="d", run_id="t")
+
+    assert summary["fields"]["total_incl_vat"]["hallucinated"] == 1
+    assert summary["segments"]["all"]["groups"]["Totaux et devise"]["accuracy"] == 0.25
+    assert {h["behaviour"] for h in summary["hidden_fields"]} == {"value_given"}
 
 
 def test_report_has_one_row_per_group(dataset: Path, tmp_path: Path) -> None:
@@ -189,3 +210,18 @@ def test_report_has_one_row_per_group(dataset: Path, tmp_path: Path) -> None:
     for group in GROUPS:
         assert f"| {group} |" in report
     assert "inv-003" in report  # failures appear in the error analysis
+
+
+def test_only_reextracts_the_listed_invoices(dataset: Path, tmp_path: Path) -> None:
+    """Retry after a quota error: only the failed invoice is sent again."""
+    run(dataset, tmp_path, failing={"inv-002"})
+    before = (tmp_path / "inv-001.json").read_text()
+    client = SimpleNamespace(models=FakeModels(dataset, failing=set()))
+    extract_dataset(dataset, tmp_path, client=client, model="fake-model", only={"inv-002"})
+    assert (tmp_path / "inv-001.json").read_text() == before
+    assert json.loads((tmp_path / "inv-002.json").read_text())["error"] is None
+
+
+def test_failed_ids_lists_invoices_with_an_error(dataset: Path, tmp_path: Path) -> None:
+    run(dataset, tmp_path, failing={"inv-003"})
+    assert failed_ids(tmp_path) == {"inv-003"}
