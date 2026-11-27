@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "api",
+      "runtimeExecutable": "wsl",
+      "runtimeArgs": ["-d", "ubuntu", "--", "bash", "-lc", "cd ~/invoice-llm-analyzer && uv run uvicorn invoice_api.app:app --env-file .env.local --port 8000"],
+      "port": 8000
+    },
+    {
+      "name": "web",
+      "runtimeExecutable": "wsl",
+      "runtimeArgs": ["-d", "ubuntu", "--", "bash", "-ic", "cd ~/invoice-llm-analyzer/web && npm run dev -- --port 3000"],
+      "port": 3000
+    }
+  ]
+}

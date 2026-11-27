@@ -57,7 +57,8 @@ Points à retenir :
 - Hébergement : Vercel, variables d'environnement pour l'URL de l'API.
 - Pas de comptes utilisateurs. L'accès est fermé par une phrase secrète de démo dans un middleware Next.js (voir Risques).
 - L'humain ne relit que ce que les contrôles automatiques signalent.
-- Surlignage des champs sur le document : il suppose des coordonnées fiables. À valider en semaine 3 ; si le modèle en donne de peu précises, repli sur la recherche du texte extrait dans le PDF numérique.
+- Surlignage des champs sur le document : il suppose des coordonnées fiables. Pas fait en semaine 3 : l'écran affiche le PDF dans le lecteur du navigateur et un badge par champ. Repli prévu : recherche du texte extrait dans le PDF numérique.
+- État au 27 novembre : liste, dépôt, revue, correction (les contrôles sont relancés côté API), validation et export fonctionnent en local (`web/README.md`). Pas encore déployé sur Vercel. Les lignes et leurs catégories sont en lecture seule.
 - Statut « en attente » : contrôles réussis, en attente d'une validation humaine. Le traitement en cours est un état du job, pas un statut de facture (à confirmer avec le schéma SQL).
 
 ## Backend FastAPI
@@ -290,7 +291,7 @@ Les évals arrivent avant l'optimisation. Chaque semaine se termine par un résu
 | --- | --- | --- |
 | 1. Données et première mesure | Générateur de factures synthétiques (FR et EN, dégradations), normalisation et métriques, extraction v1 sur 10 documents | Une première exactitude par champ, versionnée comme baseline |
 | 2. Contrôles, rapprochement, déploiement | Postgres local et migrations pgvector, fonctions de validation, rapprochement fournisseur et catégorie dans le pipeline v1, API FastAPI déployée sur Railway en fin de semaine | Les totaux incohérents passent à « à vérifier » ; un premier recall@k ; l'API répond sur Railway. État au 27 novembre : les deux premiers sont atteints ; l'image Docker est prête et testée en local, le déploiement attend ton accord (`docs/deploy.md`) |
-| 3. Revue, jeu de test, agent | Écran de revue Next.js, jeu de test élargi avec vingt vraies factures, agent v2, variantes comparées une par une | Un tableau avant et après pour chaque changement, dont v1 contre v2 |
+| 3. Revue, jeu de test, agent | Écran de revue Next.js, jeu de test élargi avec vingt vraies factures, agent v2, variantes comparées une par une | Un tableau avant et après pour chaque changement, dont v1 contre v2. État au 27 novembre : jeu difficile, comparaison appariée et v1 contre v2 faits (la v2 ne bat pas la v1) ; écran de revue en local ; vraies factures en attente |
 | 4. MCP, CI, publication | Serveur MCP, contrôle de régression en CI, README avec résultats chiffrés et démo en GIF | Une PR qui dégrade le score est bloquée |
 
 Le déploiement Railway suppose deux conditions : un accord explicite avant toute migration sur la base Supabase de production, et un jeton d'accès sur l'API.

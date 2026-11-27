@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Light theme only: a review tool where colours carry meaning (amber = to check).
+   Body colours come from Tailwind classes in layout.tsx; unlayered rules here would
+   override them, so there are none. */
+@theme {
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
