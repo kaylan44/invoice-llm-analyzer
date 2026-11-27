@@ -1,0 +1,32 @@
+{
+  "id": "inv-019",
+  "truth": {
+    "supplier_name": "Mary Grondin S.A.R.L.",
+    "supplier_vat_number": "FR01942108390",
+    "supplier_siret": "94210839049063",
+    "invoice_number": "2026-6236",
+    "issue_date": "2026-01-20",
+    "due_date": "2026-03-06",
+    "currency": "EUR",
+    "total_excl_vat": "102.00",
+    "total_vat": "5.61",
+    "total_incl_vat": "107.61",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Ouvrages techniques",
+        "quantity": "3",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "102.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "97, rue de Pelletier, 91181 Michel",
+    "client_name": "Pichon",
+    "client_address": "63, avenue Ledoux, 93988 Pons-la-Forêt",
+    "client_vat_number": null,
+    "deposit": "32.28"
+  }
+}

@@ -12,14 +12,15 @@ they can be read one by one: the number says how often, the list says why.
 """
 
 import json
+import os
 import statistics
 from collections.abc import Callable
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any
 
 from invoice_api.checks import REQUIRED_FIELDS, Status, review_status, run_checks
-from invoice_api.extraction import PROMPT_VERSION, extract, mime_type_for
+from invoice_api.extraction import PROMPT_VERSION, ExtractionResult, extract, mime_type_for
 from invoice_api.schema import InvoiceExtraction
 from invoice_evals.generator import GeneratedInvoice
 from invoice_evals.metrics import FieldResult, aggregate, compare_invoice
@@ -50,7 +51,7 @@ class Record:
 
     id: str
     language: str
-    condition: str  # "clean", "light", "heavy" or "illegible"
+    condition: str  # "clean" or a degradation level: "light", "medium", "heavy", ...
     saved: dict[str, Any]  # the saved extraction result
     results: list[FieldResult]
     # Review detection (week 2): what the checks decided vs what they should decide.
@@ -60,7 +61,11 @@ class Record:
     failed_checks: tuple[str, ...] = ()
     # Fields covered by a stain: the right answer for them is null, not the printed value.
     hidden_fields: tuple[str, ...] = ()
+    # Hard variants (week 3): "long", "client_vat", "deposit".
+    variants: tuple[str, ...] = ()
 
+
+CONFUSERS = {"client_vat", "deposit"}  # variants that print a plausible wrong answer
 
 SEGMENTS: dict[str, Callable[[Record], bool]] = {
     "all": lambda r: True,
@@ -68,7 +73,11 @@ SEGMENTS: dict[str, Callable[[Record], bool]] = {
     "en": lambda r: r.language == "en",
     "clean": lambda r: r.condition == "clean",
     "scan": lambda r: r.condition != "clean",
+    "long": lambda r: "long" in r.variants,
+    "confusers": lambda r: bool(CONFUSERS & set(r.variants)),
 }
+# Shown in the report only when the dataset has such invoices (week 1 and 2 have none).
+OPTIONAL_SEGMENTS = ("long", "confusers")
 
 
 def load_manifest(data_dir: Path) -> list[dict[str, Any]]:
@@ -79,11 +88,31 @@ def load_manifest(data_dir: Path) -> list[dict[str, Any]]:
 # --- Phase 1: extraction ---------------------------------------------------------------
 
 
-def extract_dataset(data_dir: Path, run_dir: Path, *, client: Any, model: str) -> None:
+def extract_dataset(
+    data_dir: Path,
+    run_dir: Path,
+    *,
+    client: Any,
+    model: str,
+    extractor: Callable[..., ExtractionResult] = extract,
+    only: set[str] | None = None,
+) -> None:
+    """``extractor`` is the version under test: v1 ``extract`` or v2 ``extract_with_agent``."""
+    manifest = load_manifest(data_dir)
+    if any(e.get("source") == "real" for e in manifest) and os.environ.get("GEMINI_TIER") != "paid":
+        # Checked before the first call: one real invoice on the free tier is already a leak.
+        raise SystemExit(
+            "real invoices: set GEMINI_TIER=paid, and only with a key of a Google project"
+            " with billing enabled (the free tier may use inputs to improve Google's models)"
+        )
     run_dir.mkdir(parents=True, exist_ok=True)
-    for entry in load_manifest(data_dir):
+    for entry in manifest:
+        if only is not None and entry["id"] not in only:
+            continue  # keep the saved answer as it is
         document = data_dir / entry["document"]
-        result = extract(document.read_bytes(), mime_type_for(document), client=client, model=model)
+        result = extractor(
+            document.read_bytes(), mime_type_for(document), client=client, model=model
+        )
         saved = {
             "id": entry["id"],
             "model": result.model,
@@ -94,6 +123,7 @@ def extract_dataset(data_dir: Path, run_dir: Path, *, client: Any, model: str) -
             "output_tokens": result.output_tokens,
             "thinking_tokens": result.thinking_tokens,
             "raw_text": result.raw_text,
+            "trace": list(result.trace),
             "extraction": result.extraction.model_dump(mode="json") if result.extraction else None,
         }
         (run_dir / f"{entry['id']}.json").write_text(
@@ -103,7 +133,36 @@ def extract_dataset(data_dir: Path, run_dir: Path, *, client: Any, model: str) -
         print(f"{entry['id']}: {status} ({result.latency_s}s)", flush=True)
 
 
+def saved_answers(run_dir: Path) -> list[Path]:
+    """One JSON per invoice (inv-NNN or real-NNN); summary.json is the run's own report."""
+    return sorted(p for p in run_dir.glob("*.json") if p.name != "summary.json")
+
+
+def failed_ids(run_dir: Path) -> set[str]:
+    """Invoices of a saved run whose extraction failed (quota, server error...)."""
+    return {
+        path.stem
+        for path in saved_answers(run_dir)
+        if json.loads(path.read_text())["error"] is not None
+    }
+
+
 # --- Phase 2: scoring ------------------------------------------------------------------
+
+
+def score_hidden(results: list[FieldResult], hidden: tuple[str, ...]) -> list[FieldResult]:
+    """Under a stain the right answer is null, whatever is printed underneath.
+
+    null is scored as correct ("both_absent"), any value as invented ("hallucinated"): a
+    value there was guessed or computed, which the prompt forbids. Before week 3 the printed
+    value was the reference, which rewarded a model that recomputed hidden totals.
+    """
+    return [
+        replace(r, outcome="both_absent" if r.got is None else "hallucinated")
+        if r.field in hidden
+        else r
+        for r in results
+    ]
 
 
 def load_records(data_dir: Path, run_dir: Path) -> list[Record]:
@@ -138,12 +197,13 @@ def load_records(data_dir: Path, run_dir: Path) -> list[Record]:
                 language=entry["language"],
                 condition=condition,
                 saved=saved,
-                results=compare_invoice(truth, extraction),
+                results=score_hidden(compare_invoice(truth, extraction), hidden),
                 trap=trap,
                 expected_status=expected,
                 predicted_status=predicted,
                 failed_checks=failed,
                 hidden_fields=hidden,
+                variants=tuple(entry.get("variants", [])),
             )
         )
     return records
@@ -232,7 +292,10 @@ def summarize(records: list[Record], *, model: str, dataset: str, run_id: str) -
     return {
         "run_id": run_id,
         "model": model,
-        "prompt_version": PROMPT_VERSION,
+        # The version that produced the answers (v1 prompt or agent), read from the run.
+        "prompt_version": records[0].saved.get("prompt_version", PROMPT_VERSION)
+        if records
+        else PROMPT_VERSION,
         "dataset": dataset,
         "n_invoices": len(records),
         "errors": {r.id: r.saved["error"] for r in records if r.saved["error"]},
@@ -254,6 +317,7 @@ def summarize(records: list[Record], *, model: str, dataset: str, run_id: str) -
                 "id": r.id,
                 "language": r.language,
                 "condition": r.condition,
+                "variants": list(r.variants),
                 "field": res.field,
                 "line": res.line,
                 "outcome": res.outcome,
@@ -298,12 +362,15 @@ def _pct(value: float | None) -> str:
 def render_report(summary: dict[str, Any]) -> str:
     seg = summary["segments"]
     columns = ["all", "fr", "en", "clean", "scan"]
+    columns += [c for c in OPTIONAL_SEGMENTS if seg.get(c, {}).get("n_invoices")]
     header_names = {
         "all": "Tout",
         "fr": "Français",
         "en": "Anglais",
         "clean": "Propres",
         "scan": "Scans dégradés",
+        "long": "Multipages",
+        "confusers": "Pièges de lecture",
     }
     lines = [
         f"# Évaluation {summary['run_id']}",
@@ -402,7 +469,7 @@ def render_report(summary: dict[str, Any]) -> str:
     else:
         lines += [
             "Les champs marqués « masqué » étaient sous une tache : `null` y est la bonne"
-            " réponse, même si la comparaison avec la valeur imprimée le compte « manqué ».",
+            " réponse, une valeur y est comptée « inventée ».",
             "",
             "| Facture | Segment | Champ | Résultat | Attendu | Obtenu |",
             "| --- | --- | --- | --- | --- | --- |",
@@ -410,8 +477,9 @@ def render_report(summary: dict[str, Any]) -> str:
         for m in mistakes:
             field = m["field"] + (f" (ligne {m['line']})" if m["line"] else "")
             outcome = m["outcome"] + (" (masqué)" if m.get("hidden") else "")
+            segment = ", ".join([m["language"], m["condition"], *m.get("variants", [])])
             lines.append(
-                f"| {m['id']} | {m['language']}, {m['condition']} | `{field}` | {outcome}"
+                f"| {m['id']} | {segment} | `{field}` | {outcome}"
                 f" | {m['expected']!r} | {m['got']!r} |"
             )
     return "\n".join(lines) + "\n"

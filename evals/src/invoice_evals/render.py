@@ -52,6 +52,10 @@ LABELS: dict[Language, dict[str, str]] = {
         "total_incl": "Total TTC",
         "on": "sur",
         "vat_number": "TVA intracom.",
+        "total_incl_deposit": "Total TTC",
+        "deposit": "Acompte versé",
+        "balance": "Net à payer",
+        "page": "Page",
         "footer": (
             "Paiement par virement. Pénalités de retard : trois fois le taux d'intérêt légal. "
             f"Indemnité forfaitaire pour frais de recouvrement : 40{NBSP}€."
@@ -73,6 +77,11 @@ LABELS: dict[Language, dict[str, str]] = {
         "total_incl": "Total due",
         "on": "on",
         "vat_number": "VAT Reg. No.",
+        # With a deposit, "Total due" would name the balance: the total gets a plain label.
+        "total_incl_deposit": "Total incl. VAT",
+        "deposit": "Less deposit paid",
+        "balance": "Balance due",
+        "page": "Page",
         "footer": "Payment by bank transfer. Please quote the invoice number as reference.",
     },
 }
@@ -165,6 +174,11 @@ class Degradation:
 PRESETS = {
     "light": dict(rotation=(0.4, 1.2), blur=(0.4, 0.8), noise=(4, 8), jpeg_quality=(55, 70)),
     "heavy": dict(rotation=(1.5, 3.0), blur=(0.9, 1.4), noise=(10, 16), jpeg_quality=(30, 45)),
+    # Week 3: between heavy (read at 100 %) and illegible (nothing readable). Small digits
+    # start to blur into each other: 3/8, 1/7, comma/dot.
+    "medium": dict(
+        rotation=(2.5, 4.0), blur=(1.5, 1.9), noise=(20, 30), jpeg_quality=(18, 26), dpi=110
+    ),
     # Unreadable on purpose: low resolution, strong blur and noise, tiny JPEG. Tests whether
     # the model says null instead of inventing values it cannot read.
     "illegible": dict(
@@ -209,10 +223,10 @@ def pick_degradation(level: str, invoice_id: str, seed: int) -> Degradation:
     )
 
 
-def rasterize(pdf_bytes: bytes, dpi: int) -> Image.Image:
-    """First page of a PDF as a grayscale image (PDF units are 1/72 inch)."""
+def rasterize(pdf_bytes: bytes, dpi: int) -> list[Image.Image]:
+    """Every page of a PDF as a grayscale image (PDF units are 1/72 inch)."""
     with pdfium.PdfDocument(pdf_bytes) as pdf:
-        return pdf[0].render(scale=dpi / 72).to_pil().convert("L")
+        return [page.render(scale=dpi / 72).to_pil().convert("L") for page in pdf]
 
 
 def degrade(image: Image.Image, d: Degradation, seed: str) -> Image.Image:
@@ -227,10 +241,17 @@ def degrade(image: Image.Image, d: Degradation, seed: str) -> Image.Image:
     return Image.open(io.BytesIO(buf.getvalue()))
 
 
-def image_to_pdf(image: Image.Image, dpi: int) -> bytes:
+def images_to_pdf(images: list[Image.Image], dpi: int) -> bytes:
+    """One image per page, in order (Pillow writes the first and appends the rest)."""
     buf = io.BytesIO()
-    image.save(buf, format="PDF", resolution=dpi)
+    images[0].save(buf, format="PDF", resolution=dpi, save_all=True, append_images=images[1:])
     return buf.getvalue()
+
+
+def page_seed(seed: int, invoice_id: str, page: int) -> str:
+    # Page 0 keeps the week 2 seed, so a one-page scan renders exactly as before.
+    base = f"{seed}:{invoice_id}:noise"
+    return base if page == 0 else f"{base}:{page}"
 
 
 def render_document(
@@ -247,8 +268,11 @@ def render_document(
     if level is None:
         return pdf, style, None
     d = pick_degradation(level, invoice.id, seed)
-    scan = degrade(rasterize(pdf, d.dpi), d, seed=f"{seed}:{invoice.id}:noise")
-    return image_to_pdf(scan, d.dpi), style, d
+    pages = [
+        degrade(page, d, seed=page_seed(seed, invoice.id, i))
+        for i, page in enumerate(rasterize(pdf, d.dpi))
+    ]
+    return images_to_pdf(pages, d.dpi), style, d
 
 
 def describe(style: Style, d: Degradation | None, level: str | None) -> dict[str, object]:

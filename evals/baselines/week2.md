@@ -8,7 +8,7 @@ Modèle `gemini-3.5-flash-lite`, prompt `v1`, jeu `evals/data/week2` (16 facture
 | --- | --- | --- | --- | --- | --- |
 | Fournisseur | 100% (48/48) | 100% (24/24) | 100% (24/24) | 100% (33/33) | 100% (15/15) |
 | Date et n° de facture | 100% (48/48) | 100% (24/24) | 100% (24/24) | 100% (33/33) | 100% (15/15) |
-| Totaux et devise | 95% (61/64) | 91% (29/32) | 100% (32/32) | 100% (44/44) | 85% (17/20) |
+| Totaux et devise | 100% (64/64) | 100% (32/32) | 100% (32/32) | 100% (44/44) | 100% (20/20) |
 | Lignes | 100% (321/321) | 100% (163/163) | 100% (158/158) | 100% (191/191) | 100% (130/130) |
 
 ## Détail par champ (toutes factures)
@@ -29,9 +29,9 @@ Modèle `gemini-3.5-flash-lite`, prompt `v1`, jeu `evals/data/week2` (16 facture
 | `supplier_name` | 100% | 100% | 100% | 0 | 0 | 0 |
 | `supplier_siret` | 100% | 100% | 100% | 0 | 0 | 0 |
 | `supplier_vat_number` | 100% | 100% | 100% | 0 | 0 | 0 |
-| `total_excl_vat` | 94% | 100% | 94% | 0 | 1 | 0 |
-| `total_incl_vat` | 94% | 100% | 94% | 0 | 1 | 0 |
-| `total_vat` | 94% | 100% | 94% | 0 | 1 | 0 |
+| `total_excl_vat` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `total_incl_vat` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `total_vat` | 100% | 100% | 100% | 0 | 0 | 0 |
 
 ## Coût et latence
 
@@ -79,10 +79,4 @@ La bonne réponse est `null` : la valeur n'est pas lisible. Une valeur donnée v
 
 ## Analyse des erreurs (chaque champ faux, manqué ou inventé)
 
-Les champs marqués « masqué » étaient sous une tache : `null` y est la bonne réponse, même si la comparaison avec la valeur imprimée le compte « manqué ».
-
-| Facture | Segment | Champ | Résultat | Attendu | Obtenu |
-| --- | --- | --- | --- | --- | --- |
-| inv-011 | fr, stain | `total_excl_vat` | missed (masqué) | '509' | None |
-| inv-011 | fr, stain | `total_vat` | missed (masqué) | '101.8' | None |
-| inv-011 | fr, stain | `total_incl_vat` | missed (masqué) | '610.8' | None |
+Aucune.

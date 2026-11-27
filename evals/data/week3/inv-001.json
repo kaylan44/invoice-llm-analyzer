@@ -1,0 +1,277 @@
+{
+  "id": "inv-001",
+  "truth": {
+    "supplier_name": "Brun S.A.R.L.",
+    "supplier_vat_number": "FR50897309118",
+    "supplier_siret": "89730911841704",
+    "invoice_number": "2026-8033",
+    "issue_date": "2026-09-15",
+    "due_date": "2026-10-15",
+    "currency": "EUR",
+    "total_excl_vat": "13851.20",
+    "total_vat": "2349.26",
+    "total_incl_vat": "16200.46",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Transport de marchandises, réf. E8916",
+        "quantity": "1",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "120.00"
+      },
+      {
+        "description": "Classeurs à levier, réf. K4011",
+        "quantity": "10",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "32.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. G6234",
+        "quantity": "2",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "98.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. B3937",
+        "quantity": "20",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "2400.00"
+      },
+      {
+        "description": "Ouvrages techniques, réf. B1271",
+        "quantity": "3",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "102.00"
+      },
+      {
+        "description": "Ouvrages techniques, réf. K7034",
+        "quantity": "5",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "170.00"
+      },
+      {
+        "description": "Ouvrages techniques, réf. H6259",
+        "quantity": "15",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "510.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. F3315",
+        "quantity": "8",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "600.00"
+      },
+      {
+        "description": "Classeurs à levier, réf. A9998",
+        "quantity": "3",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "9.60"
+      },
+      {
+        "description": "Repas d'affaires, réf. J4896",
+        "quantity": "20",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "370.00"
+      },
+      {
+        "description": "Classeurs à levier, réf. B4921",
+        "quantity": "20",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "64.00"
+      },
+      {
+        "description": "Ramettes papier A4 80 g, réf. J8386",
+        "quantity": "15",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "73.50"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. H9079",
+        "quantity": "5",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "245.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. C9049",
+        "quantity": "2",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "125.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. K9776",
+        "quantity": "3",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "187.50"
+      },
+      {
+        "description": "Transport de marchandises, réf. J9940",
+        "quantity": "2",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "240.00"
+      },
+      {
+        "description": "Classeurs à levier, réf. A9761",
+        "quantity": "10",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "32.00"
+      },
+      {
+        "description": "Ouvrages techniques, réf. H6544",
+        "quantity": "10",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "340.00"
+      },
+      {
+        "description": "Ramettes papier A4 80 g, réf. C5974",
+        "quantity": "2",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "9.80"
+      },
+      {
+        "description": "Repas d'affaires, réf. J0811",
+        "quantity": "10",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "185.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. C4420",
+        "quantity": "20",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "2400.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. A1809",
+        "quantity": "20",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "980.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. C7791",
+        "quantity": "8",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "600.00"
+      },
+      {
+        "description": "Classeurs à levier, réf. A5231",
+        "quantity": "20",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "64.00"
+      },
+      {
+        "description": "Ramettes papier A4 80 g, réf. B9543",
+        "quantity": "5",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "24.50"
+      },
+      {
+        "description": "Transport de marchandises, réf. B7476",
+        "quantity": "10",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "1200.00"
+      },
+      {
+        "description": "Ramettes papier A4 80 g, réf. B5376",
+        "quantity": "2",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "9.80"
+      },
+      {
+        "description": "Transport de marchandises, réf. D1004",
+        "quantity": "3",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "360.00"
+      },
+      {
+        "description": "Ouvrages techniques, réf. B1941",
+        "quantity": "20",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "680.00"
+      },
+      {
+        "description": "Ouvrages techniques, réf. C0072",
+        "quantity": "5",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "170.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. F4987",
+        "quantity": "10",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "625.00"
+      },
+      {
+        "description": "Repas d'affaires, réf. D0621",
+        "quantity": "20",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "370.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. A0401",
+        "quantity": "0.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "37.50"
+      },
+      {
+        "description": "Repas d'affaires, réf. D8002",
+        "quantity": "15",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "277.50"
+      },
+      {
+        "description": "Ouvrages techniques, réf. B3075",
+        "quantity": "3",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "102.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. D5892",
+        "quantity": "0.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "37.50"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "638, boulevard de Clerc, 35974 Perrin-sur-Mer",
+    "client_name": "Lucas",
+    "client_address": "rue de Texier, 59139 Lebrun",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "inv-021",
+  "truth": {
+    "supplier_name": "Dupré Lejeune et Fils",
+    "supplier_vat_number": "FR93118051549",
+    "supplier_siret": "11805154938293",
+    "invoice_number": "FAC-2026-9995",
+    "issue_date": "2026-09-22",
+    "due_date": "2026-10-22",
+    "currency": "EUR",
+    "total_excl_vat": "105.00",
+    "total_vat": "7.44",
+    "total_incl_vat": "112.44",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Repas d'affaires",
+        "quantity": "2",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "37.00"
+      },
+      {
+        "description": "Ouvrages techniques",
+        "quantity": "2",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "68.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "39, boulevard de Roux, 54625 Dumont",
+    "client_name": "Payet",
+    "client_address": "9, chemin Collet, 59761 Hardy",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}

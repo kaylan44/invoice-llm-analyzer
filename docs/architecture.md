@@ -57,7 +57,8 @@ Points à retenir :
 - Hébergement : Vercel, variables d'environnement pour l'URL de l'API.
 - Pas de comptes utilisateurs. L'accès est fermé par une phrase secrète de démo dans un middleware Next.js (voir Risques).
 - L'humain ne relit que ce que les contrôles automatiques signalent.
-- Surlignage des champs sur le document : il suppose des coordonnées fiables. À valider en semaine 3 ; si le modèle en donne de peu précises, repli sur la recherche du texte extrait dans le PDF numérique.
+- Surlignage des champs sur le document : il suppose des coordonnées fiables. Pas fait en semaine 3 : l'écran affiche le PDF dans le lecteur du navigateur et un badge par champ. Repli prévu : recherche du texte extrait dans le PDF numérique.
+- État au 27 novembre : liste, dépôt, revue, correction (les contrôles sont relancés côté API), validation et export fonctionnent en local (`web/README.md`). Pas encore déployé sur Vercel. Les lignes et leurs catégories sont en lecture seule.
 - Statut « en attente » : contrôles réussis, en attente d'une validation humaine. Le traitement en cours est un état du job, pas un statut de facture (à confirmer avec le schéma SQL).
 
 ## Backend FastAPI
@@ -204,6 +205,44 @@ Lecture :
 - Le plein texte seul échoue sur les fautes de frappe (fournisseurs) et sur les mots vides de la configuration `simple` (« de », « boîte de 50 ») pour les catégories. Les vecteurs seuls font légèrement mieux que l'hybride sur les catégories (1 requête d'écart sur 34) : pas assez pour trancher, à remesurer sur un jeu plus grand et après retrait des mots vides.
 - Ces chiffres décrivent ce jeu synthétique, pas la qualité réelle. Prochaines étapes : niveaux de dégradation intermédiaires, factures sur plusieurs pages, vraies factures anonymisées (semaine 3).
 
+**Jeu difficile (semaine 3).** Mesure du 27 novembre 2026, même modèle et même prompt, jeu `evals/data/week3` (24 factures : 12 FR, 12 EN, 12 scans). Il ajoute trois variantes qui rendent la lecture plus dure sans changer la bonne réponse : `long` (35 à 45 lignes sur deux pages, totaux en page 2), `client_vat` (n° de TVA du client imprimé avec le même libellé que celui du fournisseur), `deposit` (acompte déjà versé : le montant en gras en bas est le net à payer, pas le TTC), et un niveau de scan `medium` entre `heavy` et `illegible`. Détail : `evals/baselines/week3.md`.
+
+| Groupe | Propres (n=12) | Scans (n=12) | Multipages (n=8) | Pièges de lecture (n=12) |
+| --- | --- | --- | --- | --- |
+| Fournisseur | 100 % (36/36) | 97 % (35/36) | 100 % (24/24) | 100 % (36/36) |
+| Date et n° de facture | 100 % (36/36) | 100 % (36/36) | 100 % (24/24) | 100 % (36/36) |
+| Totaux et devise | 100 % (48/48) | 100 % (48/48) | 100 % (32/32) | 100 % (48/48) |
+| Lignes | 100 % (947/947) | 99 % (918/927) | 99 % (1609/1618) | 100 % (597/597) |
+
+Lecture :
+
+- Les pièges de lecture n'ont piégé personne : le modèle prend le « Total TTC » et non le « Net à payer » en gras, et le n° de TVA du fournisseur et non celui du client, sur les 12 factures. Les libellés sémantiques ne sont pas une faiblesse de Flash-Lite.
+- Les 40 lignes sur deux pages sont lues sans perte ni doublon sur les PDF propres : `line_count` à 100 %.
+- Toutes les erreurs (10) viennent des scans `medium` : confusions de caractères B/8, E/8, 5/3, 6/0 dans les références de ligne, et un chiffre du SIRET d'inv-017. Ce SIRET faux échoue à la clé de Luhn et envoie la facture en revue : le contrôle rattrape l'erreur de lecture.
+- Le harnais compte ce renvoi en revue comme un faux positif, parce que le statut attendu ne dépend que du document (piège, illisible, tache), pas de ce que le modèle a lu. Décision ouverte ci-dessous.
+- Le plafond est cassé seulement sur les scans dégradés, et de peu : 1 erreur sur 72 champs d'en-tête. Avec 24 factures, un écart d'une ou deux erreurs entre deux versions ne prouve rien. Pour départager v1 et v2, il faut plus de scans `medium` et les vraies factures.
+
+**Comparer deux versions.** `python -m invoice_evals.compare --data <jeu> --a <run A> --b <run B>` donne, par groupe de champs, l'exactitude de chaque run avec son intervalle de Wilson à 95 %, et la différence B − A avec un intervalle bootstrap apparié par facture. Le verdict « B meilleur » exige que tout l'intervalle soit au-dessus de 0. Deux runs de la v1 sur le jeu de la semaine 3 diffèrent sur 4 champs (2 dans chaque sens) : c'est le bruit du modèle à température par défaut, et l'outil conclut « pas de différence démontrée » (`evals/baselines/week3_v1_rerun.md`). À 100 % sur 72 champs, l'intervalle de Wilson va encore de 94,9 % à 100 %.
+
+**Champs masqués : correction de la métrique (semaine 3).** Sous une tache, `null` est désormais compté juste et toute valeur comptée « inventée ». Avant, la référence était la valeur imprimée sous la tache : un modèle qui recalculait les totaux cachés était récompensé. Les baselines `week2` et `week3` ont été recalculées sans rappeler le modèle (`--rescore`) : la v1 passe à 100 % sur les totaux de la semaine 2.
+
+**Agent v2 contre pipeline v1** (`api/src/invoice_api/agent.py`). L'agent reçoit le document et deux outils : `check_extraction` lance les contrôles de cohérence sur un brouillon, `submit_extraction` rend la réponse finale. La boucle est écrite à la main (mode `ANY`, 4 tours au plus). Mesure du 27 novembre 2026, `gemini-3.5-flash-lite`, comparaison appariée (`evals/baselines/week2_v1_v2.md`, `week3_v1_v2.md`) :
+
+| Jeu | v1 | v2 | B − A [IC 95 %] | Justes v1 seule / v2 seule | Détection « à vérifier » |
+| --- | --- | --- | --- | --- | --- |
+| Semaine 2 (16 factures) | 100,0 % | 99,0 % | −1,0 % [−2,4 ; 0,0] | 5 / 0 | v1 6/6 ; v2 5/6, la facture tachée passe |
+| Semaine 3 (24 factures) | 99,5 % | 99,3 % | −0,3 % [−0,8 ; 0,0] | 10 / 4 | identique |
+
+Coût sur la semaine 3 : 125 377 tokens en entrée pour la v2 contre 22 720 pour la v1 (5,5 fois plus : le PDF est renvoyé à chaque tour), 0,137 $ contre 0,082 $ sur l'offre payante.
+
+Lecture :
+
+- La v2 ne fait mieux sur aucun groupe. Aucune différence n'est démontrée, mais toutes vont dans le même sens. **Décision : la v1 reste le pipeline de l'API**, comme prévu tant que l'agent ne bat pas la baseline.
+- L'erreur la plus grave de l'agent est sur la facture tachée de la semaine 2 : il remplit les trois totaux cachés au lieu de `null`, le contrôle des champs obligatoires passe, et la facture échappe à la revue humaine. Le prompt de l'agent parle de sommes à vérifier, ce qui l'incite à recalculer : c'est le risque attendu d'un agent qui « répare ».
+- Dans 21 factures sur 24, l'agent appelle `check_extraction` une fois, tout passe, il soumet : il ne fait rien de plus que la v1, pour cinq fois plus de tokens. Les erreurs qu'il devait rattraper (B/8 dans une référence) ne cassent aucun contrôle, donc l'outil ne les voit pas.
+- Vraies factures : `python -m invoice_evals.real prepare` crée un modèle de vérité terrain par PDF de `evals/data/real/` (ignoré par git), `check` le valide avec le même modèle strict que les factures synthétiques. Le harnais refuse d'envoyer une facture marquée `"source": "real"` sans `GEMINI_TIER=paid`. En attente : les PDF anonymisés, la saisie de la vérité, une clé sur un projet facturé.
+- Piste pour une v3 : des outils qui apportent une information que le modèle n'a pas (annuaire des fournisseurs par n° de TVA, zoom sur une zone de la page), plutôt que des contrôles qu'il peut refaire seul.
+
 ## Clé d'API Gemini, offre gratuite et coûts
 
 Une clé Gemini, créée dans Google AI Studio et rattachée à un projet Google Cloud, couvre l'extraction, l'agent, le juge, le reranking et les embeddings.
@@ -253,7 +292,7 @@ Les évals arrivent avant l'optimisation. Chaque semaine se termine par un résu
 | --- | --- | --- |
 | 1. Données et première mesure | Générateur de factures synthétiques (FR et EN, dégradations), normalisation et métriques, extraction v1 sur 10 documents | Une première exactitude par champ, versionnée comme baseline |
 | 2. Contrôles, rapprochement, déploiement | Postgres local et migrations pgvector, fonctions de validation, rapprochement fournisseur et catégorie dans le pipeline v1, API FastAPI déployée sur Railway en fin de semaine | Les totaux incohérents passent à « à vérifier » ; un premier recall@k ; l'API répond sur Railway. État au 27 novembre : les deux premiers sont atteints ; l'image Docker est prête et testée en local, le déploiement attend ton accord (`docs/deploy.md`) |
-| 3. Revue, jeu de test, agent | Écran de revue Next.js, jeu de test élargi avec vingt vraies factures, agent v2, variantes comparées une par une | Un tableau avant et après pour chaque changement, dont v1 contre v2 |
+| 3. Revue, jeu de test, agent | Écran de revue Next.js, jeu de test élargi avec vingt vraies factures, agent v2, variantes comparées une par une | Un tableau avant et après pour chaque changement, dont v1 contre v2. État au 27 novembre : jeu difficile, comparaison appariée et v1 contre v2 faits (la v2 ne bat pas la v1) ; écran de revue en local ; vraies factures en attente |
 | 4. MCP, CI, publication | Serveur MCP, contrôle de régression en CI, README avec résultats chiffrés et démo en GIF | Une PR qui dégrade le score est bloquée |
 
 Le déploiement Railway suppose deux conditions : un accord explicite avant toute migration sur la base Supabase de production, et un jeton d'accès sur l'API.
@@ -287,6 +326,7 @@ Le risque principal est financier : un dépôt de fichiers ouvert à tous sur un
 - [ ] Plein texte : retirer les mots vides (configuration `simple` gardée pour être neutre en langue), puis remesurer hybride contre vecteurs seuls sur les catégories.
 - [ ] Plan Supabase au moment de montrer la démo (gratuit ou Pro)
 - [ ] Seuil de régression de la CI, à fixer après la première mesure
+- [ ] Statut « à vérifier » attendu : le définir par le document seul (actuel) ou aussi par la justesse de l'extraction (une facture mal lue mérite la revue)
 - [ ] Reranker : Gemini Flash-Lite ou modèle dédié, tranché par les évals (inutile tant que le recall@1 plafonne)
 - [ ] Stockage des PDF en production : Supabase Storage à brancher avant de garder des documents (voir `docs/deploy.md`)
 

@@ -1,0 +1,60 @@
+{
+  "id": "inv-012",
+  "truth": {
+    "supplier_name": "Begum LLC",
+    "supplier_vat_number": "GB210521854",
+    "supplier_siret": null,
+    "invoice_number": "B09636",
+    "issue_date": "2026-10-12",
+    "due_date": "2026-11-26",
+    "currency": "GBP",
+    "total_excl_vat": "1122.25",
+    "total_vat": "218.65",
+    "total_incl_vat": "1340.90",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Technical books",
+        "quantity": "1",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "29.00"
+      },
+      {
+        "description": "Monthly software subscription",
+        "quantity": "20",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "780.00"
+      },
+      {
+        "description": "Lever arch files",
+        "quantity": "3",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "8.25"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "1",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "15.00"
+      },
+      {
+        "description": "Black toner cartridge",
+        "quantity": "5",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "290.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "Flat 52S\nWilliams Turnpike, WD91 6SY Webstermouth",
+    "client_name": "Williams PLC",
+    "client_address": "9 Wendy Shores, NG9Y 1UP East Dawn",
+    "client_vat_number": "GB078268292",
+    "deposit": "402.27"
+  }
+}

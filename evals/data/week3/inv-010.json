@@ -1,0 +1,60 @@
+{
+  "id": "inv-010",
+  "truth": {
+    "supplier_name": "Holmes-Miller",
+    "supplier_vat_number": "GB764725877",
+    "supplier_siret": null,
+    "invoice_number": "SI-2026-1968",
+    "issue_date": "2026-05-20",
+    "due_date": null,
+    "currency": "GBP",
+    "total_excl_vat": "308.23",
+    "total_vat": "61.65",
+    "total_incl_vat": "369.88",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Courier delivery",
+        "quantity": "2",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "30.00"
+      },
+      {
+        "description": "Monthly software subscription",
+        "quantity": "3",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "117.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams",
+        "quantity": "2",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "49.98"
+      },
+      {
+        "description": "IT support",
+        "quantity": "1.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "97.50"
+      },
+      {
+        "description": "Lever arch files",
+        "quantity": "5",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "13.75"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "Studio 1\nMellor View, IG8M 4LX South Francisview",
+    "client_name": "Johnson, Watts and Hughes",
+    "client_address": "967 Sophie Mill, E8F 0RT Ameliaport",
+    "client_vat_number": null,
+    "deposit": "110.96"
+  }
+}

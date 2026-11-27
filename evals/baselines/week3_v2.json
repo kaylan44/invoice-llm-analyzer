@@ -1,0 +1,816 @@
+{
+  "run_id": "20261127-073443_gemini-3.5-flash-lite_agent-v1_389febd-dirty",
+  "model": "gemini-3.5-flash-lite",
+  "prompt_version": "agent-v1",
+  "dataset": "evals/data/week3",
+  "n_invoices": 24,
+  "errors": {},
+  "segments": {
+    "all": {
+      "n_invoices": 24,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 0.9861,
+          "correct": 71,
+          "n": 72
+        },
+        "Date et n° de facture": {
+          "accuracy": 0.9861,
+          "correct": 71,
+          "n": 72
+        },
+        "Totaux et devise": {
+          "accuracy": 1.0,
+          "correct": 96,
+          "n": 96
+        },
+        "Lignes": {
+          "accuracy": 0.9925,
+          "correct": 1860,
+          "n": 1874
+        }
+      }
+    },
+    "fr": {
+      "n_invoices": 12,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 0.9722,
+          "correct": 35,
+          "n": 36
+        },
+        "Date et n° de facture": {
+          "accuracy": 1.0,
+          "correct": 36,
+          "n": 36
+        },
+        "Totaux et devise": {
+          "accuracy": 1.0,
+          "correct": 48,
+          "n": 48
+        },
+        "Lignes": {
+          "accuracy": 0.9922,
+          "correct": 890,
+          "n": 897
+        }
+      }
+    },
+    "en": {
+      "n_invoices": 12,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 1.0,
+          "correct": 36,
+          "n": 36
+        },
+        "Date et n° de facture": {
+          "accuracy": 0.9722,
+          "correct": 35,
+          "n": 36
+        },
+        "Totaux et devise": {
+          "accuracy": 1.0,
+          "correct": 48,
+          "n": 48
+        },
+        "Lignes": {
+          "accuracy": 0.9928,
+          "correct": 970,
+          "n": 977
+        }
+      }
+    },
+    "clean": {
+      "n_invoices": 12,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 1.0,
+          "correct": 36,
+          "n": 36
+        },
+        "Date et n° de facture": {
+          "accuracy": 1.0,
+          "correct": 36,
+          "n": 36
+        },
+        "Totaux et devise": {
+          "accuracy": 1.0,
+          "correct": 48,
+          "n": 48
+        },
+        "Lignes": {
+          "accuracy": 1.0,
+          "correct": 947,
+          "n": 947
+        }
+      }
+    },
+    "scan": {
+      "n_invoices": 12,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 0.9722,
+          "correct": 35,
+          "n": 36
+        },
+        "Date et n° de facture": {
+          "accuracy": 0.9722,
+          "correct": 35,
+          "n": 36
+        },
+        "Totaux et devise": {
+          "accuracy": 1.0,
+          "correct": 48,
+          "n": 48
+        },
+        "Lignes": {
+          "accuracy": 0.9849,
+          "correct": 913,
+          "n": 927
+        }
+      }
+    },
+    "long": {
+      "n_invoices": 8,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 1.0,
+          "correct": 24,
+          "n": 24
+        },
+        "Date et n° de facture": {
+          "accuracy": 0.9583,
+          "correct": 23,
+          "n": 24
+        },
+        "Totaux et devise": {
+          "accuracy": 1.0,
+          "correct": 32,
+          "n": 32
+        },
+        "Lignes": {
+          "accuracy": 0.9913,
+          "correct": 1604,
+          "n": 1618
+        }
+      }
+    },
+    "confusers": {
+      "n_invoices": 12,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 1.0,
+          "correct": 36,
+          "n": 36
+        },
+        "Date et n° de facture": {
+          "accuracy": 1.0,
+          "correct": 36,
+          "n": 36
+        },
+        "Totaux et devise": {
+          "accuracy": 1.0,
+          "correct": 48,
+          "n": 48
+        },
+        "Lignes": {
+          "accuracy": 1.0,
+          "correct": 597,
+          "n": 597
+        }
+      }
+    }
+  },
+  "fields": {
+    "currency": {
+      "n": 24,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 24,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "due_date": {
+      "n": 24,
+      "accuracy": 0.9583,
+      "precision": 0.9474,
+      "recall": 1.0,
+      "correct": 18,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 1,
+      "both_absent": 5
+    },
+    "invoice_number": {
+      "n": 24,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 24,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "issue_date": {
+      "n": 24,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 24,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "language": {
+      "n": 24,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 24,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "line_count": {
+      "n": 24,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 24,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "lines.amount": {
+      "n": 370,
+      "accuracy": 0.9919,
+      "precision": 0.9919,
+      "recall": 0.9919,
+      "correct": 367,
+      "wrong": 3,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "lines.description": {
+      "n": 370,
+      "accuracy": 0.9784,
+      "precision": 0.9784,
+      "recall": 0.9784,
+      "correct": 362,
+      "wrong": 8,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "lines.quantity": {
+      "n": 370,
+      "accuracy": 0.9919,
+      "precision": 0.9919,
+      "recall": 0.9919,
+      "correct": 367,
+      "wrong": 3,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "lines.unit_price": {
+      "n": 370,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 370,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "lines.vat_rate": {
+      "n": 370,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 370,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "supplier_name": {
+      "n": 24,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 24,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "supplier_siret": {
+      "n": 24,
+      "accuracy": 0.9583,
+      "precision": 0.9167,
+      "recall": 0.9167,
+      "correct": 11,
+      "wrong": 1,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 12
+    },
+    "supplier_vat_number": {
+      "n": 24,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 24,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "total_excl_vat": {
+      "n": 24,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 24,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "total_incl_vat": {
+      "n": 24,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 24,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "total_vat": {
+      "n": 24,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 24,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    }
+  },
+  "review_detection": {
+    "true_positive": 0,
+    "false_positive": 2,
+    "false_negative": 0,
+    "true_negative": 22,
+    "precision": 0.0,
+    "recall": null,
+    "invoices": [
+      {
+        "id": "inv-001",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-002",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-003",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-004",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-005",
+        "trap": null,
+        "condition": "medium",
+        "expected": "pending",
+        "predicted": "to_review",
+        "failed_checks": [
+          "lines_sum",
+          "vat_amount"
+        ]
+      },
+      {
+        "id": "inv-006",
+        "trap": null,
+        "condition": "medium",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-007",
+        "trap": null,
+        "condition": "light",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-008",
+        "trap": null,
+        "condition": "light",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-009",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-010",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-011",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-012",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-013",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-014",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-015",
+        "trap": null,
+        "condition": "medium",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-016",
+        "trap": null,
+        "condition": "medium",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-017",
+        "trap": null,
+        "condition": "medium",
+        "expected": "pending",
+        "predicted": "to_review",
+        "failed_checks": [
+          "identifiers"
+        ]
+      },
+      {
+        "id": "inv-018",
+        "trap": null,
+        "condition": "medium",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-019",
+        "trap": null,
+        "condition": "heavy",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-020",
+        "trap": null,
+        "condition": "heavy",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-021",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-022",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-023",
+        "trap": null,
+        "condition": "light",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-024",
+        "trap": null,
+        "condition": "light",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 125377,
+    "output_tokens": 39780,
+    "thinking_tokens": 0,
+    "estimated_cost_usd_paid_tier": 0.13706,
+    "latency_s": {
+      "mean": 5.73,
+      "max": 10.571
+    }
+  },
+  "mistakes": [
+    {
+      "id": "inv-005",
+      "language": "fr",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.quantity",
+      "line": 19,
+      "outcome": "wrong",
+      "expected": "3",
+      "got": "2",
+      "hidden": false
+    },
+    {
+      "id": "inv-005",
+      "language": "fr",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.amount",
+      "line": 19,
+      "outcome": "wrong",
+      "expected": "55.5",
+      "got": "37",
+      "hidden": false
+    },
+    {
+      "id": "inv-005",
+      "language": "fr",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.quantity",
+      "line": 21,
+      "outcome": "wrong",
+      "expected": "1",
+      "got": "10",
+      "hidden": false
+    },
+    {
+      "id": "inv-005",
+      "language": "fr",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.amount",
+      "line": 21,
+      "outcome": "wrong",
+      "expected": "4.9",
+      "got": "49",
+      "hidden": false
+    },
+    {
+      "id": "inv-005",
+      "language": "fr",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.quantity",
+      "line": 22,
+      "outcome": "wrong",
+      "expected": "10",
+      "got": "1",
+      "hidden": false
+    },
+    {
+      "id": "inv-005",
+      "language": "fr",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.amount",
+      "line": 22,
+      "outcome": "wrong",
+      "expected": "49",
+      "got": "4.9",
+      "hidden": false
+    },
+    {
+      "id": "inv-005",
+      "language": "fr",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.description",
+      "line": 39,
+      "outcome": "wrong",
+      "expected": "cartouches toner noir ref b8999",
+      "got": "cartouches toner noir ref b9999",
+      "hidden": false
+    },
+    {
+      "id": "inv-006",
+      "language": "en",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.description",
+      "line": 2,
+      "outcome": "wrong",
+      "expected": "courier delivery ref c2616",
+      "got": "courier delivery ref c2614",
+      "hidden": false
+    },
+    {
+      "id": "inv-006",
+      "language": "en",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.description",
+      "line": 13,
+      "outcome": "wrong",
+      "expected": "courier delivery ref b9080",
+      "got": "courier delivery ref 89080",
+      "hidden": false
+    },
+    {
+      "id": "inv-006",
+      "language": "en",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.description",
+      "line": 19,
+      "outcome": "wrong",
+      "expected": "a4 copier paper box of 5 reams ref c5853",
+      "got": "a4 copier paper box of 5 reams ref c3853",
+      "hidden": false
+    },
+    {
+      "id": "inv-006",
+      "language": "en",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.description",
+      "line": 20,
+      "outcome": "wrong",
+      "expected": "monthly software subscription ref a7883",
+      "got": "monthly software subscription ref a7683",
+      "hidden": false
+    },
+    {
+      "id": "inv-006",
+      "language": "en",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.description",
+      "line": 24,
+      "outcome": "wrong",
+      "expected": "child car seat ref b3321",
+      "got": "child car seat ref 83321",
+      "hidden": false
+    },
+    {
+      "id": "inv-006",
+      "language": "en",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.description",
+      "line": 25,
+      "outcome": "wrong",
+      "expected": "child car seat ref e0126",
+      "got": "child car seat ref 80126",
+      "hidden": false
+    },
+    {
+      "id": "inv-006",
+      "language": "en",
+      "condition": "medium",
+      "variants": [
+        "long"
+      ],
+      "field": "lines.description",
+      "line": 40,
+      "outcome": "wrong",
+      "expected": "child car seat ref k8468",
+      "got": "child car seat ref kb468",
+      "hidden": false
+    },
+    {
+      "id": "inv-008",
+      "language": "en",
+      "condition": "light",
+      "variants": [
+        "long"
+      ],
+      "field": "due_date",
+      "line": null,
+      "outcome": "hallucinated",
+      "expected": null,
+      "got": "2026-07-05",
+      "hidden": false
+    },
+    {
+      "id": "inv-017",
+      "language": "fr",
+      "condition": "medium",
+      "variants": [],
+      "field": "supplier_siret",
+      "line": null,
+      "outcome": "wrong",
+      "expected": "94585003070387",
+      "got": "94585003076387",
+      "hidden": false
+    }
+  ],
+  "hidden_fields": []
+}

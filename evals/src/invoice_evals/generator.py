@@ -88,6 +88,9 @@ class RenderInfo(BaseModel):
     supplier_address: str
     client_name: str
     client_address: str
+    # Week 3 variants. Defaults keep the week 1 and week 2 JSON files valid as they are.
+    client_vat_number: str | None = None  # printed in the client box, same label
+    deposit: Decimal | None = None  # deposit already paid: prints a balance below the total
 
 
 class GeneratedInvoice(BaseModel):
@@ -95,7 +98,7 @@ class GeneratedInvoice(BaseModel):
 
     id: str
     truth: InvoiceTruth
-    render: RenderInfo
+    render: RenderInfo | None = None  # None for a real invoice: nothing to render
 
 
 def _with_check_digit(prefix: str, is_valid: Callable[[str], bool]) -> str:
@@ -235,6 +238,80 @@ TRAP_CHECK = {
     "due_before_issue": "dates",
     "bad_siret": "identifiers",
 }
+
+
+# --- Hard variants (week 3) ------------------------------------------------------------
+# A variant makes an invoice harder to read without changing what the right answer is:
+# the ground truth stays consistent. Week 2 scored 100 % almost everywhere (ceiling
+# effect), so it could not tell two versions of the pipeline apart. Each variant targets
+# a known way of misreading a real invoice:
+#   long:       35-45 lines over two pages, totals on the last page only.
+#   client_vat: the client's VAT number printed with the same label as the supplier's.
+#   deposit:    a deposit already paid, so the amount to pay is smaller than the total.
+# Variants are applied before traps: "long" recomputes the totals, a trap then shifts them.
+
+LONG_LINES = (35, 45)
+DEPOSIT_SHARE = Decimal("0.3")
+Changes = dict[str, dict[str, object]]  # {"truth" or "render": {field: new value}}
+
+
+def _variant_long(rng: random.Random, inv: GeneratedInvoice) -> Changes:
+    language = inv.truth.language
+    ref = "réf." if language == "fr" else "ref."
+    lines = []
+    for _ in range(rng.randint(*LONG_LINES)):
+        item = rng.choice(CATALOG[language])  # with replacement: items repeat, as in real life
+        quantity = rng.choice(HOURLY_QUANTITIES if item.hourly else UNIT_QUANTITIES)
+        code = rng.choice("ABCDEFGHJK") + _random_digits(rng, 4)
+        lines.append(
+            InvoiceLine(
+                description=f"{item.description}, {ref} {code}",
+                quantity=quantity,
+                unit_price=item.unit_price,
+                vat_rate=item.vat_rate,
+                amount=line_amount(quantity, item.unit_price),
+            )
+        )
+    totals = compute_totals(lines)
+    return {
+        "truth": {
+            "lines": lines,
+            "total_excl_vat": totals.total_excl_vat,
+            "total_vat": totals.total_vat,
+            "total_incl_vat": totals.total_incl_vat,
+        }
+    }
+
+
+def _variant_client_vat(rng: random.Random, inv: GeneratedInvoice) -> Changes:
+    if inv.truth.language == "fr":
+        number = fr_vat_number(random_siret(rng)[:9])
+    else:
+        number = "GB" + _random_digits(rng, 9)
+    return {"render": {"client_vat_number": number}}
+
+
+def _variant_deposit(rng: random.Random, inv: GeneratedInvoice) -> Changes:
+    deposit = (inv.truth.total_incl_vat * DEPOSIT_SHARE).quantize(Decimal("0.01"))
+    return {"render": {"deposit": deposit}}
+
+
+VARIANTS: dict[str, Callable[[random.Random, GeneratedInvoice], Changes]] = {
+    "long": _variant_long,
+    "client_vat": _variant_client_vat,
+    "deposit": _variant_deposit,
+}
+
+
+def apply_variant(invoice: GeneratedInvoice, variant: str, seed: int) -> GeneratedInvoice:
+    # One RNG per (seed, invoice, variant): adding a variant to an invoice never changes
+    # what another variant or another invoice draws.
+    rng = random.Random(f"{seed}:{invoice.id}:{variant}")
+    changes = VARIANTS[variant](rng, invoice)
+    data = invoice.model_dump()
+    for part, fields in changes.items():
+        data[part] = {**(data[part] or {}), **fields}
+    return GeneratedInvoice.model_validate(data)  # re-validated: a broken variant fails here
 
 
 def apply_trap(invoice: GeneratedInvoice, trap: str) -> GeneratedInvoice:

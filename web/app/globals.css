@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+/* Light theme only: a review tool where colours carry meaning (amber = to check).
+   Body colours come from Tailwind classes in layout.tsx; unlayered rules here would
+   override them, so there are none. */
+@theme {
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Palette taken from the logo: navy ground, royal blue, cyan pixels, green check. */
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dbe7ff;
+  --color-brand-200: #b9d0ff;
+  --color-brand-300: #8bb2fb;
+  --color-brand-500: #2f7cf6;
+  --color-brand-600: #1d5fe0;
+  --color-brand-700: #1546c0;
+  --color-brand-800: #0f3196;
+  --color-brand-900: #0b2275;
+  --color-brand-950: #071650;
+  --color-pixel: #22d3ee;
+  --color-check-50: #e6faf3;
+  --color-check-200: #a7ecd4;
+  --color-check-500: #12c792;
+  --color-check-700: #057a5c;
+  --color-check-800: #04654c;
+  --color-check-900: #033f30;
+}
+
+@utility brand-gradient {
+  background-image: linear-gradient(120deg, #071650 0%, #0b2275 55%, #1546c0 100%);
+}
+
+/* 44 px: the minimum comfortable touch target. */
+@utility tap {
+  min-height: 2.75rem;
+}

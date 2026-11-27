@@ -1,0 +1,277 @@
+{
+  "id": "inv-008",
+  "truth": {
+    "supplier_name": "Gardiner, Jackson and Burton",
+    "supplier_vat_number": "GB229836957",
+    "supplier_siret": null,
+    "invoice_number": "SI-2026-9802",
+    "issue_date": "2026-06-05",
+    "due_date": null,
+    "currency": "GBP",
+    "total_excl_vat": "9402.01",
+    "total_vat": "1007.60",
+    "total_incl_vat": "10409.61",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Child car seat, ref. G7369",
+        "quantity": "15",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "1335.00"
+      },
+      {
+        "description": "Courier delivery, ref. C3183",
+        "quantity": "20",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "300.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. G1976",
+        "quantity": "3",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "74.97"
+      },
+      {
+        "description": "Monthly software subscription, ref. J5794",
+        "quantity": "10",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "390.00"
+      },
+      {
+        "description": "Courier delivery, ref. J5223",
+        "quantity": "1",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "15.00"
+      },
+      {
+        "description": "Child car seat, ref. F8706",
+        "quantity": "15",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "1335.00"
+      },
+      {
+        "description": "Lever arch files, ref. K0834",
+        "quantity": "3",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "8.25"
+      },
+      {
+        "description": "Black toner cartridge, ref. B3556",
+        "quantity": "3",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "174.00"
+      },
+      {
+        "description": "Monthly software subscription, ref. K4243",
+        "quantity": "1",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "39.00"
+      },
+      {
+        "description": "Technical books, ref. J0261",
+        "quantity": "5",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "145.00"
+      },
+      {
+        "description": "Child car seat, ref. D2577",
+        "quantity": "3",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "267.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. A4065",
+        "quantity": "20",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "499.80"
+      },
+      {
+        "description": "IT support, ref. F9679",
+        "quantity": "2",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "130.00"
+      },
+      {
+        "description": "IT support, ref. H6559",
+        "quantity": "2",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "130.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. E0592",
+        "quantity": "1",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "24.99"
+      },
+      {
+        "description": "Monthly software subscription, ref. G5773",
+        "quantity": "2",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "78.00"
+      },
+      {
+        "description": "Technical books, ref. C9319",
+        "quantity": "2",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "58.00"
+      },
+      {
+        "description": "IT support, ref. A0250",
+        "quantity": "0.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "32.50"
+      },
+      {
+        "description": "Black toner cartridge, ref. K0219",
+        "quantity": "1",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "58.00"
+      },
+      {
+        "description": "Lever arch files, ref. J6191",
+        "quantity": "3",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "8.25"
+      },
+      {
+        "description": "Technical books, ref. A9914",
+        "quantity": "15",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "435.00"
+      },
+      {
+        "description": "Child car seat, ref. H7835",
+        "quantity": "5",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "445.00"
+      },
+      {
+        "description": "Monthly software subscription, ref. K7661",
+        "quantity": "1",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "39.00"
+      },
+      {
+        "description": "Technical books, ref. G7698",
+        "quantity": "2",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "58.00"
+      },
+      {
+        "description": "Courier delivery, ref. D0820",
+        "quantity": "3",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "45.00"
+      },
+      {
+        "description": "Technical books, ref. D2872",
+        "quantity": "15",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "435.00"
+      },
+      {
+        "description": "Courier delivery, ref. E1958",
+        "quantity": "15",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "225.00"
+      },
+      {
+        "description": "Child car seat, ref. J2401",
+        "quantity": "10",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "890.00"
+      },
+      {
+        "description": "Monthly software subscription, ref. E5650",
+        "quantity": "15",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "585.00"
+      },
+      {
+        "description": "Monthly software subscription, ref. G2190",
+        "quantity": "3",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "117.00"
+      },
+      {
+        "description": "Lever arch files, ref. A2756",
+        "quantity": "5",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "13.75"
+      },
+      {
+        "description": "Technical books, ref. F2021",
+        "quantity": "1",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "29.00"
+      },
+      {
+        "description": "Monthly software subscription, ref. E0078",
+        "quantity": "20",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "780.00"
+      },
+      {
+        "description": "IT support, ref. A1642",
+        "quantity": "1.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "97.50"
+      },
+      {
+        "description": "Courier delivery, ref. E8986",
+        "quantity": "2",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "30.00"
+      },
+      {
+        "description": "Courier delivery, ref. A5020",
+        "quantity": "5",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "75.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "0 Griffiths Brook, CA8 5QZ West Donald",
+    "client_name": "Watkins PLC",
+    "client_address": "497 Morgan Roads, M7 2WS Port Stewartville",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}

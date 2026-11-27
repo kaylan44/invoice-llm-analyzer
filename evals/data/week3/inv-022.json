@@ -1,0 +1,32 @@
+{
+  "id": "inv-022",
+  "truth": {
+    "supplier_name": "Taylor PLC",
+    "supplier_vat_number": "GB494157718",
+    "supplier_siret": null,
+    "invoice_number": "D08503",
+    "issue_date": "2026-06-17",
+    "due_date": null,
+    "currency": "GBP",
+    "total_excl_vat": "290.00",
+    "total_vat": "58.00",
+    "total_incl_vat": "348.00",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Black toner cartridge",
+        "quantity": "5",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "290.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "Studio 02\nTurnbull Spring, IP5R 1JE South Carolinetown",
+    "client_name": "Price, Mitchell and Arnold",
+    "client_address": "Studio 58\nTaylor Freeway, W9D 8QW Annafurt",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}

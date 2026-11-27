@@ -135,6 +135,8 @@ class ExtractionResult:
     output_tokens: int | None = None
     thinking_tokens: int | None = None
     raw_text: str | None = None  # the model's raw answer, kept for error analysis
+    # Agent v2 only: one entry per tool call, to read what the agent did (empty for v1).
+    trace: tuple[dict[str, Any], ...] = ()
 
 
 def extract(

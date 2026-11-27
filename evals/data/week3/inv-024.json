@@ -1,0 +1,53 @@
+{
+  "id": "inv-024",
+  "truth": {
+    "supplier_name": "Carter Ltd",
+    "supplier_vat_number": "GB264515474",
+    "supplier_siret": null,
+    "invoice_number": "SI-2026-2382",
+    "issue_date": "2026-06-28",
+    "due_date": "2026-08-27",
+    "currency": "GBP",
+    "total_excl_vat": "1910.00",
+    "total_vat": "382.00",
+    "total_incl_vat": "2292.00",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Courier delivery",
+        "quantity": "15",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "225.00"
+      },
+      {
+        "description": "Black toner cartridge",
+        "quantity": "10",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "580.00"
+      },
+      {
+        "description": "Monthly software subscription",
+        "quantity": "15",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "585.00"
+      },
+      {
+        "description": "IT support",
+        "quantity": "8",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "520.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "Studio 84\nJoanna Haven, DA47 7BJ South Jean",
+    "client_name": "Brown, Thompson and Pritchard",
+    "client_address": "1 Robinson Wells, KA4B 2LX North Abigailshire",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}

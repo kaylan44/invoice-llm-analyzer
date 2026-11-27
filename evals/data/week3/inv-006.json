@@ -1,0 +1,305 @@
+{
+  "id": "inv-006",
+  "truth": {
+    "supplier_name": "Anderson-Blake",
+    "supplier_vat_number": "GB331908452",
+    "supplier_siret": null,
+    "invoice_number": "SI-2026-0085",
+    "issue_date": "2026-02-19",
+    "due_date": "2026-04-05",
+    "currency": "GBP",
+    "total_excl_vat": "6807.53",
+    "total_vat": "715.11",
+    "total_incl_vat": "7522.64",
+    "language": "en",
+    "lines": [
+      {
+        "description": "IT support, ref. J4283",
+        "quantity": "1",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "65.00"
+      },
+      {
+        "description": "Courier delivery, ref. C2616",
+        "quantity": "3",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "45.00"
+      },
+      {
+        "description": "Black toner cartridge, ref. A6423",
+        "quantity": "3",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "174.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. A0206",
+        "quantity": "15",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "374.85"
+      },
+      {
+        "description": "Lever arch files, ref. H2120",
+        "quantity": "15",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "41.25"
+      },
+      {
+        "description": "Lever arch files, ref. J1773",
+        "quantity": "2",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "5.50"
+      },
+      {
+        "description": "IT support, ref. D8939",
+        "quantity": "2",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "130.00"
+      },
+      {
+        "description": "Child car seat, ref. F3920",
+        "quantity": "10",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "890.00"
+      },
+      {
+        "description": "IT support, ref. F9964",
+        "quantity": "2",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "130.00"
+      },
+      {
+        "description": "Monthly software subscription, ref. A0270",
+        "quantity": "2",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "78.00"
+      },
+      {
+        "description": "Technical books, ref. J3814",
+        "quantity": "2",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "58.00"
+      },
+      {
+        "description": "IT support, ref. J8136",
+        "quantity": "0.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "32.50"
+      },
+      {
+        "description": "Courier delivery, ref. B9080",
+        "quantity": "2",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "30.00"
+      },
+      {
+        "description": "Courier delivery, ref. G0616",
+        "quantity": "2",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "30.00"
+      },
+      {
+        "description": "Technical books, ref. H9525",
+        "quantity": "15",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "435.00"
+      },
+      {
+        "description": "IT support, ref. F9472",
+        "quantity": "1.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "97.50"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. F9168",
+        "quantity": "3",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "74.97"
+      },
+      {
+        "description": "Courier delivery, ref. C0538",
+        "quantity": "20",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "300.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. C5853",
+        "quantity": "3",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "74.97"
+      },
+      {
+        "description": "Monthly software subscription, ref. A7883",
+        "quantity": "2",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "78.00"
+      },
+      {
+        "description": "Technical books, ref. F2685",
+        "quantity": "20",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "580.00"
+      },
+      {
+        "description": "IT support, ref. J5825",
+        "quantity": "2",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "130.00"
+      },
+      {
+        "description": "Courier delivery, ref. C7365",
+        "quantity": "2",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "30.00"
+      },
+      {
+        "description": "Child car seat, ref. B3321",
+        "quantity": "2",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "178.00"
+      },
+      {
+        "description": "Child car seat, ref. E0126",
+        "quantity": "10",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "890.00"
+      },
+      {
+        "description": "IT support, ref. G9355",
+        "quantity": "1",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "65.00"
+      },
+      {
+        "description": "Technical books, ref. J3083",
+        "quantity": "10",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "290.00"
+      },
+      {
+        "description": "Monthly software subscription, ref. D6981",
+        "quantity": "5",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "195.00"
+      },
+      {
+        "description": "Monthly software subscription, ref. C3105",
+        "quantity": "1",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "39.00"
+      },
+      {
+        "description": "IT support, ref. C5995",
+        "quantity": "2",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "130.00"
+      },
+      {
+        "description": "Courier delivery, ref. H5071",
+        "quantity": "5",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "75.00"
+      },
+      {
+        "description": "IT support, ref. C4585",
+        "quantity": "1",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "65.00"
+      },
+      {
+        "description": "Child car seat, ref. D1676",
+        "quantity": "1",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "89.00"
+      },
+      {
+        "description": "Child car seat, ref. A8045",
+        "quantity": "2",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "178.00"
+      },
+      {
+        "description": "IT support, ref. E2057",
+        "quantity": "3.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "227.50"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. E3868",
+        "quantity": "1",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "24.99"
+      },
+      {
+        "description": "Lever arch files, ref. E5551",
+        "quantity": "10",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "27.50"
+      },
+      {
+        "description": "Monthly software subscription, ref. G5258",
+        "quantity": "3",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "117.00"
+      },
+      {
+        "description": "IT support, ref. A8933",
+        "quantity": "1",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "65.00"
+      },
+      {
+        "description": "Child car seat, ref. K8468",
+        "quantity": "3",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "267.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "3 Lewis Falls, M1U 7LT Jacobview",
+    "client_name": "Gordon LLC",
+    "client_address": "Studio 64\nNigel Mill, HU57 3GE Bethshire",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}

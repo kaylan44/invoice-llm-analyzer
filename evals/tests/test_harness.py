@@ -17,6 +17,7 @@ from invoice_evals.generator import GeneratedInvoice
 from invoice_evals.harness import (
     GROUPS,
     extract_dataset,
+    failed_ids,
     load_records,
     render_report,
     summarize,
@@ -70,6 +71,8 @@ def run(dataset: Path, tmp_path: Path, failing: set[str]) -> dict[str, Any]:
 def test_perfect_model_scores_100_percent_everywhere(dataset: Path, tmp_path: Path) -> None:
     summary = run(dataset, tmp_path, failing=set())
     for segment in summary["segments"].values():
+        if not segment["n_invoices"]:  # empty segment (no variant here): no score, not 0 %
+            continue
         for group in segment["groups"].values():
             assert group["accuracy"] == 1.0
     assert summary["errors"] == {}
@@ -78,7 +81,41 @@ def test_perfect_model_scores_100_percent_everywhere(dataset: Path, tmp_path: Pa
 def test_segments_split_by_language_and_condition(dataset: Path, tmp_path: Path) -> None:
     segments = run(dataset, tmp_path, failing=set())["segments"]
     counts = {name: s["n_invoices"] for name, s in segments.items()}
-    assert counts == {"all": 4, "fr": 2, "en": 2, "clean": 2, "scan": 2}
+    assert counts == {"all": 4, "fr": 2, "en": 2, "clean": 2, "scan": 2, "long": 0, "confusers": 0}
+
+
+def test_variant_segments_and_report_columns(tmp_path: Path) -> None:
+    """Week 3: invoices with variants get their own columns; plain datasets do not."""
+    data = tmp_path / "data"
+    generate_main(
+        [
+            "--n",
+            "3",
+            "--seed",
+            "3",
+            "--out",
+            str(data),
+            "--variant",
+            "inv-001=long",
+            "inv-002=deposit,client_vat",
+        ]
+    )
+    render_main(["--data", str(data), "--seed", "3", "--degrade", "inv-003=medium"])
+    run_dir = tmp_path / "run"
+    client = SimpleNamespace(models=FakeModels(data, failing=set()))
+    extract_dataset(data, run_dir, client=client, model="fake-model")
+    records = load_records(data, run_dir)
+    assert [r.variants for r in records] == [("long",), ("deposit", "client_vat"), ()]
+    summary = summarize(records, model="fake-model", dataset=str(data), run_id="t")
+    counts = {name: s["n_invoices"] for name, s in summary["segments"].items()}
+    assert counts["long"] == 1 and counts["confusers"] == 1 and counts["scan"] == 1
+    report = render_report(summary)
+    assert "Multipages (n=1)" in report and "Pièges de lecture (n=1)" in report
+
+
+def test_report_hides_empty_variant_columns(dataset: Path, tmp_path: Path) -> None:
+    report = render_report(run(dataset, tmp_path, failing=set()))
+    assert "Multipages" not in report and "Pièges de lecture" not in report
 
 
 def test_failed_invoice_counts_as_missed_and_is_listed(dataset: Path, tmp_path: Path) -> None:
@@ -144,8 +181,28 @@ def test_stained_totals_expect_review_and_null(tmp_path_factory: pytest.TempPath
     assert rd["invoices"][0]["expected"] == "to_review"  # a required total is hidden
     assert rd["invoices"][0]["predicted"] == "to_review"  # ... and the checks see it missing
     assert {h["behaviour"] for h in summary["hidden_fields"]} == {"null"}
-    assert all(m["hidden"] for m in summary["mistakes"])
+    # Week 3: null is the right answer under a stain, so it is scored as correct.
+    assert summary["mistakes"] == []
+    assert summary["segments"]["all"]["groups"]["Totaux et devise"]["accuracy"] == 1.0
     assert "Champs masqués par une tache" in render_report(summary)
+
+
+def test_a_value_under_a_stain_is_scored_as_invented(
+    tmp_path_factory: pytest.TempPathFactory,
+) -> None:
+    """Giving the printed total although it is hidden means it was computed: not rewarded."""
+    data = tmp_path_factory.mktemp("stained2")
+    generate_main(["--n", "1", "--seed", "3", "--out", str(data)])
+    render_main(["--data", str(data), "--seed", "3", "--degrade", "inv-001=stain:totals"])
+    run_dir = tmp_path_factory.mktemp("run2")
+    extract_dataset(
+        data, run_dir, client=SimpleNamespace(models=FakeModels(data, set())), model="fake"
+    )
+    summary = summarize(load_records(data, run_dir), model="fake", dataset="d", run_id="t")
+
+    assert summary["fields"]["total_incl_vat"]["hallucinated"] == 1
+    assert summary["segments"]["all"]["groups"]["Totaux et devise"]["accuracy"] == 0.25
+    assert {h["behaviour"] for h in summary["hidden_fields"]} == {"value_given"}
 
 
 def test_report_has_one_row_per_group(dataset: Path, tmp_path: Path) -> None:
@@ -153,3 +210,18 @@ def test_report_has_one_row_per_group(dataset: Path, tmp_path: Path) -> None:
     for group in GROUPS:
         assert f"| {group} |" in report
     assert "inv-003" in report  # failures appear in the error analysis
+
+
+def test_only_reextracts_the_listed_invoices(dataset: Path, tmp_path: Path) -> None:
+    """Retry after a quota error: only the failed invoice is sent again."""
+    run(dataset, tmp_path, failing={"inv-002"})
+    before = (tmp_path / "inv-001.json").read_text()
+    client = SimpleNamespace(models=FakeModels(dataset, failing=set()))
+    extract_dataset(dataset, tmp_path, client=client, model="fake-model", only={"inv-002"})
+    assert (tmp_path / "inv-001.json").read_text() == before
+    assert json.loads((tmp_path / "inv-002.json").read_text())["error"] is None
+
+
+def test_failed_ids_lists_invoices_with_an_error(dataset: Path, tmp_path: Path) -> None:
+    run(dataset, tmp_path, failing={"inv-003"})
+    assert failed_ids(tmp_path) == {"inv-003"}

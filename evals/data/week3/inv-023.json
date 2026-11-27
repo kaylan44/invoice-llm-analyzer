@@ -1,0 +1,32 @@
+{
+  "id": "inv-023",
+  "truth": {
+    "supplier_name": "Lemaire",
+    "supplier_vat_number": "FR50543256887",
+    "supplier_siret": "54325688755764",
+    "invoice_number": "FAC-2026-5140",
+    "issue_date": "2026-02-12",
+    "due_date": "2026-03-14",
+    "currency": "EUR",
+    "total_excl_vat": "980.00",
+    "total_vat": "196.00",
+    "total_incl_vat": "1176.00",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Abonnement logiciel mensuel",
+        "quantity": "20",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "980.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "688, rue Martineau, 10173 Alvesnec",
+    "client_name": "Rey",
+    "client_address": "boulevard Sauvage, 91645 Saint Jeannine-les-Bains",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}
