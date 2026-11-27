@@ -175,17 +175,19 @@ Les évals rejouent l'extraction sur un jeu de test à vérité terrain connue e
 - **Référence.** Un fichier de scores versionné dans le dépôt. Le seuil de régression se fixe après la première mesure, pas avant.
 - **CI.** GitHub Actions lance un sous-ensemble sur chaque PR, compare à la référence et échoue si un score baisse au-delà du seuil. Chaque exécution appelle l'API : la clé de la CI est dédiée, dans son propre projet Google.
 
-**Tableau d'évals.** Mesure du 27 novembre 2026 : `gemini-3.5-flash-lite`, prompt v1, jeu `evals/data/week2` (16 factures synthétiques : 8 FR, 8 EN ; 11 propres dont 5 piégées, 5 scans dégradés dont 1 illisible). Détail : `evals/baselines/week2.md` (extraction et contrôles) et `evals/baselines/week2_retrieval.md` (rapprochement). La mesure de la semaine 1 reste dans `evals/baselines/week1.md`.
+**Tableau d'évals.** Mesure du 27 novembre 2026 : `gemini-3.5-flash-lite`, prompt v1, jeu `evals/data/week2` (16 factures synthétiques : 8 FR, 8 EN ; 11 propres dont 5 piégées, 5 scans dégradés dont 1 avec une tache sur les totaux). Détail : `evals/baselines/week2.md` (extraction et contrôles) et `evals/baselines/week2_retrieval.md` (rapprochement). La mesure de la semaine 1 reste dans `evals/baselines/week1.md`.
 
 | Champ | Français (n=8) | Anglais (n=8) | Scans dégradés (n=5) |
 | --- | --- | --- | --- |
-| Fournisseur | 88 % (21/24) | 100 % (24/24) | 80 % (12/15) |
-| Date et n° de facture | 88 % (21/24) | 100 % (24/24) | 80 % (12/15) |
-| Totaux et devise | 88 % (28/32) | 100 % (32/32) | 80 % (16/20) |
-| Lignes (quantité, prix) | 87 % (142/163) | 100 % (158/158) | 84 % (109/130) |
+| Fournisseur | 100 % (24/24) | 100 % (24/24) | 100 % (15/15) |
+| Date et n° de facture | 100 % (24/24) | 100 % (24/24) | 100 % (15/15) |
+| Totaux et devise | 91 % (29/32) | 100 % (32/32) | 85 % (17/20) |
+| Lignes (quantité, prix) | 100 % (163/163) | 100 % (158/158) | 100 % (130/130) |
 | Catégorie comptable (recall@1, hybride) | 94 % sur 34 libellés FR et EN, dont 18 absents du catalogue | | |
 
-Détection « à vérifier » : précision 100 % (6/6), rappel 100 % (6/6). Les 5 factures piégées échouent chacune au contrôle attendu, la facture illisible échoue sur les champs obligatoires, et aucune facture cohérente n'est envoyée en revue.
+Les 3 « erreurs » sur les totaux sont les 3 totaux cachés par la tache d'inv-011 : le modèle y répond `null`, ce qui est la bonne réponse, et la comparaison avec la valeur imprimée les compte « manqués ». Hors champs masqués, l'extraction est à 100 %.
+
+Détection « à vérifier » : précision 100 % (6/6), rappel 100 % (6/6). Les 5 factures piégées échouent chacune au contrôle attendu, la facture tachée échoue sur les champs obligatoires (totaux absents), et aucune facture cohérente n'est envoyée en revue.
 
 Rapprochement (recall@1) :
 
@@ -197,7 +199,7 @@ Rapprochement (recall@1) :
 
 Lecture :
 
-- Toutes les erreurs d'extraction viennent de inv-011, le scan illisible : `null` partout, aucune valeur inventée. Les 15 autres factures sont lues à 100 % : l'extraction n'est toujours pas départagée (effet plafond).
+- La tache d'inv-011 (dégradation `stain:totals`) remplace le scan entièrement illisible de la semaine 1, peu réaliste : une facture réelle est plutôt abîmée par endroits. Le modèle lit tout le reste de la page et laisse les trois totaux cachés à `null`, sans les recalculer à partir des lignes, comme le demande le prompt. L'extraction n'est toujours pas départagée (effet plafond).
 - L'analyse d'erreur a trouvé un bug dans le jeu de test, pas dans le modèle : le piège sur la TVA n'était pas imprimé. Le gabarit imprime désormais toujours le total de TVA.
 - Le plein texte seul échoue sur les fautes de frappe (fournisseurs) et sur les mots vides de la configuration `simple` (« de », « boîte de 50 ») pour les catégories. Les vecteurs seuls font légèrement mieux que l'hybride sur les catégories (1 requête d'écart sur 34) : pas assez pour trancher, à remesurer sur un jeu plus grand et après retrait des mots vides.
 - Ces chiffres décrivent ce jeu synthétique, pas la qualité réelle. Prochaines étapes : niveaux de dégradation intermédiaires, factures sur plusieurs pages, vraies factures anonymisées (semaine 3).
