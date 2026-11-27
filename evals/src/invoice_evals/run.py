@@ -34,6 +34,7 @@ from invoice_evals.harness import (
     failed_ids,
     load_records,
     render_report,
+    saved_answers,
     summarize,
 )
 
@@ -70,7 +71,7 @@ def main(argv: list[str] | None = None) -> None:
     if args.retry_errors:
         # Same run, same version: only the invoices that failed (e.g. quota) are sent again.
         run_dir = args.retry_errors
-        first = json.loads(next(run_dir.glob("inv-*.json")).read_text())
+        first = json.loads(saved_answers(run_dir)[0].read_text())
         model, run_id = first["model"], run_dir.name
         extractor = extract_with_agent if first["prompt_version"] == AGENT_VERSION else extract
         failed = failed_ids(run_dir)
@@ -80,7 +81,7 @@ def main(argv: list[str] | None = None) -> None:
         )
     elif args.rescore:
         run_dir = args.rescore
-        first = json.loads(next(run_dir.glob("inv-*.json")).read_text())
+        first = json.loads(saved_answers(run_dir)[0].read_text())
         model, run_id = first["model"], run_dir.name
     else:
         if not os.environ.get("GEMINI_API_KEY"):

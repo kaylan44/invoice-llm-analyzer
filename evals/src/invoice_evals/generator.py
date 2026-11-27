@@ -98,7 +98,7 @@ class GeneratedInvoice(BaseModel):
 
     id: str
     truth: InvoiceTruth
-    render: RenderInfo
+    render: RenderInfo | None = None  # None for a real invoice: nothing to render
 
 
 def _with_check_digit(prefix: str, is_valid: Callable[[str], bool]) -> str:
@@ -310,7 +310,7 @@ def apply_variant(invoice: GeneratedInvoice, variant: str, seed: int) -> Generat
     changes = VARIANTS[variant](rng, invoice)
     data = invoice.model_dump()
     for part, fields in changes.items():
-        data[part] = {**data[part], **fields}
+        data[part] = {**(data[part] or {}), **fields}
     return GeneratedInvoice.model_validate(data)  # re-validated: a broken variant fails here
 
 

@@ -19,6 +19,9 @@ out/
 # Eval outputs
 evals/results/
 
+# Real invoices and their ground truth: local only, never in the repository
+evals/data/real/
+
 # Local uploads of the API (STORAGE_DIR)
 storage/
 

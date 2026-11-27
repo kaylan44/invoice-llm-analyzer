@@ -240,6 +240,7 @@ Lecture :
 - La v2 ne fait mieux sur aucun groupe. Aucune différence n'est démontrée, mais toutes vont dans le même sens. **Décision : la v1 reste le pipeline de l'API**, comme prévu tant que l'agent ne bat pas la baseline.
 - L'erreur la plus grave de l'agent est sur la facture tachée de la semaine 2 : il remplit les trois totaux cachés au lieu de `null`, le contrôle des champs obligatoires passe, et la facture échappe à la revue humaine. Le prompt de l'agent parle de sommes à vérifier, ce qui l'incite à recalculer : c'est le risque attendu d'un agent qui « répare ».
 - Dans 21 factures sur 24, l'agent appelle `check_extraction` une fois, tout passe, il soumet : il ne fait rien de plus que la v1, pour cinq fois plus de tokens. Les erreurs qu'il devait rattraper (B/8 dans une référence) ne cassent aucun contrôle, donc l'outil ne les voit pas.
+- Vraies factures : `python -m invoice_evals.real prepare` crée un modèle de vérité terrain par PDF de `evals/data/real/` (ignoré par git), `check` le valide avec le même modèle strict que les factures synthétiques. Le harnais refuse d'envoyer une facture marquée `"source": "real"` sans `GEMINI_TIER=paid`. En attente : les PDF anonymisés, la saisie de la vérité, une clé sur un projet facturé.
 - Piste pour une v3 : des outils qui apportent une information que le modèle n'a pas (annuaire des fournisseurs par n° de TVA, zoom sur une zone de la page), plutôt que des contrôles qu'il peut refaire seul.
 
 ## Clé d'API Gemini, offre gratuite et coûts

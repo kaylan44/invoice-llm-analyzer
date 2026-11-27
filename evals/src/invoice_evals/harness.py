@@ -12,6 +12,7 @@ they can be read one by one: the number says how often, the list says why.
 """
 
 import json
+import os
 import statistics
 from collections.abc import Callable
 from dataclasses import dataclass, replace
@@ -96,9 +97,16 @@ def extract_dataset(
     extractor: Callable[..., ExtractionResult] = extract,
     only: set[str] | None = None,
 ) -> None:
-    """extractor is the version under test: v1 extract or v2 extract_with_agent."""
+    """``extractor`` is the version under test: v1 ``extract`` or v2 ``extract_with_agent``."""
+    manifest = load_manifest(data_dir)
+    if any(e.get("source") == "real" for e in manifest) and os.environ.get("GEMINI_TIER") != "paid":
+        # Checked before the first call: one real invoice on the free tier is already a leak.
+        raise SystemExit(
+            "real invoices: set GEMINI_TIER=paid, and only with a key of a Google project"
+            " with billing enabled (the free tier may use inputs to improve Google's models)"
+        )
     run_dir.mkdir(parents=True, exist_ok=True)
-    for entry in load_manifest(data_dir):
+    for entry in manifest:
         if only is not None and entry["id"] not in only:
             continue  # keep the saved answer as it is
         document = data_dir / entry["document"]
@@ -125,11 +133,16 @@ def extract_dataset(
         print(f"{entry['id']}: {status} ({result.latency_s}s)", flush=True)
 
 
+def saved_answers(run_dir: Path) -> list[Path]:
+    """One JSON per invoice (inv-NNN or real-NNN); summary.json is the run's own report."""
+    return sorted(p for p in run_dir.glob("*.json") if p.name != "summary.json")
+
+
 def failed_ids(run_dir: Path) -> set[str]:
     """Invoices of a saved run whose extraction failed (quota, server error...)."""
     return {
         path.stem
-        for path in run_dir.glob("inv-*.json")
+        for path in saved_answers(run_dir)
         if json.loads(path.read_text())["error"] is not None
     }
 
