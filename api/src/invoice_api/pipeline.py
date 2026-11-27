@@ -44,7 +44,8 @@ def _duplicate_reason(
 ) -> str | None:
     if supplier_id is None or not number:
         return None
-    row = conn.execute(
+    cur = conn.cursor(row_factory=tuple_row)  # row[0] works whatever the connection's format
+    row = cur.execute(
         "select id from invoices where supplier_id = %s and upper(invoice_number) = upper(%s)"
         " and id <> %s limit 1",
         (supplier_id, number, invoice_id),

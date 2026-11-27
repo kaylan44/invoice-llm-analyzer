@@ -6,9 +6,9 @@ Every endpoint except /health requires ``Authorization: Bearer <API_TOKEN>``. Wi
 API_TOKEN configured, the API refuses every request (fails closed): an open upload endpoint
 wired to a paid model is the project's main risk (docs/architecture.md, Risques).
 
-Week 2 scope: upload, list, detail, job status. Corrections, validation and export come with
-the review screen (week 3). Files are stored on local disk (STORAGE_DIR); Supabase Storage
-replaces it at deployment.
+Week 2: upload, list, detail, job status. Week 3: document, corrections, validation and
+export for the review screen (logic in review.py). Files are stored on local disk
+(STORAGE_DIR); Supabase Storage replaces it before real documents are kept.
 """
 
 import os
@@ -17,18 +17,28 @@ import uuid
 from collections.abc import Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Annotated, Any
+from typing import Annotated, Any, Literal
 from uuid import UUID
 
 import psycopg
 from dotenv import load_dotenv
-from fastapi import BackgroundTasks, Depends, FastAPI, Header, HTTPException, UploadFile
+from fastapi import BackgroundTasks, Depends, FastAPI, Header, HTTPException, Response, UploadFile
+from fastapi.responses import FileResponse
 from psycopg.rows import dict_row
 
 from invoice_api.db import database_url
 from invoice_api.embeddings import Embedder, embed
 from invoice_api.extraction import MIME_TYPES, make_client
 from invoice_api.pipeline import create_invoice, run_job
+from invoice_api.review import (
+    InvoiceCorrection,
+    ReviewError,
+    ValidationRequest,
+    correct_invoice,
+    to_csv,
+    validate_invoice,
+    validated_rows,
+)
 
 
 @dataclass
@@ -125,7 +135,7 @@ def create_app(
         invoice = conn.execute("select * from invoices where id = %s", (invoice_id,)).fetchone()
         if invoice is None:
             raise HTTPException(404, "invoice not found")
-        invoice.pop("file_path")  # internal storage path: served later as a signed URL
+        invoice.pop("file_path")  # internal storage path: the file is served by /document
         invoice["lines"] = conn.execute(
             "select position, description, quantity, unit_price, vat_rate, amount,"
             " category_code, category_score from invoice_lines where invoice_id = %s"
@@ -144,6 +154,50 @@ def create_app(
             (invoice_id,),
         ).fetchone()
         return invoice
+
+    # --- Review (week 3) ----------------------------------------------------------------
+
+    @app.get("/invoices/{invoice_id}/document", dependencies=[Auth])
+    def get_document(invoice_id: UUID, conn: Conn) -> FileResponse:
+        row = conn.execute("select file_path from invoices where id = %s", (invoice_id,)).fetchone()
+        path = Path(row["file_path"]) if row else None
+        if path is None or not path.is_file():
+            raise HTTPException(404, "document not found")
+        # Served through the API (and the Next.js relay), never from a public bucket URL.
+        return FileResponse(path, media_type=MIME_TYPES[path.suffix.lower()])
+
+    @app.patch("/invoices/{invoice_id}", dependencies=[Auth])
+    def patch_invoice(
+        invoice_id: UUID, correction: InvoiceCorrection, conn: Conn
+    ) -> dict[str, Any]:
+        try:
+            found = correct_invoice(conn, invoice_id, correction)
+        except ReviewError as exc:
+            raise HTTPException(409, str(exc)) from None
+        if not found:
+            raise HTTPException(404, "invoice not found")
+        return get_invoice(invoice_id, conn)
+
+    @app.post("/invoices/{invoice_id}/validate", dependencies=[Auth])
+    def post_validate(invoice_id: UUID, request: ValidationRequest, conn: Conn) -> dict[str, Any]:
+        try:
+            found = validate_invoice(conn, invoice_id, request)
+        except ReviewError as exc:
+            raise HTTPException(409, str(exc)) from None
+        if not found:
+            raise HTTPException(404, "invoice not found")
+        return get_invoice(invoice_id, conn)
+
+    @app.get("/export", dependencies=[Auth], response_model=None)
+    def export(conn: Conn, format: Literal["csv", "json"] = "json") -> Any:
+        rows = validated_rows(conn)
+        if format == "json":
+            return rows
+        return Response(
+            to_csv(rows),
+            media_type="text/csv; charset=utf-8",
+            headers={"Content-Disposition": 'attachment; filename="invoices.csv"'},
+        )
 
     @app.get("/jobs/{job_id}", dependencies=[Auth])
     def get_job(job_id: UUID, conn: Conn) -> dict[str, Any]:
