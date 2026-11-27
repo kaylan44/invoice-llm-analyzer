@@ -9,7 +9,7 @@ export async function login(_previous: string | null, form: FormData): Promise<s
   const expected = await expectedToken();
   if (!expected) return "DEMO_PASSPHRASE n'est pas configurée : accès fermé.";
   const token = await gateToken(String(form.get("passphrase") ?? ""));
-  if (token !== expected) return "Phrase secrète incorrecte.";
+  if (token !== expected) return "Phrase secrète incorrecte. Vérifie les majuscules et réessaie.";
   (await cookies()).set(GATE_COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",

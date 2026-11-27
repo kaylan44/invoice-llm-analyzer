@@ -7,22 +7,32 @@ import { login } from "./actions";
 export function LoginForm() {
   const [error, action, pending] = useActionState(login, null);
   return (
-    <form action={action} className="mt-6 flex flex-col gap-3">
+    <form action={action} className="mt-5 flex flex-col gap-1">
+      <label htmlFor="passphrase" className="text-sm font-medium">
+        Phrase secrète
+      </label>
       <input
+        id="passphrase"
         name="passphrase"
         type="password"
+        autoComplete="current-password"
         required
         autoFocus
-        className="rounded border border-neutral-300 px-3 py-2"
-        aria-label="Phrase secrète"
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? "passphrase-error" : undefined}
+        className="tap rounded-md border border-slate-300 px-3 text-base outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200"
       />
+      {error && (
+        <p id="passphrase-error" className="text-sm text-red-700">
+          {error}
+        </p>
+      )}
       <button
         disabled={pending}
-        className="rounded bg-neutral-900 px-3 py-2 text-white disabled:opacity-50"
+        className="tap mt-3 rounded-md bg-brand-600 text-sm font-medium text-white hover:bg-brand-700 disabled:opacity-50"
       >
-        Entrer
+        {pending ? "Vérification…" : "Entrer"}
       </button>
-      {error && <p className="text-sm text-red-700">{error}</p>}
     </form>
   );
 }
