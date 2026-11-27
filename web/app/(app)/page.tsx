@@ -73,11 +73,11 @@ async function InvoiceList({ searchParams }: Pick<PageProps<"/">, "searchParams"
           <ul className="mt-4 flex flex-col gap-2 md:hidden">
             {invoices.map((inv) => (
               <li key={inv.id}>
-                <InvoiceCard invoice={inv} />
+                <InvoiceCard invoice={inv} from={status} />
               </li>
             ))}
           </ul>
-          <InvoiceTable invoices={invoices} />
+          <InvoiceTable invoices={invoices} from={status} />
         </>
       )}
     </section>
@@ -101,10 +101,10 @@ function Reasons({ reasons }: { reasons: string[] }) {
 const supplier = (inv: InvoiceSummary) =>
   inv.supplier_name ?? <span className="font-normal text-slate-500">Extraction en cours…</span>;
 
-function InvoiceCard({ invoice: inv }: { invoice: InvoiceSummary }) {
+function InvoiceCard({ invoice: inv, from }: { invoice: InvoiceSummary; from?: InvoiceStatus }) {
   return (
     <Link
-      href={`/invoices/${inv.id}`}
+      href={detailHref(inv.id, from)}
       className="block rounded-xl bg-white p-4 ring-1 ring-slate-200 active:bg-slate-50"
     >
       <span className="flex items-start justify-between gap-3">
@@ -128,7 +128,7 @@ function InvoiceCard({ invoice: inv }: { invoice: InvoiceSummary }) {
   );
 }
 
-function InvoiceTable({ invoices }: { invoices: InvoiceSummary[] }) {
+function InvoiceTable({ invoices, from }: { invoices: InvoiceSummary[]; from?: InvoiceStatus }) {
   return (
     <div className="mt-4 hidden overflow-hidden rounded-xl bg-white ring-1 ring-slate-200 md:block">
       <table className="w-full text-sm">
@@ -150,7 +150,7 @@ function InvoiceTable({ invoices }: { invoices: InvoiceSummary[] }) {
                 <StatusBadge status={inv.status} />
               </td>
               <td className="px-4 py-3 font-medium">
-                <Link href={`/invoices/${inv.id}`} className="after:absolute after:inset-0 focus-visible:underline">
+                <Link href={detailHref(inv.id, from)} className="after:absolute after:inset-0 focus-visible:underline">
                   {supplier(inv)}
                 </Link>
               </td>
@@ -185,4 +185,9 @@ function ListSkeleton() {
       </div>
     </div>
   );
+}
+
+/** ?from= lets the detail page's back button return to the same filter. */
+function detailHref(id: string, from: InvoiceStatus | undefined): string {
+  return `/invoices/${id}${from ? `?from=${from}` : ""}`;
 }

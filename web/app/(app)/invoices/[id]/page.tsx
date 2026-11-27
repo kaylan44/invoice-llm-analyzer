@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { Suspense } from "react";
 
+import { BackToList } from "@/components/back-to-list";
 import { StatusBadge } from "@/components/status-badge";
 import { api } from "@/lib/api";
 import { flaggedFields } from "@/lib/fields";
@@ -13,9 +13,7 @@ import { ReviewLayout } from "./review-layout";
 export default function ReviewPage({ params }: PageProps<"/invoices/[id]">) {
   return (
     <main className="mx-auto w-full max-w-7xl px-4 pt-4 sm:pt-6">
-      <Link href="/" className="tap -ml-2 inline-flex items-center rounded-md px-2 text-sm text-slate-600 hover:bg-slate-100">
-        ← Factures
-      </Link>
+      <BackToList />
       <Suspense fallback={<ReviewSkeleton />}>
         <Review params={params} />
       </Suspense>
@@ -46,7 +44,7 @@ async function Review({ params }: Pick<PageProps<"/invoices/[id]">, "params">) {
 
   return (
     <>
-      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+      <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
         <h1 className="min-w-0 text-xl font-semibold tracking-tight text-brand-950 sm:text-2xl">
           {invoice.supplier_name ?? "Fournisseur inconnu"}
         </h1>

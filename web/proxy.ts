@@ -14,5 +14,5 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   // Public assets the login page needs: the logo and the generated app icons.
-  matcher: ["/((?!login|_next/static|_next/image|favicon.ico|icon.png|apple-icon.png|logo.png).*)"],
+  matcher: ["/((?!login|_next/static|_next/image|icon.png|apple-icon.png|logo.png).*)"],
 };
