@@ -2,7 +2,7 @@
 
 Ce guide met en production l'API FastAPI. Chaque étape qui touche la production (base Supabase, service Railway, clés) se fait **avec ton accord explicite**, et c'est toi qui saisis les secrets : ils ne passent jamais par le dépôt ni par Claude.
 
-État au 27 novembre 2026 : l'image Docker est construite et testée en local (santé, jeton obligatoire, utilisateur non privilégié). Rien n'est déployé.
+État au 27 novembre 2026 : déployé. Supabase (eu-west-1, Data API désactivée) a la migration initiale et les 15 catégories ; l'API tourne sur Railway et a traité une facture synthétique de bout en bout.
 
 ## Ce qu'il faut avant
 
@@ -19,8 +19,11 @@ Ce guide met en production l'API FastAPI. Chaque étape qui touche la production
 ```bash
 supabase login
 supabase link --project-ref <ref-du-projet>
-supabase db push            # applique supabase/migrations/ sur la base distante
+supabase db push --remote --dry-run   # liste les migrations qui seraient appliquées
+supabase db push --remote             # les applique sur le projet lié (accord requis)
 ```
+
+Depuis la CLI 3.x, `supabase db push` vise la base **locale** par défaut : `--remote` est obligatoire pour le projet lié (`supabase db push --help`, CLI 3.4.0).
 
 Puis charger les catégories comptables (un appel d'embedding, sur la clé Gemini de prod) :
 
@@ -38,8 +41,8 @@ DATABASE_URL='<chaîne de connexion Supabase>' GEMINI_API_KEY='<clé prod>' \
 
 | Variable | Valeur |
 | --- | --- |
-| `API_TOKEN` | jeton aléatoire, par exemple `openssl rand -base64 32` |
-| `DATABASE_URL` | chaîne de connexion Supabase (pooler) |
+| `API_TOKEN` | jeton aléatoire à créer soi-même : `openssl rand -base64 32`. Sans lui, l'API répond 503 à tout sauf `/health` |
+| `DATABASE_URL` | pooler partagé en **mode session** (port 5432, IPv4) : `postgresql://postgres.<ref>:<mot-de-passe>@<hôte-pooler>:5432/postgres`, hôte copié depuis le bouton Connect. Pas la connexion directe (IPv6 seulement sur Free/Pro, IPv6 sortant désactivé par défaut sur Railway), pas le mode transaction 6543 (pas de requêtes préparées, que psycopg 3 utilise) ([doc](https://supabase.com/docs/guides/database/connecting-to-postgres)) |
 | `GEMINI_API_KEY` | clé du projet Google **prod** (facturation activée) |
 | `EXTRACTION_MODEL` | `gemini-3.5-flash-lite` |
 | `EMBEDDING_MODEL` | `gemini-embedding-2` |
@@ -56,6 +59,14 @@ curl -i https://<service>.up.railway.app/invoices             # 401 sans jeton
 curl -H "Authorization: Bearer $API_TOKEN" https://<service>.up.railway.app/invoices
 curl -H "Authorization: Bearer $API_TOKEN" -F file=@evals/data/week2/inv-001.pdf \
   https://<service>.up.railway.app/invoices                    # 202, puis GET /invoices/{id}
+```
+
+Domaine public : Settings → Networking → Generate Domain, avec le port qu'affiche uvicorn dans les Deploy Logs (8080, injecté par Railway via `PORT`).
+
+Côté base, une lecture sans mot de passe ni risque d'écriture :
+
+```bash
+supabase db query --remote --read-only "select status, error from jobs"
 ```
 
 N'envoie que des factures synthétiques tant que le stockage n'est pas réglé (point suivant).
