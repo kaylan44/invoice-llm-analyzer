@@ -221,6 +221,8 @@ Lecture :
 - Le harnais compte ce renvoi en revue comme un faux positif, parce que le statut attendu ne dépend que du document (piège, illisible, tache), pas de ce que le modèle a lu. Décision ouverte ci-dessous.
 - Le plafond est cassé seulement sur les scans dégradés, et de peu : 1 erreur sur 72 champs d'en-tête. Avec 24 factures, un écart d'une ou deux erreurs entre deux versions ne prouve rien. Pour départager v1 et v2, il faut plus de scans `medium` et les vraies factures.
 
+**Comparer deux versions.** `python -m invoice_evals.compare --data <jeu> --a <run A> --b <run B>` donne, par groupe de champs, l'exactitude de chaque run avec son intervalle de Wilson à 95 %, et la différence B − A avec un intervalle bootstrap apparié par facture. Le verdict « B meilleur » exige que tout l'intervalle soit au-dessus de 0. Deux runs de la v1 sur le jeu de la semaine 3 diffèrent sur 4 champs (2 dans chaque sens) : c'est le bruit du modèle à température par défaut, et l'outil conclut « pas de différence démontrée » (`evals/baselines/week3_v1_rerun.md`). À 100 % sur 72 champs, l'intervalle de Wilson va encore de 94,9 % à 100 %.
+
 ## Clé d'API Gemini, offre gratuite et coûts
 
 Une clé Gemini, créée dans Google AI Studio et rattachée à un projet Google Cloud, couvre l'extraction, l'agent, le juge, le reranking et les embeddings.

@@ -1,0 +1,132 @@
+{
+  "a": "20261127-071959_gemini-3.5-flash-lite_v1_9a4ba65-dirty",
+  "b": "20261127-072759_gemini-3.5-flash-lite_v1_0796263-dirty",
+  "n_invoices": 24,
+  "groups": {
+    "Tous les champs": {
+      "n": 2138,
+      "a": {
+        "correct": 2128,
+        "interval": [
+          0.9914112169663197,
+          0.9974574276617424
+        ]
+      },
+      "b": {
+        "correct": 2128,
+        "interval": [
+          0.9914112169663197,
+          0.9974574276617424
+        ]
+      },
+      "difference": {
+        "value": 0.0,
+        "low": -0.0013,
+        "high": 0.0014
+      },
+      "only_a": 2,
+      "only_b": 2,
+      "verdict": "pas de différence démontrée"
+    },
+    "Fournisseur": {
+      "n": 72,
+      "a": {
+        "correct": 71,
+        "interval": [
+          0.9254321971571302,
+          0.9975441113595678
+        ]
+      },
+      "b": {
+        "correct": 71,
+        "interval": [
+          0.9254321971571302,
+          0.9975441113595678
+        ]
+      },
+      "difference": {
+        "value": 0.0,
+        "low": 0.0,
+        "high": 0.0
+      },
+      "only_a": 0,
+      "only_b": 0,
+      "verdict": "pas de différence démontrée"
+    },
+    "Date et n° de facture": {
+      "n": 72,
+      "a": {
+        "correct": 72,
+        "interval": [
+          0.9493470601886036,
+          1.0
+        ]
+      },
+      "b": {
+        "correct": 72,
+        "interval": [
+          0.9493470601886036,
+          1.0
+        ]
+      },
+      "difference": {
+        "value": 0.0,
+        "low": 0.0,
+        "high": 0.0
+      },
+      "only_a": 0,
+      "only_b": 0,
+      "verdict": "pas de différence démontrée"
+    },
+    "Totaux et devise": {
+      "n": 96,
+      "a": {
+        "correct": 96,
+        "interval": [
+          0.9615230525151842,
+          1.0
+        ]
+      },
+      "b": {
+        "correct": 96,
+        "interval": [
+          0.9615230525151842,
+          1.0
+        ]
+      },
+      "difference": {
+        "value": 0.0,
+        "low": 0.0,
+        "high": 0.0
+      },
+      "only_a": 0,
+      "only_b": 0,
+      "verdict": "pas de différence démontrée"
+    },
+    "Lignes": {
+      "n": 1874,
+      "a": {
+        "correct": 1865,
+        "interval": [
+          0.9908974517780823,
+          0.9974713222441779
+        ]
+      },
+      "b": {
+        "correct": 1865,
+        "interval": [
+          0.9908974517780823,
+          0.9974713222441779
+        ]
+      },
+      "difference": {
+        "value": 0.0,
+        "low": -0.0015,
+        "high": 0.0016
+      },
+      "only_a": 2,
+      "only_b": 2,
+      "verdict": "pas de différence démontrée"
+    }
+  }
+}
