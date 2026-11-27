@@ -1,0 +1,30 @@
+{
+  "id": "inv-012",
+  "truth": {
+    "supplier_name": "Lewis, Watson and Singh",
+    "supplier_vat_number": "GB219136193",
+    "supplier_siret": null,
+    "invoice_number": "INV-09486",
+    "issue_date": "2026-09-15",
+    "due_date": "2026-10-30",
+    "currency": "GBP",
+    "total_excl_vat": "1160.00",
+    "total_vat": "232.00",
+    "total_incl_vat": "1402.00",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Black toner cartridge",
+        "quantity": "20",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "1160.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "84 Cooper Point, S4A 4RA Normanhaven",
+    "client_name": "Ellis, Bradshaw and Clark",
+    "client_address": "5 Charlotte Ramp, LS5 7AZ Leonmouth"
+  }
+}

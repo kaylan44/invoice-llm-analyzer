@@ -1,0 +1,16 @@
+{"id": "inv-001", "language": "fr", "file": "inv-001.json", "document": "inv-001.pdf", "layout": "classic", "font": "DejaVu Sans", "degradation": null}
+{"id": "inv-002", "language": "en", "file": "inv-002.json", "document": "inv-002.pdf", "layout": "band", "font": "DejaVu Serif", "degradation": null}
+{"id": "inv-003", "language": "fr", "file": "inv-003.json", "document": "inv-003.pdf", "layout": "band", "font": "Ubuntu", "degradation": {"level": "light", "rotation": 0.99, "blur": 0.59, "noise": 8, "jpeg_quality": 67, "dpi": 150}}
+{"id": "inv-004", "language": "en", "file": "inv-004.json", "document": "inv-004.pdf", "layout": "classic", "font": "DejaVu Sans", "degradation": {"level": "heavy", "rotation": -2.88, "blur": 1.24, "noise": 13, "jpeg_quality": 44, "dpi": 150}}
+{"id": "inv-005", "language": "fr", "file": "inv-005.json", "document": "inv-005.pdf", "layout": "band", "font": "DejaVu Serif", "degradation": null}
+{"id": "inv-006", "language": "en", "file": "inv-006.json", "document": "inv-006.pdf", "layout": "band", "font": "DejaVu Serif", "degradation": null}
+{"id": "inv-007", "language": "fr", "file": "inv-007.json", "document": "inv-007.pdf", "layout": "classic", "font": "DejaVu Serif", "degradation": {"level": "heavy", "rotation": -2.72, "blur": 1.26, "noise": 11, "jpeg_quality": 33, "dpi": 150}}
+{"id": "inv-008", "language": "en", "file": "inv-008.json", "document": "inv-008.pdf", "layout": "classic", "font": "DejaVu Serif", "degradation": null}
+{"id": "inv-009", "language": "fr", "file": "inv-009.json", "document": "inv-009.pdf", "layout": "band", "font": "DejaVu Serif", "degradation": null}
+{"id": "inv-010", "language": "en", "file": "inv-010.json", "document": "inv-010.pdf", "layout": "band", "font": "Ubuntu", "degradation": {"level": "light", "rotation": 1.14, "blur": 0.62, "noise": 4, "jpeg_quality": 64, "dpi": 150}}
+{"id": "inv-011", "language": "fr", "file": "inv-011.json", "document": "inv-011.pdf", "layout": "band", "font": "Ubuntu", "degradation": {"level": "illegible", "rotation": 6.73, "blur": 2.38, "noise": 45, "jpeg_quality": 11, "dpi": 72}}
+{"id": "inv-012", "language": "en", "file": "inv-012.json", "trap": "total_mismatch", "document": "inv-012.pdf", "layout": "classic", "font": "DejaVu Sans", "degradation": null}
+{"id": "inv-013", "language": "fr", "file": "inv-013.json", "trap": "bad_siret", "document": "inv-013.pdf", "layout": "classic", "font": "Ubuntu", "degradation": null}
+{"id": "inv-014", "language": "en", "file": "inv-014.json", "trap": "due_before_issue", "document": "inv-014.pdf", "layout": "band", "font": "DejaVu Sans", "degradation": null}
+{"id": "inv-015", "language": "fr", "file": "inv-015.json", "trap": "lines_sum_mismatch", "document": "inv-015.pdf", "layout": "band", "font": "Ubuntu", "degradation": null}
+{"id": "inv-016", "language": "en", "file": "inv-016.json", "trap": "vat_mismatch", "document": "inv-016.pdf", "layout": "classic", "font": "Ubuntu", "degradation": null}

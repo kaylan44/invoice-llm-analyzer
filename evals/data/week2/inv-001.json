@@ -1,0 +1,37 @@
+{
+  "id": "inv-001",
+  "truth": {
+    "supplier_name": "Lemaître Bouvier S.A.S.",
+    "supplier_vat_number": "FR25919600130",
+    "supplier_siret": "91960013038901",
+    "invoice_number": "FAC-2026-9196",
+    "issue_date": "2026-01-13",
+    "due_date": "2026-03-14",
+    "currency": "EUR",
+    "total_excl_vat": "662.50",
+    "total_vat": "132.50",
+    "total_incl_vat": "795.00",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Maintenance informatique",
+        "quantity": "8",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "600.00"
+      },
+      {
+        "description": "Cartouches toner noir",
+        "quantity": "1",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "62.50"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "70, chemin Jacques, 55963 Leroy",
+    "client_name": "Ramos",
+    "client_address": "24, boulevard Paris, 87821 ParentVille"
+  }
+}

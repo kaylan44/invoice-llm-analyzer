@@ -32,36 +32,44 @@ class CatalogItem:
     description: str
     unit_price: Decimal
     vat_rate: Decimal
+    category: str  # accounting category code, see invoice_api/reference/categories.json
     hourly: bool = False  # hourly items get fractional quantities (1.5 h)
 
 
-def _item(description: str, price: str, rate: str, hourly: bool = False) -> CatalogItem:
-    return CatalogItem(description, Decimal(price), Decimal(rate), hourly)
+def _item(
+    description: str, price: str, rate: str, category: str, hourly: bool = False
+) -> CatalogItem:
+    return CatalogItem(description, Decimal(price), Decimal(rate), category, hourly)
 
 
 # French VAT: 20 % standard, 10 % catering, 5.5 % books. UK VAT: 20 %, 5 % (child car seats),
-# 0 % (books).
+# 0 % (books). Categories are the expected answer of the line classification (week 2).
 CATALOG: dict[Language, list[CatalogItem]] = {
     "fr": [
-        _item("Ramettes papier A4 80 g", "4.90", "20"),
-        _item("Cartouches toner noir", "62.50", "20"),
-        _item("Classeurs à levier", "3.20", "20"),
-        _item("Maintenance informatique", "75.00", "20", hourly=True),
-        _item("Ouvrages techniques", "34.00", "5.5"),
-        _item("Repas d'affaires", "18.50", "10"),
-        _item("Transport de marchandises", "120.00", "20"),
-        _item("Abonnement logiciel mensuel", "49.00", "20"),
+        _item("Ramettes papier A4 80 g", "4.90", "20", "6064"),
+        _item("Cartouches toner noir", "62.50", "20", "6064"),
+        _item("Classeurs à levier", "3.20", "20", "6064"),
+        _item("Maintenance informatique", "75.00", "20", "6156", hourly=True),
+        _item("Ouvrages techniques", "34.00", "5.5", "6181"),
+        _item("Repas d'affaires", "18.50", "10", "6257"),
+        _item("Transport de marchandises", "120.00", "20", "6241"),
+        _item("Abonnement logiciel mensuel", "49.00", "20", "6135"),
     ],
     "en": [
-        _item("A4 copier paper, box of 5 reams", "24.99", "20"),
-        _item("Black toner cartridge", "58.00", "20"),
-        _item("Lever arch files", "2.75", "20"),
-        _item("IT support", "65.00", "20", hourly=True),
-        _item("Technical books", "29.00", "0"),
-        _item("Child car seat", "89.00", "5"),
-        _item("Courier delivery", "15.00", "20"),
-        _item("Monthly software subscription", "39.00", "20"),
+        _item("A4 copier paper, box of 5 reams", "24.99", "20", "6064"),
+        _item("Black toner cartridge", "58.00", "20", "6064"),
+        _item("Lever arch files", "2.75", "20", "6064"),
+        _item("IT support", "65.00", "20", "6156", hourly=True),
+        _item("Technical books", "29.00", "0", "6181"),
+        _item("Child car seat", "89.00", "5", "6063"),
+        _item("Courier delivery", "15.00", "20", "6241"),
+        _item("Monthly software subscription", "39.00", "20", "6135"),
     ],
+}
+
+# Ground truth of the line classification: catalog description -> category code.
+CATEGORY_OF: dict[str, str] = {
+    item.description: item.category for items in CATALOG.values() for item in items
 }
 
 CURRENCY: dict[Language, Currency] = {"fr": "EUR", "en": "GBP"}
@@ -175,6 +183,64 @@ def generate_invoice(rng: random.Random, language: Language, invoice_id: str) ->
         client_address=f"{fake.street_address()}, {fake.postcode()} {fake.city()}",
     )
     return GeneratedInvoice(id=invoice_id, truth=truth, render=render)
+
+
+# --- Trap invoices (week 2) ------------------------------------------------------------
+# A trap prints an inconsistent invoice on purpose. The ground truth stays what is printed
+# (the model must read the wrong value as it is); the consistency checks must then flag it.
+# Each trap breaks exactly one check, named in TRAP_CHECK.
+
+
+def _trap_total_mismatch(t: InvoiceTruth) -> dict[str, object]:
+    return {"total_incl_vat": t.total_incl_vat + Decimal("10.00")}
+
+
+def _trap_lines_sum_mismatch(t: InvoiceTruth) -> dict[str, object]:
+    # Excl. VAT and incl. VAT both shifted: HT + TVA = TTC still holds, the line sum does not.
+    return {
+        "total_excl_vat": t.total_excl_vat + Decimal("5.00"),
+        "total_incl_vat": t.total_incl_vat + Decimal("5.00"),
+    }
+
+
+def _trap_vat_mismatch(t: InvoiceTruth) -> dict[str, object]:
+    return {
+        "total_vat": t.total_vat + Decimal("1.00"),
+        "total_incl_vat": t.total_incl_vat + Decimal("1.00"),
+    }
+
+
+def _trap_due_before_issue(t: InvoiceTruth) -> dict[str, object]:
+    return {"due_date": t.issue_date - timedelta(days=10)}
+
+
+def _trap_bad_siret(t: InvoiceTruth) -> dict[str, object]:
+    if t.supplier_siret is None:
+        raise ValueError("bad_siret needs a French invoice")
+    last = (int(t.supplier_siret[-1]) + 1) % 10  # one changed digit breaks the Luhn checksum
+    return {"supplier_siret": t.supplier_siret[:-1] + str(last)}
+
+
+TRAPS: dict[str, Callable[[InvoiceTruth], dict[str, object]]] = {
+    "total_mismatch": _trap_total_mismatch,
+    "lines_sum_mismatch": _trap_lines_sum_mismatch,
+    "vat_mismatch": _trap_vat_mismatch,
+    "due_before_issue": _trap_due_before_issue,
+    "bad_siret": _trap_bad_siret,
+}
+TRAP_CHECK = {
+    "total_mismatch": "totals",
+    "lines_sum_mismatch": "lines_sum",
+    "vat_mismatch": "vat_amount",
+    "due_before_issue": "dates",
+    "bad_siret": "identifiers",
+}
+
+
+def apply_trap(invoice: GeneratedInvoice, trap: str) -> GeneratedInvoice:
+    changes = TRAPS[trap](invoice.truth)
+    truth = InvoiceTruth.model_validate({**invoice.truth.model_dump(), **changes})
+    return invoice.model_copy(update={"truth": truth})
 
 
 def generate_dataset(n: int, seed: int) -> list[GeneratedInvoice]:

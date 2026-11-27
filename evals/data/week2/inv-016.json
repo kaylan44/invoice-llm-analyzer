@@ -1,0 +1,58 @@
+{
+  "id": "inv-016",
+  "truth": {
+    "supplier_name": "Shah, Reynolds and Webb",
+    "supplier_vat_number": "GB620450533",
+    "supplier_siret": null,
+    "invoice_number": "SI-2026-1685",
+    "issue_date": "2026-10-10",
+    "due_date": null,
+    "currency": "GBP",
+    "total_excl_vat": "1524.80",
+    "total_vat": "279.26",
+    "total_incl_vat": "1804.06",
+    "language": "en",
+    "lines": [
+      {
+        "description": "A4 copier paper, box of 5 reams",
+        "quantity": "20",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "499.80"
+      },
+      {
+        "description": "Monthly software subscription",
+        "quantity": "3",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "117.00"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "10",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "150.00"
+      },
+      {
+        "description": "Black toner cartridge",
+        "quantity": "10",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "580.00"
+      },
+      {
+        "description": "Child car seat",
+        "quantity": "2",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "178.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "4 Clark Garden, N20 1YD Abbottfort",
+    "client_name": "Hayes Group",
+    "client_address": "Flat 02\nBailey Expressway, E8D 2NR East Denismouth"
+  }
+}

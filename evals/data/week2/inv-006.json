@@ -1,0 +1,58 @@
+{
+  "id": "inv-006",
+  "truth": {
+    "supplier_name": "Harding PLC",
+    "supplier_vat_number": "GB627048281",
+    "supplier_siret": null,
+    "invoice_number": "SI-2026-4890",
+    "issue_date": "2026-11-02",
+    "due_date": null,
+    "currency": "GBP",
+    "total_excl_vat": "1337.22",
+    "total_vat": "138.09",
+    "total_incl_vat": "1475.31",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Technical books",
+        "quantity": "20",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "580.00"
+      },
+      {
+        "description": "Monthly software subscription",
+        "quantity": "15",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "585.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams",
+        "quantity": "3",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "74.97"
+      },
+      {
+        "description": "Child car seat",
+        "quantity": "1",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "89.00"
+      },
+      {
+        "description": "Lever arch files",
+        "quantity": "3",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "8.25"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "65 Gardner Groves, CA06 8NN North Jadeland",
+    "client_name": "Smith-Hunt",
+    "client_address": "09 Ashleigh Square, TN9W 9QB Callumfurt"
+  }
+}

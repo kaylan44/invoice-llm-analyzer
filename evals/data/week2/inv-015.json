@@ -1,0 +1,44 @@
+{
+  "id": "inv-015",
+  "truth": {
+    "supplier_name": "Louis Gautier SA",
+    "supplier_vat_number": "FR36587401647",
+    "supplier_siret": "58740164700520",
+    "invoice_number": "FAC-2026-4292",
+    "issue_date": "2026-02-24",
+    "due_date": "2026-04-10",
+    "currency": "EUR",
+    "total_excl_vat": "787.00",
+    "total_vat": "82.45",
+    "total_incl_vat": "869.45",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Ouvrages techniques",
+        "quantity": "15",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "510.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel",
+        "quantity": "3",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "147.00"
+      },
+      {
+        "description": "Cartouches toner noir",
+        "quantity": "2",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "125.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "298, boulevard Courtois, 93268 Courtois",
+    "client_name": "Labbé",
+    "client_address": "31, boulevard Joly, 24117 Clerc"
+  }
+}

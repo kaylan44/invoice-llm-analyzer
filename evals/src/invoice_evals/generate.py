@@ -5,6 +5,10 @@
     # Add invoices to an existing dataset without touching the others:
     uv run python -m invoice_evals.generate --n 11 --seed 42 --out evals/data/week1 --only inv-011
 
+    # Print inconsistent invoices on purpose (week 2):
+    uv run python -m invoice_evals.generate --n 16 --seed 42 --out evals/data/week2 \
+        --trap inv-012=total_mismatch inv-013=bad_siret
+
 Writes one ``<id>.json`` per invoice (ground truth + render info) and ``manifest.jsonl``
 (one line per invoice; step 4 adds the rendered file and its degradation).
 
@@ -16,7 +20,7 @@ import argparse
 import json
 from pathlib import Path
 
-from invoice_evals.generator import generate_dataset
+from invoice_evals.generator import TRAPS, apply_trap, generate_dataset
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -25,7 +29,15 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--seed", type=int, default=42, help="random seed")
     parser.add_argument("--out", type=Path, required=True, help="output directory")
     parser.add_argument("--only", nargs="*", default=None, metavar="ID", help="write only these")
+    parser.add_argument(
+        "--trap", nargs="*", default=[], metavar="ID=TRAP", help=f"one of {sorted(TRAPS)}"
+    )
     args = parser.parse_args(argv)
+
+    traps = dict(item.partition("=")[::2] for item in args.trap)
+    unknown = set(traps.values()) - set(TRAPS)
+    if unknown:
+        raise SystemExit(f"unknown trap(s): {sorted(unknown)}")
 
     args.out.mkdir(parents=True, exist_ok=True)
     manifest_path = args.out / "manifest.jsonl"
@@ -40,6 +52,9 @@ def main(argv: list[str] | None = None) -> None:
     for invoice in generate_dataset(args.n, args.seed):
         if args.only is not None and invoice.id not in args.only:
             continue
+        trap = traps.get(invoice.id)
+        if trap:
+            invoice = apply_trap(invoice, trap)
         path = args.out / f"{invoice.id}.json"
         path.write_text(invoice.model_dump_json(indent=2) + "\n", encoding="utf-8")
         entries[invoice.id] = {
@@ -47,6 +62,8 @@ def main(argv: list[str] | None = None) -> None:
             "language": invoice.truth.language,
             "file": path.name,
         }
+        if trap:
+            entries[invoice.id]["trap"] = trap
         written += 1
 
     lines = [json.dumps(entries[i], ensure_ascii=False) for i in sorted(entries)]

@@ -1,0 +1,58 @@
+{
+  "id": "inv-007",
+  "truth": {
+    "supplier_name": "Dias",
+    "supplier_vat_number": "FR55139117188",
+    "supplier_siret": "13911718822789",
+    "invoice_number": "F26-2706",
+    "issue_date": "2026-07-11",
+    "due_date": "2026-08-25",
+    "currency": "EUR",
+    "total_excl_vat": "381.40",
+    "total_vat": "61.49",
+    "total_incl_vat": "442.89",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Ramettes papier A4 80 g",
+        "quantity": "1",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "4.90"
+      },
+      {
+        "description": "Ouvrages techniques",
+        "quantity": "3",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "102.00"
+      },
+      {
+        "description": "Classeurs à levier",
+        "quantity": "20",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "64.00"
+      },
+      {
+        "description": "Maintenance informatique",
+        "quantity": "1.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "112.50"
+      },
+      {
+        "description": "Abonnement logiciel mensuel",
+        "quantity": "2",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "98.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "98, rue de Descamps, 60722 Langlois-sur-Pichon",
+    "client_name": "Techer Buisson S.A.S.",
+    "client_address": "avenue Joseph Pineau, 87391 Sainte Claudedan"
+  }
+}

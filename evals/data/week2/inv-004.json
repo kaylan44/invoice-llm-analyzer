@@ -1,0 +1,58 @@
+{
+  "id": "inv-004",
+  "truth": {
+    "supplier_name": "Porter, Smith and Johnson",
+    "supplier_vat_number": "GB835030564",
+    "supplier_siret": null,
+    "invoice_number": "SI-2026-1085",
+    "issue_date": "2026-05-17",
+    "due_date": "2026-06-16",
+    "currency": "GBP",
+    "total_excl_vat": "1520.75",
+    "total_vat": "235.10",
+    "total_incl_vat": "1755.85",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Lever arch files",
+        "quantity": "5",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "13.75"
+      },
+      {
+        "description": "Technical books",
+        "quantity": "5",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "145.00"
+      },
+      {
+        "description": "Child car seat",
+        "quantity": "3",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "267.00"
+      },
+      {
+        "description": "Black toner cartridge",
+        "quantity": "15",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "870.00"
+      },
+      {
+        "description": "Courier delivery",
+        "quantity": "15",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "225.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "27 Banks Road, SL69 8FF Davidtown",
+    "client_name": "Bentley-Higgins",
+    "client_address": "75 Harrison Causeway, W7 3XH South Alexandra"
+  }
+}
