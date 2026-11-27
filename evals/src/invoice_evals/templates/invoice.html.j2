@@ -80,9 +80,16 @@
 
   <table class="totals">
     <tr><td>{{ L.total_excl }}</td><td class="num">{{ t.total_excl_vat | fmoney }}</td></tr>
+    {#- The printed VAT total is always the ground truth's total_vat, so a trap on it is
+        visible on the page. With several rates, the per-rate table comes first. -#}
+    {% if breakdown | length > 1 %}
     {% for v in breakdown %}
-    <tr><td>{{ L.vat }} {{ v.rate | fnum }} %{% if breakdown | length > 1 %} ({{ L.on }} {{ v.base | fmoney }}){% endif %}</td><td class="num">{{ v.vat | fmoney }}</td></tr>
+    <tr><td>{{ L.vat }} {{ v.rate | fnum }} % ({{ L.on }} {{ v.base | fmoney }})</td><td class="num">{{ v.vat | fmoney }}</td></tr>
     {% endfor %}
+    <tr><td>{{ L.total_vat }}</td><td class="num">{{ t.total_vat | fmoney }}</td></tr>
+    {% else %}
+    <tr><td>{{ L.vat }} {{ breakdown[0].rate | fnum }} %</td><td class="num">{{ t.total_vat | fmoney }}</td></tr>
+    {% endif %}
     <tr class="grand"><td>{{ L.total_incl }}</td><td class="num">{{ t.total_incl_vat | fmoney }}</td></tr>
   </table>
 

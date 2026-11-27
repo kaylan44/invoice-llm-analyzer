@@ -62,6 +62,8 @@ def test_html_shows_the_ground_truth(invoices: list[GeneratedInvoice]) -> None:
         assert t.invoice_number in html
         assert format_money(t.total_incl_vat, t.currency, t.language) in html
         assert "None" not in html  # an absent value must not be printed as "None"
+        # Every scored value must be printed: here the VAT total, which a trap can change.
+        assert format_money(t.total_vat, t.currency, t.language) in html
         if t.due_date is None:
             assert ("Échéance" if t.language == "fr" else "Due date") not in html
 
