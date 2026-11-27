@@ -31,6 +31,8 @@ export function ReviewForm({ invoice }: { invoice: Invoice }) {
   const locked = invoice.status === "validated";
   const flagged = flaggedFields(invoice.review_reasons, invoice);
   const byName = new Map(FIELDS.map((f) => [f.name, f]));
+  // Where a reason with no field of its own (required_fields) leads: the first flagged field.
+  const firstFlagged = FIELD_GROUPS.flatMap((g) => g.fields).find((name) => flagged.has(name)) ?? null;
 
   function track(event: FormEvent<HTMLFormElement>) {
     const input = event.target as HTMLInputElement;
@@ -70,7 +72,7 @@ export function ReviewForm({ invoice }: { invoice: Invoice }) {
               const { label, detail, field } = parseReason(reason);
               return (
                 <li key={reason}>
-                  <button type="button" onClick={() => focusField(field)} className="text-left hover:underline">
+                  <button type="button" onClick={() => focusField(field ?? firstFlagged)} className="text-left hover:underline">
                     <span className="font-medium">{label}</span>
                     {detail && ` · ${detail}`}
                   </button>
