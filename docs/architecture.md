@@ -223,6 +223,24 @@ Lecture :
 
 **Comparer deux versions.** `python -m invoice_evals.compare --data <jeu> --a <run A> --b <run B>` donne, par groupe de champs, l'exactitude de chaque run avec son intervalle de Wilson à 95 %, et la différence B − A avec un intervalle bootstrap apparié par facture. Le verdict « B meilleur » exige que tout l'intervalle soit au-dessus de 0. Deux runs de la v1 sur le jeu de la semaine 3 diffèrent sur 4 champs (2 dans chaque sens) : c'est le bruit du modèle à température par défaut, et l'outil conclut « pas de différence démontrée » (`evals/baselines/week3_v1_rerun.md`). À 100 % sur 72 champs, l'intervalle de Wilson va encore de 94,9 % à 100 %.
 
+**Champs masqués : correction de la métrique (semaine 3).** Sous une tache, `null` est désormais compté juste et toute valeur comptée « inventée ». Avant, la référence était la valeur imprimée sous la tache : un modèle qui recalculait les totaux cachés était récompensé. Les baselines `week2` et `week3` ont été recalculées sans rappeler le modèle (`--rescore`) : la v1 passe à 100 % sur les totaux de la semaine 2.
+
+**Agent v2 contre pipeline v1** (`api/src/invoice_api/agent.py`). L'agent reçoit le document et deux outils : `check_extraction` lance les contrôles de cohérence sur un brouillon, `submit_extraction` rend la réponse finale. La boucle est écrite à la main (mode `ANY`, 4 tours au plus). Mesure du 27 novembre 2026, `gemini-3.5-flash-lite`, comparaison appariée (`evals/baselines/week2_v1_v2.md`, `week3_v1_v2.md`) :
+
+| Jeu | v1 | v2 | B − A [IC 95 %] | Justes v1 seule / v2 seule | Détection « à vérifier » |
+| --- | --- | --- | --- | --- | --- |
+| Semaine 2 (16 factures) | 100,0 % | 99,0 % | −1,0 % [−2,4 ; 0,0] | 5 / 0 | v1 6/6 ; v2 5/6, la facture tachée passe |
+| Semaine 3 (24 factures) | 99,5 % | 99,3 % | −0,3 % [−0,8 ; 0,0] | 10 / 4 | identique |
+
+Coût sur la semaine 3 : 125 377 tokens en entrée pour la v2 contre 22 720 pour la v1 (5,5 fois plus : le PDF est renvoyé à chaque tour), 0,137 $ contre 0,082 $ sur l'offre payante.
+
+Lecture :
+
+- La v2 ne fait mieux sur aucun groupe. Aucune différence n'est démontrée, mais toutes vont dans le même sens. **Décision : la v1 reste le pipeline de l'API**, comme prévu tant que l'agent ne bat pas la baseline.
+- L'erreur la plus grave de l'agent est sur la facture tachée de la semaine 2 : il remplit les trois totaux cachés au lieu de `null`, le contrôle des champs obligatoires passe, et la facture échappe à la revue humaine. Le prompt de l'agent parle de sommes à vérifier, ce qui l'incite à recalculer : c'est le risque attendu d'un agent qui « répare ».
+- Dans 21 factures sur 24, l'agent appelle `check_extraction` une fois, tout passe, il soumet : il ne fait rien de plus que la v1, pour cinq fois plus de tokens. Les erreurs qu'il devait rattraper (B/8 dans une référence) ne cassent aucun contrôle, donc l'outil ne les voit pas.
+- Piste pour une v3 : des outils qui apportent une information que le modèle n'a pas (annuaire des fournisseurs par n° de TVA, zoom sur une zone de la page), plutôt que des contrôles qu'il peut refaire seul.
+
 ## Clé d'API Gemini, offre gratuite et coûts
 
 Une clé Gemini, créée dans Google AI Studio et rattachée à un projet Google Cloud, couvre l'extraction, l'agent, le juge, le reranking et les embeddings.
