@@ -51,6 +51,36 @@ export function flaggedFields(
   return flagged;
 }
 
+/** Review form sections, in display order. */
+export const FIELD_GROUPS: { title: string; fields: FieldName[] }[] = [
+  { title: "Fournisseur", fields: ["supplier_name", "supplier_vat_number", "supplier_siret"] },
+  { title: "Facture", fields: ["invoice_number", "issue_date", "due_date", "currency"] },
+  { title: "Montants", fields: ["total_excl_vat", "total_vat", "total_incl_vat"] },
+];
+
+const CHECK_LABELS: Record<string, string> = {
+  totals: "Totaux incohérents",
+  lines_sum: "Somme des lignes",
+  vat_amount: "Montant de TVA",
+  dates: "Dates",
+  currency: "Devise",
+  identifiers: "Identifiants",
+  duplicate: "Doublon possible",
+  required_fields: "Champs manquants",
+  extraction_failed: "Échec d'extraction",
+};
+
+/** "totals: HT + TVA != TTC" -> { check: "totals", label: "Totaux incohérents", detail: "HT + TVA != TTC" }. */
+export function parseReason(reason: string) {
+  const [check, ...rest] = reason.split(":");
+  return {
+    check,
+    label: CHECK_LABELS[check] ?? check,
+    detail: rest.join(":").trim(),
+    field: FIELDS_BY_CHECK[check]?.[0] ?? null,
+  };
+}
+
 export const STATUS_LABELS = {
   pending: "En attente",
   to_review: "À vérifier",

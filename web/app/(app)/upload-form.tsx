@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 
-import { uploadInvoice } from "./actions";
+import { uploadInvoice } from "@/app/actions";
 
 export function UploadForm() {
   const [error, action, pending] = useActionState(uploadInvoice, null);
