@@ -57,7 +57,10 @@ export function ReviewLayout({
         <div className={`${tab === "doc" ? "flex" : "hidden"} flex-col gap-3 lg:sticky lg:top-20 lg:flex`}>
           {showDocument && (
             <iframe
-              src={documentUrl}
+              // PDF open parameters: fit the page width, hide the dark toolbar and the
+              // thumbnails pane. Chrome/Edge read view, toolbar and navpanes; Firefox's
+              // pdf.js reads zoom and pagemode. Images ignore the fragment.
+              src={`${documentUrl}#view=FitH&zoom=page-width&toolbar=0&navpanes=0&pagemode=none`}
               title="Document"
               className="h-[70dvh] w-full rounded-xl bg-white ring-1 ring-slate-200 lg:h-[calc(100dvh-7rem)]"
             />
@@ -66,7 +69,8 @@ export function ReviewLayout({
             href={documentUrl}
             target="_blank"
             rel="noopener"
-            className="tap flex items-center justify-center rounded-md text-sm text-brand-800 ring-1 ring-slate-200 hover:bg-white lg:hidden"
+            // On desktop too: with the toolbar hidden, the new tab is where zoom and download live.
+            className="tap flex items-center justify-center rounded-md text-sm text-brand-800 ring-1 ring-slate-200 hover:bg-white"
           >
             Ouvrir le document en plein écran ↗
           </a>

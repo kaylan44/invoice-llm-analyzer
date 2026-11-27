@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense, type ReactNode } from "react";
 
 import { BackToList } from "@/components/back-to-list";
 import { StatusBadge } from "@/components/status-badge";
@@ -13,8 +13,14 @@ import { ReviewLayout } from "./review-layout";
 export default function ReviewPage({ params }: PageProps<"/invoices/[id]">) {
   return (
     <main className="mx-auto w-full max-w-7xl px-4 pt-4 sm:pt-6">
-      <BackToList />
-      <Suspense fallback={<ReviewSkeleton />}>
+      <Suspense
+        fallback={
+          <>
+            <Header title={<span className="inline-block h-7 w-48 animate-pulse rounded bg-slate-200" />} />
+            <ReviewSkeleton />
+          </>
+        }
+      >
         <Review params={params} />
       </Suspense>
     </main>
@@ -30,6 +36,7 @@ async function Review({ params }: Pick<PageProps<"/invoices/[id]">, "params">) {
     return (
       <>
         <AutoRefresh />
+        <Header title="Nouvelle facture" />
         <div className="mt-4 flex items-center gap-3 rounded-xl bg-white p-4 ring-1 ring-slate-200">
           <Spinner />
           <div className="text-sm">
@@ -44,21 +51,21 @@ async function Review({ params }: Pick<PageProps<"/invoices/[id]">, "params">) {
 
   return (
     <>
-      <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
-        <h1 className="min-w-0 text-xl font-semibold tracking-tight text-brand-950 sm:text-2xl">
-          {invoice.supplier_name ?? "Fournisseur inconnu"}
-        </h1>
-        <StatusBadge status={invoice.status} />
-      </div>
-      <p className="text-sm text-slate-500">
-        N° {invoice.invoice_number ?? "—"} · {formatMoney(invoice.total_incl_vat, invoice.currency)}
-        {invoice.extraction && (
-          <span className="text-slate-400">
-            {" "}
-            · {invoice.extraction.model}, prompt {invoice.extraction.prompt_version}
-          </span>
-        )}
-      </p>
+      <Header
+        title={invoice.supplier_name ?? "Fournisseur inconnu"}
+        badge={<StatusBadge status={invoice.status} />}
+        meta={
+          <>
+            N° {invoice.invoice_number ?? "—"} · {formatMoney(invoice.total_incl_vat, invoice.currency)}
+            {invoice.extraction && (
+              <span className="hidden text-slate-400 sm:inline">
+                {" "}
+                · {invoice.extraction.model}, prompt {invoice.extraction.prompt_version}
+              </span>
+            )}
+          </>
+        }
+      />
       <ReviewLayout
         documentUrl={`/api/invoices/${id}/document`}
         flaggedCount={flaggedFields(invoice.review_reasons, invoice).size}
@@ -66,6 +73,22 @@ async function Review({ params }: Pick<PageProps<"/invoices/[id]">, "params">) {
         <ReviewForm invoice={invoice} />
       </ReviewLayout>
     </>
+  );
+}
+
+/** Title row: back button, then the title block, like an app bar. */
+function Header({ title, badge, meta }: { title: ReactNode; badge?: ReactNode; meta?: ReactNode }) {
+  return (
+    <div className="flex items-center gap-3">
+      <BackToList />
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <h1 className="min-w-0 truncate text-xl font-semibold tracking-tight text-brand-950 sm:text-2xl">{title}</h1>
+          {badge}
+        </div>
+        {meta && <p className="truncate text-sm text-slate-500">{meta}</p>}
+      </div>
+    </div>
   );
 }
 

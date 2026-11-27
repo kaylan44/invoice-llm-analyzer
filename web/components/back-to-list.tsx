@@ -11,18 +11,18 @@ function listHref(from: string | null): string {
   return from && from in STATUS_LABELS ? `/?status=${from}` : "/";
 }
 
+/** Square icon button that sits on the title row, like an app bar. */
 function Button({ href }: { href: string }) {
   return (
     <Link
       href={href}
-      className="tap group inline-flex items-center gap-1.5 rounded-full bg-white pr-4 pl-2 text-sm font-medium text-brand-800 shadow-sm ring-1 ring-slate-200 transition hover:bg-brand-50 hover:ring-brand-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+      aria-label="Retour aux factures"
+      title="Retour aux factures"
+      className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-slate-600 shadow-sm ring-1 ring-slate-200 transition hover:bg-brand-50 hover:text-brand-700 hover:ring-brand-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
     >
-      <span className="grid size-7 place-items-center rounded-full bg-brand-50 text-brand-700 transition group-hover:-translate-x-0.5 group-hover:bg-brand-100">
-        <svg className="size-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path d="M12.7 4.3a1 1 0 0 1 0 1.4L8.4 10l4.3 4.3a1 1 0 0 1-1.4 1.4l-5-5a1 1 0 0 1 0-1.4l5-5a1 1 0 0 1 1.4 0Z" />
-        </svg>
-      </span>
-      Factures
+      <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="m15 18-6-6 6-6" />
+      </svg>
     </Link>
   );
 }
