@@ -16,15 +16,17 @@ import json
 from pathlib import Path
 
 from invoice_evals.generator import GeneratedInvoice
-from invoice_evals.render import PRESETS, describe, render_document
+from invoice_evals.render import describe, parse_level, render_document
 
 
 def parse_degradations(items: list[str]) -> dict[str, str]:
     result = {}
     for item in items:
         invoice_id, _, level = item.partition("=")
-        if level not in PRESETS:
-            raise SystemExit(f"unknown degradation level {level!r} in {item!r}")
+        try:
+            parse_level(level)
+        except ValueError as exc:
+            raise SystemExit(f"{exc} in {item!r}") from None
         result[invoice_id] = level
     return result
 

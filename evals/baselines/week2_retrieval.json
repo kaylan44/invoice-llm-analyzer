@@ -1,0 +1,64 @@
+{
+  "suppliers": {
+    "full_text": {
+      "recall@1": 0.878,
+      "recall@3": 0.9024,
+      "recall@5": 0.9024,
+      "mrr": 0.8902
+    },
+    "semantic": {
+      "recall@1": 1.0,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 1.0
+    },
+    "hybrid": {
+      "recall@1": 1.0,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 1.0
+    }
+  },
+  "categories": {
+    "full_text": {
+      "recall@1": 0.7059,
+      "recall@3": 0.7353,
+      "recall@5": 0.7353,
+      "mrr": 0.7194
+    },
+    "semantic": {
+      "recall@1": 0.9706,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 0.9853
+    },
+    "hybrid": {
+      "recall@1": 0.9412,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "mrr": 0.9608
+    }
+  },
+  "failures": [
+    {
+      "type": "category",
+      "query": "Stylos bille bleus, boîte de 50",
+      "kind": "unseen",
+      "rank": 3,
+      "expected": "6064",
+      "top": "6251"
+    },
+    {
+      "type": "category",
+      "query": "Office chair cushion",
+      "kind": "unseen",
+      "rank": 3,
+      "expected": "6063",
+      "top": "6064"
+    }
+  ],
+  "n_supplier_queries": 41,
+  "n_category_queries": 34,
+  "embedding_model": "gemini-embedding-2",
+  "embedding_api_calls": 118
+}

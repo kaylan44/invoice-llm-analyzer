@@ -1,0 +1,24 @@
+# Local Postgres + pgvector for development, tests and evals. Never used in production
+# (production is Supabase). Same migrations as production: supabase/migrations/.
+#
+#   docker compose up -d db
+#   uv run python -m invoice_api.migrate        # apply migrations to DATABASE_URL
+services:
+  db:
+    image: pgvector/pgvector:0.8.1-pg17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres # local only, not a secret
+      POSTGRES_DB: invoices
+    ports:
+      - "54329:5432" # unusual host port: avoids clashing with another local Postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d invoices"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  pgdata:

@@ -1,0 +1,58 @@
+{
+  "id": "inv-003",
+  "truth": {
+    "supplier_name": "Blot Collin et Fils",
+    "supplier_vat_number": "FR67410341317",
+    "supplier_siret": "41034131764755",
+    "invoice_number": "F26-2665",
+    "issue_date": "2026-01-23",
+    "due_date": null,
+    "currency": "EUR",
+    "total_excl_vat": "2588.60",
+    "total_vat": "419.12",
+    "total_incl_vat": "3007.72",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Cartouches toner noir",
+        "quantity": "20",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "1250.00"
+      },
+      {
+        "description": "Maintenance informatique",
+        "quantity": "8",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "600.00"
+      },
+      {
+        "description": "Ramettes papier A4 80 g",
+        "quantity": "10",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "49.00"
+      },
+      {
+        "description": "Ouvrages techniques",
+        "quantity": "20",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "680.00"
+      },
+      {
+        "description": "Classeurs à levier",
+        "quantity": "3",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "9.60"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "78, rue Thomas Petitjean, 45929 Delahaye",
+    "client_name": "Faure",
+    "client_address": "40, rue Daniel Guyon, 20556 GayVille"
+  }
+}

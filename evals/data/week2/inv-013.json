@@ -1,0 +1,44 @@
+{
+  "id": "inv-013",
+  "truth": {
+    "supplier_name": "Dias",
+    "supplier_vat_number": "FR89724751078",
+    "supplier_siret": "72475107899112",
+    "invoice_number": "FAC-2026-8809",
+    "issue_date": "2026-08-03",
+    "due_date": "2026-10-02",
+    "currency": "EUR",
+    "total_excl_vat": "509.50",
+    "total_vat": "98.20",
+    "total_incl_vat": "607.70",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Maintenance informatique",
+        "quantity": "1.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "112.50"
+      },
+      {
+        "description": "Repas d'affaires",
+        "quantity": "2",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "37.00"
+      },
+      {
+        "description": "Transport de marchandises",
+        "quantity": "3",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "360.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "981, avenue Pénélope Pereira, 88981 Laine",
+    "client_name": "Ramos",
+    "client_address": "862, chemin de Hoareau, 52378 Sainte Martin"
+  }
+}

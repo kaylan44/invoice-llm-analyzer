@@ -19,6 +19,9 @@ out/
 # Eval outputs
 evals/results/
 
+# Local uploads of the API (STORAGE_DIR)
+storage/
+
 # OS / editors
 *:Zone.Identifier
 .DS_Store

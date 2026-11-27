@@ -1,0 +1,88 @@
+# Évaluation 20261127-061002_gemini-3.5-flash-lite_v1_9b5164e
+
+Modèle `gemini-3.5-flash-lite`, prompt `v1`, jeu `evals/data/week2` (16 factures : 8 français, 8 anglais, 11 propres, 5 scans dégradés).
+
+## Exactitude par groupe de champs
+
+| Groupe | Tout (n=16) | Français (n=8) | Anglais (n=8) | Propres (n=11) | Scans dégradés (n=5) |
+| --- | --- | --- | --- | --- | --- |
+| Fournisseur | 100% (48/48) | 100% (24/24) | 100% (24/24) | 100% (33/33) | 100% (15/15) |
+| Date et n° de facture | 100% (48/48) | 100% (24/24) | 100% (24/24) | 100% (33/33) | 100% (15/15) |
+| Totaux et devise | 95% (61/64) | 91% (29/32) | 100% (32/32) | 100% (44/44) | 85% (17/20) |
+| Lignes | 100% (321/321) | 100% (163/163) | 100% (158/158) | 100% (191/191) | 100% (130/130) |
+
+## Détail par champ (toutes factures)
+
+| Champ | Exactitude | Précision | Rappel | Faux | Manqués | Inventés |
+| --- | --- | --- | --- | --- | --- | --- |
+| `currency` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `due_date` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `invoice_number` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `issue_date` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `language` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `line_count` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `lines.amount` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `lines.description` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `lines.quantity` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `lines.unit_price` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `lines.vat_rate` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `supplier_name` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `supplier_siret` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `supplier_vat_number` | 100% | 100% | 100% | 0 | 0 | 0 |
+| `total_excl_vat` | 94% | 100% | 94% | 0 | 1 | 0 |
+| `total_incl_vat` | 94% | 100% | 94% | 0 | 1 | 0 |
+| `total_vat` | 94% | 100% | 94% | 0 | 1 | 0 |
+
+## Coût et latence
+
+- Tokens : 12280 en entrée, 6745 en sortie, 0 de réflexion.
+- Coût estimé sur l'offre payante : 0.0205 $ (0 $ sur l'offre gratuite).
+- Latence par facture : 1.787 s en moyenne, 2.362 s au maximum.
+
+## Détection « à vérifier » (contrôles de cohérence)
+
+- Précision : 100% (6 justes sur 6 factures envoyées en revue).
+- Rappel : 100% (6 détectées sur 6 factures à revoir).
+
+| Facture | Piège | État | Attendu | Obtenu | Contrôles en échec |
+| --- | --- | --- | --- | --- | --- |
+| inv-001 | — | clean | pending | pending | — |
+| inv-002 | — | clean | pending | pending | — |
+| inv-003 | — | light | pending | pending | — |
+| inv-004 | — | heavy | pending | pending | — |
+| inv-005 | — | clean | pending | pending | — |
+| inv-006 | — | clean | pending | pending | — |
+| inv-007 | — | heavy | pending | pending | — |
+| inv-008 | — | clean | pending | pending | — |
+| inv-009 | — | clean | pending | pending | — |
+| inv-010 | — | light | pending | pending | — |
+| inv-011 | — | stain | to_review | to_review | required_fields |
+| inv-012 | total_mismatch | clean | to_review | to_review | totals |
+| inv-013 | bad_siret | clean | to_review | to_review | identifiers |
+| inv-014 | due_before_issue | clean | to_review | to_review | dates |
+| inv-015 | lines_sum_mismatch | clean | to_review | to_review | lines_sum |
+| inv-016 | vat_mismatch | clean | to_review | to_review | vat_amount |
+
+## Échecs d'extraction
+
+Aucun.
+
+## Champs masqués par une tache
+
+La bonne réponse est `null` : la valeur n'est pas lisible. Une valeur donnée veut dire que le modèle l'a devinée ou recalculée, ce que le prompt interdit.
+
+| Facture | Champ | Imprimé (sous la tache) | Obtenu | Comportement |
+| --- | --- | --- | --- | --- |
+| inv-011 | `total_excl_vat` | '509' | None | null (attendu) |
+| inv-011 | `total_vat` | '101.8' | None | null (attendu) |
+| inv-011 | `total_incl_vat` | '610.8' | None | null (attendu) |
+
+## Analyse des erreurs (chaque champ faux, manqué ou inventé)
+
+Les champs marqués « masqué » étaient sous une tache : `null` y est la bonne réponse, même si la comparaison avec la valeur imprimée le compte « manqué ».
+
+| Facture | Segment | Champ | Résultat | Attendu | Obtenu |
+| --- | --- | --- | --- | --- | --- |
+| inv-011 | fr, stain | `total_excl_vat` | missed (masqué) | '509' | None |
+| inv-011 | fr, stain | `total_vat` | missed (masqué) | '101.8' | None |
+| inv-011 | fr, stain | `total_incl_vat` | missed (masqué) | '610.8' | None |

@@ -27,9 +27,14 @@ from invoice_evals.render_cli import main as render_main
 
 @pytest.fixture(scope="module")
 def dataset(tmp_path_factory: pytest.TempPathFactory) -> Path:
-    """4 invoices: inv-001 fr clean, inv-002 en clean, inv-003 fr light, inv-004 en heavy."""
+    """4 invoices: inv-001 fr clean, inv-002 en clean, inv-003 fr light, inv-004 en heavy.
+
+    inv-001 carries a trap (printed total incl. VAT is wrong).
+    """
     data = tmp_path_factory.mktemp("data")
-    generate_main(["--n", "4", "--seed", "3", "--out", str(data)])
+    generate_main(
+        ["--n", "4", "--seed", "3", "--out", str(data), "--trap", "inv-001=total_mismatch"]
+    )
     render_main(["--data", str(data), "--seed", "3", "--degrade", "inv-003=light", "inv-004=heavy"])
     return data
 
@@ -101,6 +106,46 @@ def test_usage_and_cost(dataset: Path, tmp_path: Path) -> None:
     assert usage["input_tokens"] == 4000
     assert usage["output_tokens"] == 800
     assert usage["estimated_cost_usd_paid_tier"] is None  # unknown model: no price
+
+
+def test_review_detection_with_a_perfect_reader(dataset: Path, tmp_path: Path) -> None:
+    rd = run(dataset, tmp_path, failing=set())["review_detection"]
+    # The trap is caught; the 3 consistent invoices stay pending.
+    assert (rd["true_positive"], rd["false_positive"], rd["false_negative"]) == (1, 0, 0)
+    assert rd["true_negative"] == 3
+    trapped = next(i for i in rd["invoices"] if i["id"] == "inv-001")
+    assert trapped["failed_checks"] == ["totals"]
+
+
+def test_failed_extraction_is_sent_to_review(dataset: Path, tmp_path: Path) -> None:
+    rd = run(dataset, tmp_path, failing={"inv-002"})["review_detection"]
+    # inv-002 should have been pending: sending it to review is a false positive.
+    assert rd["false_positive"] == 1
+    failed = next(i for i in rd["invoices"] if i["id"] == "inv-002")
+    assert failed["failed_checks"] == ["extraction_failed"]
+
+
+def test_stained_totals_expect_review_and_null(tmp_path_factory: pytest.TempPathFactory) -> None:
+    data = tmp_path_factory.mktemp("stained")
+    generate_main(["--n", "1", "--seed", "3", "--out", str(data)])
+    render_main(["--data", str(data), "--seed", "3", "--degrade", "inv-001=stain:totals"])
+    run_dir = tmp_path_factory.mktemp("run")
+    # The fake model reads everything except the stained totals: the ideal behaviour.
+    truth = GeneratedInvoice.model_validate_json((data / "inv-001.json").read_text()).truth
+    answer = perfect_extraction(truth).model_copy(
+        update={"total_excl_vat": None, "total_vat": None, "total_incl_vat": None}
+    )
+    models = FakeModels(data, failing=set())
+    models.answers = {k: answer.model_dump_json() for k in models.answers}
+    extract_dataset(data, run_dir, client=SimpleNamespace(models=models), model="fake")
+    summary = summarize(load_records(data, run_dir), model="fake", dataset="d", run_id="t")
+
+    rd = summary["review_detection"]
+    assert rd["invoices"][0]["expected"] == "to_review"  # a required total is hidden
+    assert rd["invoices"][0]["predicted"] == "to_review"  # ... and the checks see it missing
+    assert {h["behaviour"] for h in summary["hidden_fields"]} == {"null"}
+    assert all(m["hidden"] for m in summary["mistakes"])
+    assert "Champs masqués par une tache" in render_report(summary)
 
 
 def test_report_has_one_row_per_group(dataset: Path, tmp_path: Path) -> None:

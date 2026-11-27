@@ -5,8 +5,13 @@ description = "Invoice domain: schema, Gemini extraction, consistency checks, Fa
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "fastapi>=0.165.0",
     "google-genai>=3.6.1",
+    "psycopg[binary]>=3.3.9",
     "pydantic>=2.14.4",
+    "python-dotenv>=1.2.4",
+    "python-multipart>=0.0.34",
+    "uvicorn[standard]>=0.54.0",
 ]
 
 [build-system]

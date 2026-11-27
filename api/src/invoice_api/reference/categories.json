@@ -1,0 +1,17 @@
+[
+  {"code": "6061", "label": "Fournitures non stockables (eau, énergie)", "description": "Électricité, gaz, eau, carburant. Electricity, gas, water, fuel."},
+  {"code": "6063", "label": "Fournitures d'entretien et petit équipement", "description": "Petit matériel, outillage, équipement de faible valeur, produits d'entretien. Small equipment, tools, cleaning supplies, child car seat, low-value items."},
+  {"code": "6064", "label": "Fournitures administratives", "description": "Papier, ramettes, classeurs, stylos, enveloppes, cartouches d'encre et toner. Office supplies: copier paper, reams, files, pens, envelopes, ink and toner cartridges."},
+  {"code": "6132", "label": "Locations immobilières", "description": "Loyer de bureaux, locaux, entrepôt. Office rent, premises, warehouse lease."},
+  {"code": "6135", "label": "Locations mobilières et abonnements logiciels", "description": "Location de matériel, licences et abonnements logiciels (SaaS). Equipment rental, software licences and subscriptions (SaaS)."},
+  {"code": "6156", "label": "Maintenance", "description": "Maintenance et support informatique, dépannage, contrat d'entretien. IT maintenance and support, repairs, service contract."},
+  {"code": "6161", "label": "Assurances", "description": "Primes d'assurance multirisque, responsabilité civile. Insurance premiums, liability insurance."},
+  {"code": "6181", "label": "Documentation générale et technique", "description": "Livres, ouvrages techniques, abonnements à des revues. Books, technical books, journal subscriptions."},
+  {"code": "6226", "label": "Honoraires", "description": "Honoraires d'expert-comptable, avocat, conseil. Fees for accountants, lawyers, consultants."},
+  {"code": "6231", "label": "Annonces et insertions", "description": "Publicité, annonces, campagnes marketing. Advertising, ads, marketing campaigns."},
+  {"code": "6241", "label": "Transports sur achats", "description": "Transport de marchandises, livraison, coursier, frais de port. Freight, delivery, courier, shipping costs."},
+  {"code": "6251", "label": "Voyages et déplacements", "description": "Billets de train et d'avion, hôtel, frais de déplacement. Train and plane tickets, hotel, travel expenses."},
+  {"code": "6257", "label": "Réceptions", "description": "Repas d'affaires, restaurant, réceptions clients. Business meals, restaurant, client entertainment."},
+  {"code": "6262", "label": "Frais de télécommunications", "description": "Téléphone, forfait mobile, accès internet. Phone, mobile plan, internet access."},
+  {"code": "6278", "label": "Frais bancaires", "description": "Commissions et frais bancaires, frais de carte. Bank charges and fees, card fees."}
+]

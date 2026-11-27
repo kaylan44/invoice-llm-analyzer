@@ -1,0 +1,65 @@
+{
+  "id": "inv-005",
+  "truth": {
+    "supplier_name": "Chrétien",
+    "supplier_vat_number": "FR32753287101",
+    "supplier_siret": "75328710112264",
+    "invoice_number": "FAC-2026-9772",
+    "issue_date": "2026-09-13",
+    "due_date": null,
+    "currency": "EUR",
+    "total_excl_vat": "3357.10",
+    "total_vat": "612.87",
+    "total_incl_vat": "3969.97",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Abonnement logiciel mensuel",
+        "quantity": "10",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "490.00"
+      },
+      {
+        "description": "Cartouches toner noir",
+        "quantity": "10",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "625.00"
+      },
+      {
+        "description": "Classeurs à levier",
+        "quantity": "3",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "9.60"
+      },
+      {
+        "description": "Transport de marchandises",
+        "quantity": "15",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "1800.00"
+      },
+      {
+        "description": "Ouvrages techniques",
+        "quantity": "10",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "340.00"
+      },
+      {
+        "description": "Repas d'affaires",
+        "quantity": "5",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "92.50"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "26, chemin Bernadette Lucas, 03948 Saint DanielleVille",
+    "client_name": "Legrand",
+    "client_address": "46, avenue Noémi Vallée, 25421 Tanguy-sur-Mer"
+  }
+}

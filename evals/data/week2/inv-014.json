@@ -1,0 +1,30 @@
+{
+  "id": "inv-014",
+  "truth": {
+    "supplier_name": "Allen, Wilson and Clark",
+    "supplier_vat_number": "GB427849808",
+    "supplier_siret": null,
+    "invoice_number": "INV-04906",
+    "issue_date": "2026-03-09",
+    "due_date": "2026-02-27",
+    "currency": "GBP",
+    "total_excl_vat": "97.50",
+    "total_vat": "19.50",
+    "total_incl_vat": "117.00",
+    "language": "en",
+    "lines": [
+      {
+        "description": "IT support",
+        "quantity": "1.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "97.50"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "41 Wyatt Shoal, G4 8WT Williamsbury",
+    "client_name": "Ward-Jones",
+    "client_address": "5 Carole Alley, PR5 0ZR West Mary"
+  }
+}

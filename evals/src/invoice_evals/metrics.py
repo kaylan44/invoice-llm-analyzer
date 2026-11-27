@@ -22,7 +22,6 @@ alone mixes "invented a SIRET" and "missed a SIRET" into one number.
 """
 
 import re
-import unicodedata
 from collections import Counter
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
@@ -31,28 +30,13 @@ from decimal import Decimal
 from typing import Literal
 
 from invoice_api.schema import InvoiceExtraction, InvoiceTruth
+from invoice_api.text import normalize_text
 
 Outcome = Literal["correct", "wrong", "missed", "hallucinated", "both_absent"]
 
+__all__ = ["normalize_text"]  # re-exported: free text is normalized as in retrieval
+
 # --- Normalization ---------------------------------------------------------------------
-
-_SEPARATORS = re.compile(r"[-'’/]")  # word separators: become spaces
-_PUNCTUATION = re.compile(r"[^\w\s]")  # everything else that is not a letter, digit or space
-_SPACES = re.compile(r"\s+")
-
-
-def normalize_text(value: str) -> str:
-    """Free text (names, line labels): case, accents, punctuation and spacing ignored.
-
-    "Papeterie du Rhône S.A.S." and "PAPETERIE DU RHONE SAS" both become
-    "papeterie du rhone sas".
-    """
-    # NFKD splits "ô" into "o" + combining accent; dropping combining marks removes accents.
-    decomposed = unicodedata.normalize("NFKD", value)
-    without_accents = "".join(c for c in decomposed if not unicodedata.combining(c))
-    text = _SEPARATORS.sub(" ", without_accents.casefold())
-    text = _PUNCTUATION.sub("", text)
-    return _SPACES.sub(" ", text).strip()
 
 
 def normalize_identifier(value: str) -> str:
