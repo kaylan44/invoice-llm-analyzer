@@ -1,0 +1,796 @@
+{
+  "run_id": "20261127-044836_gemini-3.5-flash-lite_v1_0d2c050",
+  "model": "gemini-3.5-flash-lite",
+  "prompt_version": "v1",
+  "dataset": "evals/data/week2",
+  "n_invoices": 16,
+  "errors": {},
+  "segments": {
+    "all": {
+      "n_invoices": 16,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 0.9375,
+          "correct": 45,
+          "n": 48
+        },
+        "Date et n° de facture": {
+          "accuracy": 0.9375,
+          "correct": 45,
+          "n": 48
+        },
+        "Totaux et devise": {
+          "accuracy": 0.9375,
+          "correct": 60,
+          "n": 64
+        },
+        "Lignes": {
+          "accuracy": 0.9346,
+          "correct": 300,
+          "n": 321
+        }
+      }
+    },
+    "fr": {
+      "n_invoices": 8,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 0.875,
+          "correct": 21,
+          "n": 24
+        },
+        "Date et n° de facture": {
+          "accuracy": 0.875,
+          "correct": 21,
+          "n": 24
+        },
+        "Totaux et devise": {
+          "accuracy": 0.875,
+          "correct": 28,
+          "n": 32
+        },
+        "Lignes": {
+          "accuracy": 0.8712,
+          "correct": 142,
+          "n": 163
+        }
+      }
+    },
+    "en": {
+      "n_invoices": 8,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 1.0,
+          "correct": 24,
+          "n": 24
+        },
+        "Date et n° de facture": {
+          "accuracy": 1.0,
+          "correct": 24,
+          "n": 24
+        },
+        "Totaux et devise": {
+          "accuracy": 1.0,
+          "correct": 32,
+          "n": 32
+        },
+        "Lignes": {
+          "accuracy": 1.0,
+          "correct": 158,
+          "n": 158
+        }
+      }
+    },
+    "clean": {
+      "n_invoices": 11,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 1.0,
+          "correct": 33,
+          "n": 33
+        },
+        "Date et n° de facture": {
+          "accuracy": 1.0,
+          "correct": 33,
+          "n": 33
+        },
+        "Totaux et devise": {
+          "accuracy": 1.0,
+          "correct": 44,
+          "n": 44
+        },
+        "Lignes": {
+          "accuracy": 1.0,
+          "correct": 191,
+          "n": 191
+        }
+      }
+    },
+    "scan": {
+      "n_invoices": 5,
+      "groups": {
+        "Fournisseur": {
+          "accuracy": 0.8,
+          "correct": 12,
+          "n": 15
+        },
+        "Date et n° de facture": {
+          "accuracy": 0.8,
+          "correct": 12,
+          "n": 15
+        },
+        "Totaux et devise": {
+          "accuracy": 0.8,
+          "correct": 16,
+          "n": 20
+        },
+        "Lignes": {
+          "accuracy": 0.8385,
+          "correct": 109,
+          "n": 130
+        }
+      }
+    }
+  },
+  "fields": {
+    "currency": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 1.0,
+      "recall": 0.9375,
+      "correct": 15,
+      "wrong": 0,
+      "missed": 1,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "due_date": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 1.0,
+      "recall": 0.9091,
+      "correct": 10,
+      "wrong": 0,
+      "missed": 1,
+      "hallucinated": 0,
+      "both_absent": 5
+    },
+    "invoice_number": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 1.0,
+      "recall": 0.9375,
+      "correct": 15,
+      "wrong": 0,
+      "missed": 1,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "issue_date": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 1.0,
+      "recall": 0.9375,
+      "correct": 15,
+      "wrong": 0,
+      "missed": 1,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "language": {
+      "n": 16,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "correct": 16,
+      "wrong": 0,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "line_count": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 0.9375,
+      "recall": 0.9375,
+      "correct": 15,
+      "wrong": 1,
+      "missed": 0,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "lines.amount": {
+      "n": 61,
+      "accuracy": 0.9344,
+      "precision": 1.0,
+      "recall": 0.9344,
+      "correct": 57,
+      "wrong": 0,
+      "missed": 4,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "lines.description": {
+      "n": 61,
+      "accuracy": 0.9344,
+      "precision": 1.0,
+      "recall": 0.9344,
+      "correct": 57,
+      "wrong": 0,
+      "missed": 4,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "lines.quantity": {
+      "n": 61,
+      "accuracy": 0.9344,
+      "precision": 1.0,
+      "recall": 0.9344,
+      "correct": 57,
+      "wrong": 0,
+      "missed": 4,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "lines.unit_price": {
+      "n": 61,
+      "accuracy": 0.9344,
+      "precision": 1.0,
+      "recall": 0.9344,
+      "correct": 57,
+      "wrong": 0,
+      "missed": 4,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "lines.vat_rate": {
+      "n": 61,
+      "accuracy": 0.9344,
+      "precision": 1.0,
+      "recall": 0.9344,
+      "correct": 57,
+      "wrong": 0,
+      "missed": 4,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "supplier_name": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 1.0,
+      "recall": 0.9375,
+      "correct": 15,
+      "wrong": 0,
+      "missed": 1,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "supplier_siret": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 1.0,
+      "recall": 0.875,
+      "correct": 7,
+      "wrong": 0,
+      "missed": 1,
+      "hallucinated": 0,
+      "both_absent": 8
+    },
+    "supplier_vat_number": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 1.0,
+      "recall": 0.9375,
+      "correct": 15,
+      "wrong": 0,
+      "missed": 1,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "total_excl_vat": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 1.0,
+      "recall": 0.9375,
+      "correct": 15,
+      "wrong": 0,
+      "missed": 1,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "total_incl_vat": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 1.0,
+      "recall": 0.9375,
+      "correct": 15,
+      "wrong": 0,
+      "missed": 1,
+      "hallucinated": 0,
+      "both_absent": 0
+    },
+    "total_vat": {
+      "n": 16,
+      "accuracy": 0.9375,
+      "precision": 1.0,
+      "recall": 0.9375,
+      "correct": 15,
+      "wrong": 0,
+      "missed": 1,
+      "hallucinated": 0,
+      "both_absent": 0
+    }
+  },
+  "review_detection": {
+    "true_positive": 6,
+    "false_positive": 0,
+    "false_negative": 0,
+    "true_negative": 10,
+    "precision": 1.0,
+    "recall": 1.0,
+    "invoices": [
+      {
+        "id": "inv-001",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-002",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-003",
+        "trap": null,
+        "condition": "light",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-004",
+        "trap": null,
+        "condition": "heavy",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-005",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-006",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-007",
+        "trap": null,
+        "condition": "heavy",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-008",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-009",
+        "trap": null,
+        "condition": "clean",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-010",
+        "trap": null,
+        "condition": "light",
+        "expected": "pending",
+        "predicted": "pending",
+        "failed_checks": []
+      },
+      {
+        "id": "inv-011",
+        "trap": null,
+        "condition": "illegible",
+        "expected": "to_review",
+        "predicted": "to_review",
+        "failed_checks": [
+          "required_fields"
+        ]
+      },
+      {
+        "id": "inv-012",
+        "trap": "total_mismatch",
+        "condition": "clean",
+        "expected": "to_review",
+        "predicted": "to_review",
+        "failed_checks": [
+          "totals"
+        ]
+      },
+      {
+        "id": "inv-013",
+        "trap": "bad_siret",
+        "condition": "clean",
+        "expected": "to_review",
+        "predicted": "to_review",
+        "failed_checks": [
+          "identifiers"
+        ]
+      },
+      {
+        "id": "inv-014",
+        "trap": "due_before_issue",
+        "condition": "clean",
+        "expected": "to_review",
+        "predicted": "to_review",
+        "failed_checks": [
+          "dates"
+        ]
+      },
+      {
+        "id": "inv-015",
+        "trap": "lines_sum_mismatch",
+        "condition": "clean",
+        "expected": "to_review",
+        "predicted": "to_review",
+        "failed_checks": [
+          "lines_sum"
+        ]
+      },
+      {
+        "id": "inv-016",
+        "trap": "vat_mismatch",
+        "condition": "clean",
+        "expected": "to_review",
+        "predicted": "to_review",
+        "failed_checks": [
+          "vat_amount"
+        ]
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 12280,
+    "output_tokens": 6424,
+    "thinking_tokens": 0,
+    "estimated_cost_usd_paid_tier": 0.01974,
+    "latency_s": {
+      "mean": 2.864,
+      "max": 10.14
+    }
+  },
+  "mistakes": [
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "supplier_name",
+      "line": null,
+      "outcome": "missed",
+      "expected": "bonnin",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "supplier_vat_number",
+      "line": null,
+      "outcome": "missed",
+      "expected": "FR71787234301",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "supplier_siret",
+      "line": null,
+      "outcome": "missed",
+      "expected": "78723430198055",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "invoice_number",
+      "line": null,
+      "outcome": "missed",
+      "expected": "FAC-2026-0937",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "issue_date",
+      "line": null,
+      "outcome": "missed",
+      "expected": "2026-09-04",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "due_date",
+      "line": null,
+      "outcome": "missed",
+      "expected": "2026-10-19",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "currency",
+      "line": null,
+      "outcome": "missed",
+      "expected": "EUR",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "total_excl_vat",
+      "line": null,
+      "outcome": "missed",
+      "expected": "509",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "total_vat",
+      "line": null,
+      "outcome": "missed",
+      "expected": "101.8",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "total_incl_vat",
+      "line": null,
+      "outcome": "missed",
+      "expected": "610.8",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "line_count",
+      "line": null,
+      "outcome": "wrong",
+      "expected": "4",
+      "got": "0"
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.description",
+      "line": 1,
+      "outcome": "missed",
+      "expected": "ramettes papier a4 80 g",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.quantity",
+      "line": 1,
+      "outcome": "missed",
+      "expected": "5",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.unit_price",
+      "line": 1,
+      "outcome": "missed",
+      "expected": "4.9",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.vat_rate",
+      "line": 1,
+      "outcome": "missed",
+      "expected": "20",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.amount",
+      "line": 1,
+      "outcome": "missed",
+      "expected": "24.5",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.description",
+      "line": 2,
+      "outcome": "missed",
+      "expected": "cartouches toner noir",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.quantity",
+      "line": 2,
+      "outcome": "missed",
+      "expected": "3",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.unit_price",
+      "line": 2,
+      "outcome": "missed",
+      "expected": "62.5",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.vat_rate",
+      "line": 2,
+      "outcome": "missed",
+      "expected": "20",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.amount",
+      "line": 2,
+      "outcome": "missed",
+      "expected": "187.5",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.description",
+      "line": 3,
+      "outcome": "missed",
+      "expected": "maintenance informatique",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.quantity",
+      "line": 3,
+      "outcome": "missed",
+      "expected": "2",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.unit_price",
+      "line": 3,
+      "outcome": "missed",
+      "expected": "75",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.vat_rate",
+      "line": 3,
+      "outcome": "missed",
+      "expected": "20",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.amount",
+      "line": 3,
+      "outcome": "missed",
+      "expected": "150",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.description",
+      "line": 4,
+      "outcome": "missed",
+      "expected": "abonnement logiciel mensuel",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.quantity",
+      "line": 4,
+      "outcome": "missed",
+      "expected": "3",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.unit_price",
+      "line": 4,
+      "outcome": "missed",
+      "expected": "49",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.vat_rate",
+      "line": 4,
+      "outcome": "missed",
+      "expected": "20",
+      "got": null
+    },
+    {
+      "id": "inv-011",
+      "language": "fr",
+      "condition": "illegible",
+      "field": "lines.amount",
+      "line": 4,
+      "outcome": "missed",
+      "expected": "147",
+      "got": null
+    }
+  ]
+}

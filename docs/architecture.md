@@ -175,21 +175,32 @@ Les évals rejouent l'extraction sur un jeu de test à vérité terrain connue e
 - **Référence.** Un fichier de scores versionné dans le dépôt. Le seuil de régression se fixe après la première mesure, pas avant.
 - **CI.** GitHub Actions lance un sous-ensemble sur chaque PR, compare à la référence et échoue si un score baisse au-delà du seuil. Chaque exécution appelle l'API : la clé de la CI est dédiée, dans son propre projet Google.
 
-**Tableau d'évals.** Mesure du 26 novembre 2026 : `gemini-3.5-flash-lite`, prompt v1, jeu `evals/data/week1` (11 factures synthétiques : 6 FR, 5 EN ; 6 propres, 5 scans dégradés dont 1 illisible). Détail et analyse des erreurs : `evals/baselines/week1.md`.
+**Tableau d'évals.** Mesure du 27 novembre 2026 : `gemini-3.5-flash-lite`, prompt v1, jeu `evals/data/week2` (16 factures synthétiques : 8 FR, 8 EN ; 11 propres dont 5 piégées, 5 scans dégradés dont 1 illisible). Détail : `evals/baselines/week2.md` (extraction et contrôles) et `evals/baselines/week2_retrieval.md` (rapprochement). La mesure de la semaine 1 reste dans `evals/baselines/week1.md`.
 
-| Champ | Français (n=6) | Anglais (n=5) | Scans dégradés (n=5) |
+| Champ | Français (n=8) | Anglais (n=8) | Scans dégradés (n=5) |
 | --- | --- | --- | --- |
-| Fournisseur | 83 % (15/18) | 100 % (15/15) | 80 % (12/15) |
-| Date et n° de facture | 83 % (15/18) | 100 % (15/15) | 80 % (12/15) |
-| Totaux et devise | 83 % (20/24) | 100 % (20/20) | 80 % (16/20) |
-| Lignes (quantité, prix) | 84 % (110/131) | 100 % (120/120) | 84 % (109/130) |
-| Catégorie comptable | à mesurer (semaine 2) | à mesurer (semaine 2) | à mesurer (semaine 2) |
+| Fournisseur | 88 % (21/24) | 100 % (24/24) | 80 % (12/15) |
+| Date et n° de facture | 88 % (21/24) | 100 % (24/24) | 80 % (12/15) |
+| Totaux et devise | 88 % (28/32) | 100 % (32/32) | 80 % (16/20) |
+| Lignes (quantité, prix) | 87 % (142/163) | 100 % (158/158) | 84 % (109/130) |
+| Catégorie comptable (recall@1, hybride) | 94 % sur 34 libellés FR et EN, dont 18 absents du catalogue | | |
+
+Détection « à vérifier » : précision 100 % (6/6), rappel 100 % (6/6). Les 5 factures piégées échouent chacune au contrôle attendu, la facture illisible échoue sur les champs obligatoires, et aucune facture cohérente n'est envoyée en revue.
+
+Rapprochement (recall@1) :
+
+| Méthode | Fournisseurs (41 requêtes) | Catégories (34 requêtes) |
+| --- | --- | --- |
+| Plein texte seul | 88 % | 71 % |
+| Vecteurs seuls | 100 % | 97 % |
+| Hybride (RRF) | 100 % | 94 % |
 
 Lecture :
 
-- Les 10 premières factures (propres, légères, lourdes) sont lues à 100 % : ce niveau de difficulté ne départage rien (effet plafond).
-- Toutes les erreurs viennent de inv-011, le scan illisible. Le modèle y renvoie `null` pour chaque champ (sauf la langue, juste) : 0 valeur inventée, précision de 100 % sur tous les champs. C'est le comportement voulu, que les contrôles et la revue humaine devront traiter (« à vérifier » quand des champs obligatoires sont vides).
-- Avec 11 documents, ces chiffres décrivent ce jeu, pas la qualité en conditions réelles. Le jeu doit encore être durci : niveaux intermédiaires entre « lourd » et « illisible », mises en page plus variées, factures sur plusieurs pages, factures piégées (semaine 2) et vraies factures anonymisées (semaine 3).
+- Toutes les erreurs d'extraction viennent de inv-011, le scan illisible : `null` partout, aucune valeur inventée. Les 15 autres factures sont lues à 100 % : l'extraction n'est toujours pas départagée (effet plafond).
+- L'analyse d'erreur a trouvé un bug dans le jeu de test, pas dans le modèle : le piège sur la TVA n'était pas imprimé. Le gabarit imprime désormais toujours le total de TVA.
+- Le plein texte seul échoue sur les fautes de frappe (fournisseurs) et sur les mots vides de la configuration `simple` (« de », « boîte de 50 ») pour les catégories. Les vecteurs seuls font légèrement mieux que l'hybride sur les catégories (1 requête d'écart sur 34) : pas assez pour trancher, à remesurer sur un jeu plus grand et après retrait des mots vides.
+- Ces chiffres décrivent ce jeu synthétique, pas la qualité réelle. Prochaines étapes : niveaux de dégradation intermédiaires, factures sur plusieurs pages, vraies factures anonymisées (semaine 3).
 
 ## Clé d'API Gemini, offre gratuite et coûts
 
@@ -239,7 +250,7 @@ Les évals arrivent avant l'optimisation. Chaque semaine se termine par un résu
 | Semaine | Contenu | Résultat vérifiable |
 | --- | --- | --- |
 | 1. Données et première mesure | Générateur de factures synthétiques (FR et EN, dégradations), normalisation et métriques, extraction v1 sur 10 documents | Une première exactitude par champ, versionnée comme baseline |
-| 2. Contrôles, rapprochement, déploiement | Postgres local et migrations pgvector, fonctions de validation, rapprochement fournisseur et catégorie dans le pipeline v1, API FastAPI déployée sur Railway en fin de semaine | Les totaux incohérents passent à « à vérifier » ; un premier recall@k ; l'API répond sur Railway |
+| 2. Contrôles, rapprochement, déploiement | Postgres local et migrations pgvector, fonctions de validation, rapprochement fournisseur et catégorie dans le pipeline v1, API FastAPI déployée sur Railway en fin de semaine | Les totaux incohérents passent à « à vérifier » ; un premier recall@k ; l'API répond sur Railway. État au 27 novembre : les deux premiers sont atteints ; l'image Docker est prête et testée en local, le déploiement attend ton accord (`docs/deploy.md`) |
 | 3. Revue, jeu de test, agent | Écran de revue Next.js, jeu de test élargi avec vingt vraies factures, agent v2, variantes comparées une par une | Un tableau avant et après pour chaque changement, dont v1 contre v2 |
 | 4. MCP, CI, publication | Serveur MCP, contrôle de régression en CI, README avec résultats chiffrés et démo en GIF | Une PR qui dégrade le score est bloquée |
 
@@ -265,13 +276,17 @@ Le risque principal est financier : un dépôt de fichiers ouvert à tous sur un
 
 - [x] Hébergement du backend FastAPI : Railway (retenu le 25 novembre)
 - [x] Fournisseur des modèles : API Gemini (retenu le 26 novembre)
-- [ ] Modèle d'extraction exact (Flash-Lite ou Flash), après vérification de la lecture des PDF et tranché par les évals
-- [ ] Dimension des embeddings (768 ou 1 536), validée par le recall@k en français et en anglais
+- [x] Modèle d'extraction de départ : `gemini-3.5-flash-lite`, qui lit les PDF (vérifié par l'appel réel du 26 novembre). La comparaison avec Flash attend un jeu qui les départage.
+- [x] Embeddings : `gemini-embedding-2` à 768 dimensions (27 novembre). Recall@1 de 100 % sur les fournisseurs ; 1 536 non testé, sans intérêt tant que 768 plafonne.
+- [x] Schéma SQL : `supabase/migrations/20261127090000_init.sql` (27 novembre).
+- [x] Factures scannées : PDF envoyé directement au modèle, sans OCR préalable (scans légers et lourds lus à 100 %).
+- [ ] Catégories comptables : liste de départ proposée dans `api/src/invoice_api/reference/categories.json`, à valider.
+- [ ] Rapprochement fournisseur par nom : règle actuelle « accepté si les deux classements le trouvent ». Seuil à calibrer sur des cas où le fournisseur est absent de l'annuaire.
+- [ ] Plein texte : retirer les mots vides (configuration `simple` gardée pour être neutre en langue), puis remesurer hybride contre vecteurs seuls sur les catégories.
 - [ ] Plan Supabase au moment de montrer la démo (gratuit ou Pro)
 - [ ] Seuil de régression de la CI, à fixer après la première mesure
-- [ ] Reranker : Gemini Flash-Lite ou modèle dédié, tranché par les évals
-- [ ] Factures scannées : PDF envoyé directement au modèle, ou OCR préalable
-- [ ] Schéma SQL détaillé (colonnes, types, contraintes)
+- [ ] Reranker : Gemini Flash-Lite ou modèle dédié, tranché par les évals (inutile tant que le recall@1 plafonne)
+- [ ] Stockage des PDF en production : Supabase Storage à brancher avant de garder des documents (voir `docs/deploy.md`)
 
 ## Sources
 
