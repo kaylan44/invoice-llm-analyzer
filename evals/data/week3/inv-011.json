@@ -1,0 +1,39 @@
+{
+  "id": "inv-011",
+  "truth": {
+    "supplier_name": "Moulin SA",
+    "supplier_vat_number": "FR03668205255",
+    "supplier_siret": "66820525589836",
+    "invoice_number": "2026-1798",
+    "issue_date": "2026-02-18",
+    "due_date": "2026-04-04",
+    "currency": "EUR",
+    "total_excl_vat": "759.50",
+    "total_vat": "151.90",
+    "total_incl_vat": "911.40",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Ramettes papier A4 80 g",
+        "quantity": "5",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "24.50"
+      },
+      {
+        "description": "Abonnement logiciel mensuel",
+        "quantity": "15",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "735.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "boulevard de Raymond, 54388 Aubert-sur-Gay",
+    "client_name": "Leroux Laurent SA",
+    "client_address": "448, chemin de Vasseur, 43974 Lebrun-la-Forêt",
+    "client_vat_number": "FR64576113831",
+    "deposit": "273.42"
+  }
+}

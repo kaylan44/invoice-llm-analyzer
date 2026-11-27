@@ -1,0 +1,32 @@
+{
+  "id": "inv-009",
+  "truth": {
+    "supplier_name": "Charpentier",
+    "supplier_vat_number": "FR95308073709",
+    "supplier_siret": "30807370928386",
+    "invoice_number": "FAC-2026-2257",
+    "issue_date": "2026-10-08",
+    "due_date": null,
+    "currency": "EUR",
+    "total_excl_vat": "600.00",
+    "total_vat": "120.00",
+    "total_incl_vat": "720.00",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Maintenance informatique",
+        "quantity": "8",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "600.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "boulevard Buisson, 01994 Rodrigues",
+    "client_name": "Grégoire SA",
+    "client_address": "958, boulevard Brunel, 78400 Sainte Élise",
+    "client_vat_number": null,
+    "deposit": "216.00"
+  }
+}

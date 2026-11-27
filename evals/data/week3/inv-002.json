@@ -1,0 +1,340 @@
+{
+  "id": "inv-002",
+  "truth": {
+    "supplier_name": "Davies Inc",
+    "supplier_vat_number": "GB151884472",
+    "supplier_siret": null,
+    "invoice_number": "INV-09461",
+    "issue_date": "2026-07-23",
+    "due_date": "2026-09-21",
+    "currency": "GBP",
+    "total_excl_vat": "14985.97",
+    "total_vat": "2045.49",
+    "total_incl_vat": "17031.46",
+    "language": "en",
+    "lines": [
+      {
+        "description": "Courier delivery, ref. E3830",
+        "quantity": "10",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "150.00"
+      },
+      {
+        "description": "Black toner cartridge, ref. D0590",
+        "quantity": "5",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "290.00"
+      },
+      {
+        "description": "Technical books, ref. B4885",
+        "quantity": "3",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "87.00"
+      },
+      {
+        "description": "Black toner cartridge, ref. K5123",
+        "quantity": "20",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "1160.00"
+      },
+      {
+        "description": "Lever arch files, ref. A9989",
+        "quantity": "15",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "41.25"
+      },
+      {
+        "description": "Black toner cartridge, ref. G5445",
+        "quantity": "15",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "870.00"
+      },
+      {
+        "description": "IT support, ref. C9995",
+        "quantity": "1.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "97.50"
+      },
+      {
+        "description": "Technical books, ref. B3064",
+        "quantity": "20",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "580.00"
+      },
+      {
+        "description": "IT support, ref. E5075",
+        "quantity": "1",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "65.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. A3697",
+        "quantity": "1",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "24.99"
+      },
+      {
+        "description": "Technical books, ref. F6158",
+        "quantity": "2",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "58.00"
+      },
+      {
+        "description": "IT support, ref. D4038",
+        "quantity": "0.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "32.50"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. D6146",
+        "quantity": "3",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "74.97"
+      },
+      {
+        "description": "IT support, ref. B8906",
+        "quantity": "8",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "520.00"
+      },
+      {
+        "description": "Lever arch files, ref. A2140",
+        "quantity": "10",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "27.50"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. K7640",
+        "quantity": "2",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "49.98"
+      },
+      {
+        "description": "Child car seat, ref. E0062",
+        "quantity": "20",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "1780.00"
+      },
+      {
+        "description": "IT support, ref. J8833",
+        "quantity": "0.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "32.50"
+      },
+      {
+        "description": "Child car seat, ref. G4994",
+        "quantity": "10",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "890.00"
+      },
+      {
+        "description": "IT support, ref. G4761",
+        "quantity": "3.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "227.50"
+      },
+      {
+        "description": "IT support, ref. E8868",
+        "quantity": "1.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "97.50"
+      },
+      {
+        "description": "Monthly software subscription, ref. K0222",
+        "quantity": "10",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "390.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. B2036",
+        "quantity": "5",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "124.95"
+      },
+      {
+        "description": "Black toner cartridge, ref. F8216",
+        "quantity": "5",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "290.00"
+      },
+      {
+        "description": "Black toner cartridge, ref. H7303",
+        "quantity": "15",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "870.00"
+      },
+      {
+        "description": "Monthly software subscription, ref. D7982",
+        "quantity": "10",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "390.00"
+      },
+      {
+        "description": "Lever arch files, ref. C2131",
+        "quantity": "1",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "2.75"
+      },
+      {
+        "description": "Black toner cartridge, ref. C4689",
+        "quantity": "15",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "870.00"
+      },
+      {
+        "description": "Technical books, ref. H6239",
+        "quantity": "3",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "87.00"
+      },
+      {
+        "description": "Black toner cartridge, ref. J4494",
+        "quantity": "3",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "174.00"
+      },
+      {
+        "description": "Technical books, ref. K1951",
+        "quantity": "15",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "435.00"
+      },
+      {
+        "description": "Technical books, ref. K2022",
+        "quantity": "5",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "145.00"
+      },
+      {
+        "description": "Lever arch files, ref. D0301",
+        "quantity": "3",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "8.25"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. J5417",
+        "quantity": "2",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "49.98"
+      },
+      {
+        "description": "Courier delivery, ref. F7590",
+        "quantity": "3",
+        "unit_price": "15.00",
+        "vat_rate": "20",
+        "amount": "45.00"
+      },
+      {
+        "description": "Child car seat, ref. F9409",
+        "quantity": "20",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "1780.00"
+      },
+      {
+        "description": "Black toner cartridge, ref. A1932",
+        "quantity": "2",
+        "unit_price": "58.00",
+        "vat_rate": "20",
+        "amount": "116.00"
+      },
+      {
+        "description": "Monthly software subscription, ref. G7737",
+        "quantity": "2",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "78.00"
+      },
+      {
+        "description": "IT support, ref. B6203",
+        "quantity": "8",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "520.00"
+      },
+      {
+        "description": "Technical books, ref. K6657",
+        "quantity": "1",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "29.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. D0827",
+        "quantity": "20",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "499.80"
+      },
+      {
+        "description": "Lever arch files, ref. A0683",
+        "quantity": "1",
+        "unit_price": "2.75",
+        "vat_rate": "20",
+        "amount": "2.75"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams, ref. G2960",
+        "quantity": "20",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "499.80"
+      },
+      {
+        "description": "Monthly software subscription, ref. D9797",
+        "quantity": "10",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "390.00"
+      },
+      {
+        "description": "IT support, ref. G8750",
+        "quantity": "0.5",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "32.50"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "Studio 00\nFranklin Rest, ZE8Y 8HQ North Gavinton",
+    "client_name": "Reid-Francis",
+    "client_address": "Studio 2\nChadwick Falls, ML9 7AZ Youngchester",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}

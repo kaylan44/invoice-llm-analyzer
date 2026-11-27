@@ -1,0 +1,319 @@
+{
+  "id": "inv-007",
+  "truth": {
+    "supplier_name": "Chauvet",
+    "supplier_vat_number": "FR49762836013",
+    "supplier_siret": "76283601361059",
+    "invoice_number": "FAC-2026-5791",
+    "issue_date": "2026-10-29",
+    "due_date": "2026-12-13",
+    "currency": "EUR",
+    "total_excl_vat": "17404.70",
+    "total_vat": "3165.99",
+    "total_incl_vat": "20570.69",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Abonnement logiciel mensuel, réf. B3147",
+        "quantity": "1",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "49.00"
+      },
+      {
+        "description": "Ouvrages techniques, réf. C8184",
+        "quantity": "3",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "102.00"
+      },
+      {
+        "description": "Ouvrages techniques, réf. E9978",
+        "quantity": "15",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "510.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. G3344",
+        "quantity": "15",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "1800.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. F5640",
+        "quantity": "1.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "112.50"
+      },
+      {
+        "description": "Transport de marchandises, réf. F8076",
+        "quantity": "15",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "1800.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. K8135",
+        "quantity": "20",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "1250.00"
+      },
+      {
+        "description": "Ramettes papier A4 80 g, réf. A0107",
+        "quantity": "10",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "49.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. G2021",
+        "quantity": "5",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "312.50"
+      },
+      {
+        "description": "Transport de marchandises, réf. K8863",
+        "quantity": "1",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "120.00"
+      },
+      {
+        "description": "Ouvrages techniques, réf. B7154",
+        "quantity": "10",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "340.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. F8354",
+        "quantity": "3",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "187.50"
+      },
+      {
+        "description": "Maintenance informatique, réf. J3774",
+        "quantity": "1.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "112.50"
+      },
+      {
+        "description": "Classeurs à levier, réf. G0220",
+        "quantity": "15",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "48.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. D1019",
+        "quantity": "0.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "37.50"
+      },
+      {
+        "description": "Repas d'affaires, réf. K8919",
+        "quantity": "10",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "185.00"
+      },
+      {
+        "description": "Repas d'affaires, réf. K8694",
+        "quantity": "2",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "37.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. G5196",
+        "quantity": "2",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "125.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. C4529",
+        "quantity": "1.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "112.50"
+      },
+      {
+        "description": "Repas d'affaires, réf. D8026",
+        "quantity": "10",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "185.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. E2518",
+        "quantity": "2",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "150.00"
+      },
+      {
+        "description": "Repas d'affaires, réf. E6168",
+        "quantity": "15",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "277.50"
+      },
+      {
+        "description": "Ouvrages techniques, réf. D5002",
+        "quantity": "2",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "68.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. K6520",
+        "quantity": "3",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "187.50"
+      },
+      {
+        "description": "Cartouches toner noir, réf. C9330",
+        "quantity": "15",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "937.50"
+      },
+      {
+        "description": "Ouvrages techniques, réf. A0866",
+        "quantity": "15",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "510.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. K9023",
+        "quantity": "8",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "600.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. E6517",
+        "quantity": "20",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "980.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. E3989",
+        "quantity": "1",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "49.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. A3874",
+        "quantity": "20",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "2400.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. G6617",
+        "quantity": "15",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "1800.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. D2532",
+        "quantity": "1",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "120.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. G2749",
+        "quantity": "0.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "37.50"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. C2269",
+        "quantity": "2",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "98.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. H8554",
+        "quantity": "10",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "490.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. B9599",
+        "quantity": "2",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "98.00"
+      },
+      {
+        "description": "Classeurs à levier, réf. G6515",
+        "quantity": "1",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "3.20"
+      },
+      {
+        "description": "Ouvrages techniques, réf. E8800",
+        "quantity": "1",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "34.00"
+      },
+      {
+        "description": "Ouvrages techniques, réf. C5027",
+        "quantity": "3",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "102.00"
+      },
+      {
+        "description": "Classeurs à levier, réf. A3021",
+        "quantity": "5",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "16.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. B5645",
+        "quantity": "15",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "937.50"
+      },
+      {
+        "description": "Ouvrages techniques, réf. F6466",
+        "quantity": "1",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "34.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "6, avenue Renault, 93495 Saint Eugènenec",
+    "client_name": "Cordier Da Costa SA",
+    "client_address": "89, avenue Caroline Couturier, 51371 Leclercq",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}

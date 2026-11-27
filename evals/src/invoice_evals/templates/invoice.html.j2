@@ -4,7 +4,12 @@
 <meta charset="utf-8">
 <title>{{ L.invoice }} {{ t.invoice_number }}</title>
 <style>
-  @page { size: A4; margin: 16mm 15mm 18mm; }
+  @page {
+    size: A4; margin: 16mm 15mm 18mm;
+    @bottom-right { content: "{{ L.page }} " counter(page) " / " counter(pages); font-size: 7.5pt; color: #555; }
+  }
+  /* Long invoices (week 3): the table header repeats on each page, rows and totals are never cut. */
+  table.lines tr, .totals-box { break-inside: avoid; }
   body { font-family: "{{ font }}", sans-serif; font-size: 9.5pt; color: #222; line-height: 1.4; }
   h1 { margin: 0; font-size: 20pt; letter-spacing: 0.04em; }
   .top { display: flex; justify-content: space-between; gap: 12mm; }
@@ -65,6 +70,7 @@
     <div class="label">{{ L.bill_to }}</div>
     <div><strong>{{ r.client_name }}</strong></div>
     <div>{{ r.client_address }}</div>
+    {% if r.client_vat_number %}<div>{{ L.vat_number }} {{ r.client_vat_number }}</div>{% endif %}
   </div>
 
   <table class="lines">
@@ -103,7 +109,15 @@
     {% else %}
     <tr><td>{{ L.vat }} {{ breakdown[0].rate | fnum }} %</td><td class="num">{{ t.total_vat | fmoney }}</td></tr>
     {% endif %}
+    {% if r.deposit %}
+    {#- The invoice total stays printed, but the bold line is now the balance: a reader who
+        takes "the big number at the bottom" gets total_incl_vat wrong. -#}
+    <tr><td>{{ L.total_incl_deposit }}</td><td class="num">{{ t.total_incl_vat | fmoney }}</td></tr>
+    <tr><td>{{ L.deposit }}</td><td class="num">−{{ r.deposit | fmoney }}</td></tr>
+    <tr class="grand"><td>{{ L.balance }}</td><td class="num">{{ (t.total_incl_vat - r.deposit) | fmoney }}</td></tr>
+    {% else %}
     <tr class="grand"><td>{{ L.total_incl }}</td><td class="num">{{ t.total_incl_vat | fmoney }}</td></tr>
+    {% endif %}
   </table>
   </div>
 

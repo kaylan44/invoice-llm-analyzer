@@ -1,0 +1,46 @@
+{
+  "id": "inv-013",
+  "truth": {
+    "supplier_name": "Marchal SARL",
+    "supplier_vat_number": "FR02700130412",
+    "supplier_siret": "70013041218957",
+    "invoice_number": "F26-5161",
+    "issue_date": "2026-03-24",
+    "due_date": "2026-05-23",
+    "currency": "EUR",
+    "total_excl_vat": "1460.50",
+    "total_vat": "292.10",
+    "total_incl_vat": "1752.60",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Cartouches toner noir",
+        "quantity": "20",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "1250.00"
+      },
+      {
+        "description": "Ramettes papier A4 80 g",
+        "quantity": "20",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "98.00"
+      },
+      {
+        "description": "Maintenance informatique",
+        "quantity": "1.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "112.50"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "76, rue Luce Muller, 53409 Baudry-sur-Menard",
+    "client_name": "Navarro",
+    "client_address": "765, rue Dorothée Alves, 68157 Ferreira",
+    "client_vat_number": "FR23108379397",
+    "deposit": null
+  }
+}

@@ -50,7 +50,7 @@ class Record:
 
     id: str
     language: str
-    condition: str  # "clean", "light", "heavy" or "illegible"
+    condition: str  # "clean" or a degradation level: "light", "medium", "heavy", ...
     saved: dict[str, Any]  # the saved extraction result
     results: list[FieldResult]
     # Review detection (week 2): what the checks decided vs what they should decide.
@@ -60,7 +60,11 @@ class Record:
     failed_checks: tuple[str, ...] = ()
     # Fields covered by a stain: the right answer for them is null, not the printed value.
     hidden_fields: tuple[str, ...] = ()
+    # Hard variants (week 3): "long", "client_vat", "deposit".
+    variants: tuple[str, ...] = ()
 
+
+CONFUSERS = {"client_vat", "deposit"}  # variants that print a plausible wrong answer
 
 SEGMENTS: dict[str, Callable[[Record], bool]] = {
     "all": lambda r: True,
@@ -68,7 +72,11 @@ SEGMENTS: dict[str, Callable[[Record], bool]] = {
     "en": lambda r: r.language == "en",
     "clean": lambda r: r.condition == "clean",
     "scan": lambda r: r.condition != "clean",
+    "long": lambda r: "long" in r.variants,
+    "confusers": lambda r: bool(CONFUSERS & set(r.variants)),
 }
+# Shown in the report only when the dataset has such invoices (week 1 and 2 have none).
+OPTIONAL_SEGMENTS = ("long", "confusers")
 
 
 def load_manifest(data_dir: Path) -> list[dict[str, Any]]:
@@ -144,6 +152,7 @@ def load_records(data_dir: Path, run_dir: Path) -> list[Record]:
                 predicted_status=predicted,
                 failed_checks=failed,
                 hidden_fields=hidden,
+                variants=tuple(entry.get("variants", [])),
             )
         )
     return records
@@ -254,6 +263,7 @@ def summarize(records: list[Record], *, model: str, dataset: str, run_id: str) -
                 "id": r.id,
                 "language": r.language,
                 "condition": r.condition,
+                "variants": list(r.variants),
                 "field": res.field,
                 "line": res.line,
                 "outcome": res.outcome,
@@ -298,12 +308,15 @@ def _pct(value: float | None) -> str:
 def render_report(summary: dict[str, Any]) -> str:
     seg = summary["segments"]
     columns = ["all", "fr", "en", "clean", "scan"]
+    columns += [c for c in OPTIONAL_SEGMENTS if seg.get(c, {}).get("n_invoices")]
     header_names = {
         "all": "Tout",
         "fr": "Français",
         "en": "Anglais",
         "clean": "Propres",
         "scan": "Scans dégradés",
+        "long": "Multipages",
+        "confusers": "Pièges de lecture",
     }
     lines = [
         f"# Évaluation {summary['run_id']}",
@@ -410,8 +423,9 @@ def render_report(summary: dict[str, Any]) -> str:
         for m in mistakes:
             field = m["field"] + (f" (ligne {m['line']})" if m["line"] else "")
             outcome = m["outcome"] + (" (masqué)" if m.get("hidden") else "")
+            segment = ", ".join([m["language"], m["condition"], *m.get("variants", [])])
             lines.append(
-                f"| {m['id']} | {m['language']}, {m['condition']} | `{field}` | {outcome}"
+                f"| {m['id']} | {segment} | `{field}` | {outcome}"
                 f" | {m['expected']!r} | {m['got']!r} |"
             )
     return "\n".join(lines) + "\n"

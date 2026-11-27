@@ -1,0 +1,60 @@
+{
+  "id": "inv-015",
+  "truth": {
+    "supplier_name": "Thierry",
+    "supplier_vat_number": "FR33385940697",
+    "supplier_siret": "38594069725669",
+    "invoice_number": "FAC-2026-6180",
+    "issue_date": "2026-06-13",
+    "due_date": "2026-07-13",
+    "currency": "EUR",
+    "total_excl_vat": "749.90",
+    "total_vat": "141.35",
+    "total_incl_vat": "891.25",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Repas d'affaires",
+        "quantity": "2",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "37.00"
+      },
+      {
+        "description": "Cartouches toner noir",
+        "quantity": "10",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "625.00"
+      },
+      {
+        "description": "Ouvrages techniques",
+        "quantity": "1",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "34.00"
+      },
+      {
+        "description": "Ramettes papier A4 80 g",
+        "quantity": "1",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "4.90"
+      },
+      {
+        "description": "Abonnement logiciel mensuel",
+        "quantity": "1",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "49.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "1, avenue Anastasie Humbert, 50889 Benard-sur-Germain",
+    "client_name": "Sauvage Aubry SA",
+    "client_address": "rue Perrin, 76590 Legros",
+    "client_vat_number": "FR28132173337",
+    "deposit": null
+  }
+}

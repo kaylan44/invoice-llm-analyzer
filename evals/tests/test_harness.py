@@ -70,6 +70,8 @@ def run(dataset: Path, tmp_path: Path, failing: set[str]) -> dict[str, Any]:
 def test_perfect_model_scores_100_percent_everywhere(dataset: Path, tmp_path: Path) -> None:
     summary = run(dataset, tmp_path, failing=set())
     for segment in summary["segments"].values():
+        if not segment["n_invoices"]:  # empty segment (no variant here): no score, not 0 %
+            continue
         for group in segment["groups"].values():
             assert group["accuracy"] == 1.0
     assert summary["errors"] == {}
@@ -78,7 +80,41 @@ def test_perfect_model_scores_100_percent_everywhere(dataset: Path, tmp_path: Pa
 def test_segments_split_by_language_and_condition(dataset: Path, tmp_path: Path) -> None:
     segments = run(dataset, tmp_path, failing=set())["segments"]
     counts = {name: s["n_invoices"] for name, s in segments.items()}
-    assert counts == {"all": 4, "fr": 2, "en": 2, "clean": 2, "scan": 2}
+    assert counts == {"all": 4, "fr": 2, "en": 2, "clean": 2, "scan": 2, "long": 0, "confusers": 0}
+
+
+def test_variant_segments_and_report_columns(tmp_path: Path) -> None:
+    """Week 3: invoices with variants get their own columns; plain datasets do not."""
+    data = tmp_path / "data"
+    generate_main(
+        [
+            "--n",
+            "3",
+            "--seed",
+            "3",
+            "--out",
+            str(data),
+            "--variant",
+            "inv-001=long",
+            "inv-002=deposit,client_vat",
+        ]
+    )
+    render_main(["--data", str(data), "--seed", "3", "--degrade", "inv-003=medium"])
+    run_dir = tmp_path / "run"
+    client = SimpleNamespace(models=FakeModels(data, failing=set()))
+    extract_dataset(data, run_dir, client=client, model="fake-model")
+    records = load_records(data, run_dir)
+    assert [r.variants for r in records] == [("long",), ("deposit", "client_vat"), ()]
+    summary = summarize(records, model="fake-model", dataset=str(data), run_id="t")
+    counts = {name: s["n_invoices"] for name, s in summary["segments"].items()}
+    assert counts["long"] == 1 and counts["confusers"] == 1 and counts["scan"] == 1
+    report = render_report(summary)
+    assert "Multipages (n=1)" in report and "Pièges de lecture (n=1)" in report
+
+
+def test_report_hides_empty_variant_columns(dataset: Path, tmp_path: Path) -> None:
+    report = render_report(run(dataset, tmp_path, failing=set()))
+    assert "Multipages" not in report and "Pièges de lecture" not in report
 
 
 def test_failed_invoice_counts_as_missed_and_is_listed(dataset: Path, tmp_path: Path) -> None:

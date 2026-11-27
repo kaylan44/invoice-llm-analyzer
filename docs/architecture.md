@@ -204,6 +204,23 @@ Lecture :
 - Le plein texte seul échoue sur les fautes de frappe (fournisseurs) et sur les mots vides de la configuration `simple` (« de », « boîte de 50 ») pour les catégories. Les vecteurs seuls font légèrement mieux que l'hybride sur les catégories (1 requête d'écart sur 34) : pas assez pour trancher, à remesurer sur un jeu plus grand et après retrait des mots vides.
 - Ces chiffres décrivent ce jeu synthétique, pas la qualité réelle. Prochaines étapes : niveaux de dégradation intermédiaires, factures sur plusieurs pages, vraies factures anonymisées (semaine 3).
 
+**Jeu difficile (semaine 3).** Mesure du 27 novembre 2026, même modèle et même prompt, jeu `evals/data/week3` (24 factures : 12 FR, 12 EN, 12 scans). Il ajoute trois variantes qui rendent la lecture plus dure sans changer la bonne réponse : `long` (35 à 45 lignes sur deux pages, totaux en page 2), `client_vat` (n° de TVA du client imprimé avec le même libellé que celui du fournisseur), `deposit` (acompte déjà versé : le montant en gras en bas est le net à payer, pas le TTC), et un niveau de scan `medium` entre `heavy` et `illegible`. Détail : `evals/baselines/week3.md`.
+
+| Groupe | Propres (n=12) | Scans (n=12) | Multipages (n=8) | Pièges de lecture (n=12) |
+| --- | --- | --- | --- | --- |
+| Fournisseur | 100 % (36/36) | 97 % (35/36) | 100 % (24/24) | 100 % (36/36) |
+| Date et n° de facture | 100 % (36/36) | 100 % (36/36) | 100 % (24/24) | 100 % (36/36) |
+| Totaux et devise | 100 % (48/48) | 100 % (48/48) | 100 % (32/32) | 100 % (48/48) |
+| Lignes | 100 % (947/947) | 99 % (918/927) | 99 % (1609/1618) | 100 % (597/597) |
+
+Lecture :
+
+- Les pièges de lecture n'ont piégé personne : le modèle prend le « Total TTC » et non le « Net à payer » en gras, et le n° de TVA du fournisseur et non celui du client, sur les 12 factures. Les libellés sémantiques ne sont pas une faiblesse de Flash-Lite.
+- Les 40 lignes sur deux pages sont lues sans perte ni doublon sur les PDF propres : `line_count` à 100 %.
+- Toutes les erreurs (10) viennent des scans `medium` : confusions de caractères B/8, E/8, 5/3, 6/0 dans les références de ligne, et un chiffre du SIRET d'inv-017. Ce SIRET faux échoue à la clé de Luhn et envoie la facture en revue : le contrôle rattrape l'erreur de lecture.
+- Le harnais compte ce renvoi en revue comme un faux positif, parce que le statut attendu ne dépend que du document (piège, illisible, tache), pas de ce que le modèle a lu. Décision ouverte ci-dessous.
+- Le plafond est cassé seulement sur les scans dégradés, et de peu : 1 erreur sur 72 champs d'en-tête. Avec 24 factures, un écart d'une ou deux erreurs entre deux versions ne prouve rien. Pour départager v1 et v2, il faut plus de scans `medium` et les vraies factures.
+
 ## Clé d'API Gemini, offre gratuite et coûts
 
 Une clé Gemini, créée dans Google AI Studio et rattachée à un projet Google Cloud, couvre l'extraction, l'agent, le juge, le reranking et les embeddings.
@@ -287,6 +304,7 @@ Le risque principal est financier : un dépôt de fichiers ouvert à tous sur un
 - [ ] Plein texte : retirer les mots vides (configuration `simple` gardée pour être neutre en langue), puis remesurer hybride contre vecteurs seuls sur les catégories.
 - [ ] Plan Supabase au moment de montrer la démo (gratuit ou Pro)
 - [ ] Seuil de régression de la CI, à fixer après la première mesure
+- [ ] Statut « à vérifier » attendu : le définir par le document seul (actuel) ou aussi par la justesse de l'extraction (une facture mal lue mérite la revue)
 - [ ] Reranker : Gemini Flash-Lite ou modèle dédié, tranché par les évals (inutile tant que le recall@1 plafonne)
 - [ ] Stockage des PDF en production : Supabase Storage à brancher avant de garder des documents (voir `docs/deploy.md`)
 

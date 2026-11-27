@@ -1,0 +1,312 @@
+{
+  "id": "inv-005",
+  "truth": {
+    "supplier_name": "Léger S.A.S.",
+    "supplier_vat_number": "FR78780457172",
+    "supplier_siret": "78045717284725",
+    "invoice_number": "2026-6976",
+    "issue_date": "2026-03-18",
+    "due_date": null,
+    "currency": "EUR",
+    "total_excl_vat": "15403.80",
+    "total_vat": "2970.38",
+    "total_incl_vat": "18374.18",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Transport de marchandises, réf. H8088",
+        "quantity": "3",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "360.00"
+      },
+      {
+        "description": "Repas d'affaires, réf. G8931",
+        "quantity": "1",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "18.50"
+      },
+      {
+        "description": "Cartouches toner noir, réf. D9821",
+        "quantity": "3",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "187.50"
+      },
+      {
+        "description": "Classeurs à levier, réf. K2066",
+        "quantity": "10",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "32.00"
+      },
+      {
+        "description": "Ramettes papier A4 80 g, réf. H7732",
+        "quantity": "1",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "4.90"
+      },
+      {
+        "description": "Maintenance informatique, réf. H6197",
+        "quantity": "1",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "75.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. E6703",
+        "quantity": "20",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "1250.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. E4031",
+        "quantity": "5",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "600.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. J6050",
+        "quantity": "15",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "1800.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. D7095",
+        "quantity": "1",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "62.50"
+      },
+      {
+        "description": "Repas d'affaires, réf. H5891",
+        "quantity": "20",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "370.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. H6938",
+        "quantity": "5",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "245.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. A0920",
+        "quantity": "2",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "125.00"
+      },
+      {
+        "description": "Classeurs à levier, réf. C1241",
+        "quantity": "20",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "64.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. K0025",
+        "quantity": "1",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "62.50"
+      },
+      {
+        "description": "Maintenance informatique, réf. F8747",
+        "quantity": "3.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "262.50"
+      },
+      {
+        "description": "Repas d'affaires, réf. B0337",
+        "quantity": "1",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "18.50"
+      },
+      {
+        "description": "Cartouches toner noir, réf. A2131",
+        "quantity": "2",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "125.00"
+      },
+      {
+        "description": "Repas d'affaires, réf. K4304",
+        "quantity": "3",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "55.50"
+      },
+      {
+        "description": "Classeurs à levier, réf. E1140",
+        "quantity": "20",
+        "unit_price": "3.20",
+        "vat_rate": "20",
+        "amount": "64.00"
+      },
+      {
+        "description": "Ramettes papier A4 80 g, réf. K4785",
+        "quantity": "1",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "4.90"
+      },
+      {
+        "description": "Ramettes papier A4 80 g, réf. J5634",
+        "quantity": "10",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "49.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. E6072",
+        "quantity": "10",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "1200.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. B0164",
+        "quantity": "20",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "980.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. G1345",
+        "quantity": "0.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "37.50"
+      },
+      {
+        "description": "Transport de marchandises, réf. H7767",
+        "quantity": "2",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "240.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. A9673",
+        "quantity": "8",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "600.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. D7787",
+        "quantity": "5",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "312.50"
+      },
+      {
+        "description": "Ouvrages techniques, réf. K7461",
+        "quantity": "1",
+        "unit_price": "34.00",
+        "vat_rate": "5.5",
+        "amount": "34.00"
+      },
+      {
+        "description": "Abonnement logiciel mensuel, réf. D7689",
+        "quantity": "1",
+        "unit_price": "49.00",
+        "vat_rate": "20",
+        "amount": "49.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. H7392",
+        "quantity": "10",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "1200.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. H3601",
+        "quantity": "3.5",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "262.50"
+      },
+      {
+        "description": "Repas d'affaires, réf. H7831",
+        "quantity": "10",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "185.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. F7901",
+        "quantity": "3",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "360.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. K2800",
+        "quantity": "20",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "1250.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. G8422",
+        "quantity": "10",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "625.00"
+      },
+      {
+        "description": "Transport de marchandises, réf. C3354",
+        "quantity": "5",
+        "unit_price": "120.00",
+        "vat_rate": "20",
+        "amount": "600.00"
+      },
+      {
+        "description": "Repas d'affaires, réf. B8300",
+        "quantity": "2",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "37.00"
+      },
+      {
+        "description": "Cartouches toner noir, réf. B8999",
+        "quantity": "10",
+        "unit_price": "62.50",
+        "vat_rate": "20",
+        "amount": "625.00"
+      },
+      {
+        "description": "Maintenance informatique, réf. D5791",
+        "quantity": "8",
+        "unit_price": "75.00",
+        "vat_rate": "20",
+        "amount": "600.00"
+      },
+      {
+        "description": "Repas d'affaires, réf. D0486",
+        "quantity": "20",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "370.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "rue Perez, 54183 Alves-les-Bains",
+    "client_name": "Legendre S.A.S.",
+    "client_address": "517, avenue de Imbert, 97670 Rocher-sur-Mer",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}

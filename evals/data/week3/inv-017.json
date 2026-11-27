@@ -1,0 +1,39 @@
+{
+  "id": "inv-017",
+  "truth": {
+    "supplier_name": "Petitjean S.A.R.L.",
+    "supplier_vat_number": "FR81945850030",
+    "supplier_siret": "94585003070387",
+    "invoice_number": "2026-2472",
+    "issue_date": "2026-03-12",
+    "due_date": "2026-04-11",
+    "currency": "EUR",
+    "total_excl_vat": "468.00",
+    "total_vat": "56.60",
+    "total_incl_vat": "524.60",
+    "language": "fr",
+    "lines": [
+      {
+        "description": "Ramettes papier A4 80 g",
+        "quantity": "20",
+        "unit_price": "4.90",
+        "vat_rate": "20",
+        "amount": "98.00"
+      },
+      {
+        "description": "Repas d'affaires",
+        "quantity": "20",
+        "unit_price": "18.50",
+        "vat_rate": "10",
+        "amount": "370.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "29, rue Guilbert, 46279 Fischer",
+    "client_name": "Giraud",
+    "client_address": "2, chemin Dupont, 75622 Texier",
+    "client_vat_number": null,
+    "deposit": null
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "inv-016",
+  "truth": {
+    "supplier_name": "Barnes-Howells",
+    "supplier_vat_number": "GB864230048",
+    "supplier_siret": null,
+    "invoice_number": "G07846",
+    "issue_date": "2026-04-23",
+    "due_date": "2026-06-07",
+    "currency": "GBP",
+    "total_excl_vat": "1264.85",
+    "total_vat": "119.47",
+    "total_incl_vat": "1384.32",
+    "language": "en",
+    "lines": [
+      {
+        "description": "A4 copier paper, box of 5 reams",
+        "quantity": "15",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "374.85"
+      },
+      {
+        "description": "Child car seat",
+        "quantity": "10",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "890.00"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "Flat 86J\nJacob Causeway, SO8 2NU East Joel",
+    "client_name": "Sutton-Hughes",
+    "client_address": "Studio 2\nFiona Springs, L84 9YF Lake Georgia",
+    "client_vat_number": "GB090424562",
+    "deposit": null
+  }
+}

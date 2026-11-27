@@ -1,0 +1,60 @@
+{
+  "id": "inv-014",
+  "truth": {
+    "supplier_name": "Howard, Anderson and Stephens",
+    "supplier_vat_number": "GB464506045",
+    "supplier_siret": null,
+    "invoice_number": "B04745",
+    "issue_date": "2026-07-26",
+    "due_date": "2026-09-24",
+    "currency": "GBP",
+    "total_excl_vat": "2651.85",
+    "total_vat": "379.47",
+    "total_incl_vat": "3031.32",
+    "language": "en",
+    "lines": [
+      {
+        "description": "IT support",
+        "quantity": "8",
+        "unit_price": "65.00",
+        "vat_rate": "20",
+        "amount": "520.00"
+      },
+      {
+        "description": "Technical books",
+        "quantity": "3",
+        "unit_price": "29.00",
+        "vat_rate": "0",
+        "amount": "87.00"
+      },
+      {
+        "description": "Monthly software subscription",
+        "quantity": "20",
+        "unit_price": "39.00",
+        "vat_rate": "20",
+        "amount": "780.00"
+      },
+      {
+        "description": "Child car seat",
+        "quantity": "10",
+        "unit_price": "89.00",
+        "vat_rate": "5",
+        "amount": "890.00"
+      },
+      {
+        "description": "A4 copier paper, box of 5 reams",
+        "quantity": "15",
+        "unit_price": "24.99",
+        "vat_rate": "20",
+        "amount": "374.85"
+      }
+    ]
+  },
+  "render": {
+    "supplier_address": "7 Mary Avenue, M7T 1WY Leonardmouth",
+    "client_name": "Ali-Smith",
+    "client_address": "998 Harrison Prairie, EX8 5BS East Derekberg",
+    "client_vat_number": "GB844872236",
+    "deposit": null
+  }
+}
